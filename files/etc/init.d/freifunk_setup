@@ -228,6 +228,10 @@ start()
 			echo "(I) Start initial setup."
 			initial_setup "$to_version"
 			/etc/init.d/telnet disable
+			/etc/init.d/log disable
+			/etc/init.d/log stop
+			/etc/init.d/sysntpd disable
+			/etc/init.d/sysntpd stop
 			;;
 		*)
 			echo "(E) Unknown version => Skip setup."
