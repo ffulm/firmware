@@ -14,10 +14,9 @@ define Package/freifunk-bielefeld-basic
 	DEFAULT:=y
 	TITLE:= Freifunk-Bielefeld Basic
 	URL:=http://freifunk-bielefeld.de
-	DEPENDS:=+kmod-batman-adv +batctl +alfred\
-		+ip +odhcpd +dnsmasq-dhcpv6 \
-		+ebtables +kmod-ebtables-ipv4 +kmod-ebtables-ipv6 \
-		+haveged +autoupdater +@ATH_USER_REGD
+	DEPENDS:=+kmod-batman-adv +batctl +alfred +ip\
+		+ebtables +kmod-ebtables-ipv4 +kmod-ebtables-ipv6\
+		+autoupdater +@ATH_USER_REGD
 endef
 
 define Build/Prepare
