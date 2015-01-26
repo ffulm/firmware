@@ -9,9 +9,6 @@ initial_wifi_setup()
 {
 	echo "(I) Setup /etc/config/wireless"
 
-	#default SSID
-	local ap_ssid=`uci get freifunk.@settings[0].default_ap_ssid`
-
 	#add batman version to the AdHoc interface SSID
 	local ah_ssid=`uci get freifunk.@settings[0].default_ah_ssid`
 
@@ -21,12 +18,12 @@ initial_wifi_setup()
 	#delete all wifi interfaces
 	while uci -q delete wireless.@wifi-iface[0]; do :; done
 
-	#test if we can span both Ad-Hoc and Access Point interfaces
+	#provide an adhoc interface
 	config_wifi() {
 		local ds="$1" #device section
-		local ah_ok=0 ap_ok=0 #interface status
+		local ah_ok=0 #interface status
 		local wifi_device=`uci get -q wireless.$ds.device`
-		local h n p
+		local h n
 
 		#config_get wifi_device "$ds" device
 		[ -z "$wifi_device" ] && wifi_device="$ds"
@@ -42,11 +39,10 @@ initial_wifi_setup()
 		uci set wireless.$ds.country=DE
 		uci set wireless.$ds.disabled=0
 
-		#remove ap/ah wifi interface entries
+		#remove ah wifi interface entries
 		clear_wifi_interfaces() {
 			uci delete -q "$h"
 			uci delete -q "$n"
-			uci delete -q "$p"
 		}
 
 		#AdHoc for batman
@@ -68,17 +64,6 @@ initial_wifi_setup()
 			uci set $n.mesh="bat0"
 		}
 
-		#AccessPoint for clients
-		add_ap_interface() {
-			p=wireless.`uci add wireless wifi-iface`
-			uci set $p.device="$wifi_device"
-			uci set $p.ifname="${wifi_device}_freifunk"
-			uci set $p.mode=ap
-			uci set $p.network=freifunk
-			uci set $p.ssid="$ap_ssid"
-			uci set $p.encryption="none"
-		}
-
 		wifi_restart() {
 			echo "(I) Wireless down/up"
 			wifi reload
@@ -87,29 +72,16 @@ initial_wifi_setup()
 
 		check_wifi_interfaces() {
 			ip addr list dev "${wifi_device}_mesh" &> /dev/null && ah_ok=1 || ah_ok=0
-			ip addr list dev "${wifi_device}_freifunk" &> /dev/null && ap_ok=1 || ap_ok=0
 		}
 
 		add_ah_interface
-		add_ap_interface
 		wifi_restart
 		check_wifi_interfaces
 
-		#if not both interfaces work; try only Ad-Hoc
-		if [ $ah_ok -eq 0 -o $ap_ok -eq 0 ]; then
-			echo "(I) Cannot use AdHoc and AccessPoint mode at the same time - try AdHoc only now."
-			clear_wifi_interfaces
-			add_ah_interface
-			wifi_restart
-			check_wifi_interfaces
-		fi
-
 		[ $ah_ok -eq 1 ] && echo "(I) Add AdHoc interface for wifi device ${wifi_device}."
-		[ $ap_ok -eq 1 ] && echo "(I) Add AccessPoint interface for wifi device ${wifi_device}."
 
 		#ifname not needed anymore
 		uci delete -q $h.ifname
-		uci delete -q $p.ifname
 	}
 
 	config_load wireless
