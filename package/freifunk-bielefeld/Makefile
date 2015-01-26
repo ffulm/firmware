@@ -16,7 +16,7 @@ define Package/freifunk-bielefeld-basic
 	URL:=http://freifunk-bielefeld.de
 	DEPENDS:=+kmod-batman-adv +batctl +alfred +ip\
 		+ebtables +kmod-ebtables-ipv4 +kmod-ebtables-ipv6\
-		+autoupdater +@ATH_USER_REGD +zram-swap
+		+@ATH_USER_REGD +zram-swap
 endef
 
 define Build/Prepare
