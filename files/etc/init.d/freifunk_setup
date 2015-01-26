@@ -183,7 +183,7 @@ initial_setup()
 	# ------------------------------------- #
 
 	# the minimal firmware does not support an uplink, so all ports (lan and
-   # wan) are the same
+	# wan) are the same
 	initial_lan_setup "$lan_interface $wan_interface"
 
 	# ------------------------------------- #
