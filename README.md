@@ -28,6 +28,8 @@ cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.
 cd feeds/packages && git am --whitespace=nowarn ../../firmware/patches/packages/*.patch && cd -
 rm -rf firmware tmp
 
+vim .config # select the right target at the top of the file
+
 make defconfig
 make menuconfig
 </pre>
