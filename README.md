@@ -22,7 +22,8 @@ cd openwrt
 ./scripts/feeds install -a
 
 git clone https://github.com/ffulm/firmware.git
-cp -rf firmware/files firmware/package .
+chmod -R +rX firmware/files/www
+cp -rfp firmware/files firmware/package .
 git am --whitespace=nowarn firmware/patches/openwrt/*.patch
 cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
 cd feeds/packages && git am --whitespace=nowarn ../../firmware/patches/packages/*.patch && cd -
