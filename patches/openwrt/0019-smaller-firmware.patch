@@ -1,0 +1,89 @@
+From 4b1eb08da544d8c4feaaedefe5fc739443a6842b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julian=20R=C3=BCth?= <julian.rueth@fsfe.org>
+Date: Thu, 26 Feb 2015 19:55:33 +0100
+Subject: [PATCH] disabled packages for a smaller firmware image/memory
+ footprint
+
+---
+ config/Config-build.in                   | 2 ++
+ include/target.mk                        | 2 +-
+ package/kernel/mac80211/Makefile         | 2 +-
+ package/utils/busybox/Config-defaults.in | 2 +-
+ package/utils/busybox/Config.in          | 2 +-
+ 5 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/config/Config-build.in b/config/Config-build.in
+index 371ae76..95e621b 100644
+--- a/config/Config-build.in
++++ b/config/Config-build.in
+@@ -176,6 +176,7 @@ menu "Global build settings"
+ 
+ 	config STRIP_KERNEL_EXPORTS
+ 		bool "Strip unnecessary exports from the kernel image"
++		default y
+ 		help
+ 		  Reduces kernel size by stripping unused kernel exports from the kernel image
+ 		  Note that this might make the kernel incompatible with any kernel modules that
+@@ -183,6 +184,7 @@ menu "Global build settings"
+ 
+ 	config USE_MKLIBS
+ 		bool "Strip unnecessary functions from libraries"
++		default y
+ 		help
+ 		  Reduces libraries to only those functions that are necessary for using all
+ 		  selected packages (including those selected as <M>)
+diff --git a/include/target.mk b/include/target.mk
+index 9d85973..7d2f7cf 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -14,7 +14,7 @@ DEVICE_TYPE?=router
+ # Default packages - the really basic set
+ DEFAULT_PACKAGES:=base-files libc libgcc busybox dropbear mtd uci opkg netifd fstools
+ # For router targets
+-DEFAULT_PACKAGES.router:=dnsmasq-dhcpv6 iptables ip6tables ppp ppp-mod-pppoe kmod-ipt-nathelper firewall odhcpd odhcp6c
++DEFAULT_PACKAGES.router:=iptables ip6tables kmod-ipt-nathelper firewall odhcp6c
+ DEFAULT_PACKAGES.bootloader:=
+ 
+ ifneq ($(DUMP),)
+diff --git a/package/kernel/mac80211/Makefile b/package/kernel/mac80211/Makefile
+index b96e782..9b4517e 100644
+--- a/package/kernel/mac80211/Makefile
++++ b/package/kernel/mac80211/Makefile
+@@ -100,7 +100,7 @@ define KernelPackage/mac80211/config
+ 
+ 	config PACKAGE_MAC80211_MESH
+ 		bool "Enable 802.11s mesh support"
+-		default y
++		default n
+ 
+   endif
+ endef
+diff --git a/package/utils/busybox/Config-defaults.in b/package/utils/busybox/Config-defaults.in
+index 5f5bdd0..1918d57 100644
+--- a/package/utils/busybox/Config-defaults.in
++++ b/package/utils/busybox/Config-defaults.in
+@@ -2127,7 +2127,7 @@ config BUSYBOX_DEFAULT_NSLOOKUP
+ 	default y
+ config BUSYBOX_DEFAULT_NTPD
+ 	bool
+-	default y
++	default n
+ config BUSYBOX_DEFAULT_FEATURE_NTPD_SERVER
+ 	bool
+ 	default y
+diff --git a/package/utils/busybox/Config.in b/package/utils/busybox/Config.in
+index 896e1f3..8678514 100644
+--- a/package/utils/busybox/Config.in
++++ b/package/utils/busybox/Config.in
+@@ -2,7 +2,7 @@ if PACKAGE_busybox
+ 
+ config BUSYBOX_CUSTOM
+ 	bool "Customize busybox options"
+-	default n
++	default y
+         help
+           Enabling this allows full customization of busybox settings.
+           Note that there are many options here that can result in a build
+-- 
+1.8.4.5
+
