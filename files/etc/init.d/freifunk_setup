@@ -125,8 +125,8 @@ initial_freifunk_setup()
 
 	uci set network.freifunk6="interface"
 	uci set network.freifunk6.ifname="@freifunk"
-	uci set network.freifunk6.peerdns="1"
 	uci set network.freifunk6.proto="dhcpv6"
+	uci set network.freifunk6.peerdns="1"
 }
 
 initial_setup()
@@ -220,7 +220,7 @@ start()
 	echo "(I) Start freifunk_setup"
 
 	from_version="$(uci get -q freifunk.@settings[0].version)"
-	to_version="0.4.mini-rc.3"
+	to_version="0.4.mini"
 
 	echo "(I) Update from '$from_version' to '$to_version'"
 	case "$from_version" in
