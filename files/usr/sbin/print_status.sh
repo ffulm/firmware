@@ -7,6 +7,10 @@
 set -o pipefail
 
 print() {
+    # we use a special routing table to force our packets to go through specific gateways
+    ip -6 route flush table 137 2>/dev/null
+    ip -6 rule del lookup 137 2>/dev/null
+
     echo -n "{"
 
     echo -n "\"date\" : \"$(date)\", "
@@ -23,6 +27,20 @@ print() {
     ! ping6 -c1 -I br-freifunk 2620:0:ccd::2 > /dev/null 2>&1
     echo -n "\"internet6freifunk\" : $?, "
 
+    # check internet access (IPv6) through all freifunk gateways
+    echo -n "\"internet6\" : { "
+    nd=0
+    for gateway in $(ip -6 route | grep default | grep freifunk | awk '{print $5}' | sort | uniq); do
+        [ $nd -eq 0 ] && nd=1 || echo -n ", "
+        ip -6 route add table 137 default from :: via $gateway dev br-freifunk 2>/dev/null
+        ip -6 rule add to 2620:0:ccd::2 lookup 137 2>/dev/null
+        ! ping6 -c1 -I br-freifunk 2620:0:ccd::2 > /dev/null 2>&1
+        echo -n "\"$gateway\" : $?"
+        ip -6 rule del lookup 137 2>/dev/null
+        ip -6 route flush table 137 2>/dev/null
+    done
+    echo -n " }, "
+
     # check DNS (for IPv4) on all nameservers (WAN and freifunk)
     echo -n "\"dns4\" : { "
     nd=0
@@ -38,7 +56,7 @@ print() {
     nd=0
     for nameserver in $(cat /tmp/resolv.conf.auto | awk '{if($1=="nameserver") print $2;}'); do
         [ $nd -eq 0 ] && nd=1 || echo -n ", "
-        ! $(nslookup ipv6.google.com $nameserver | tail -n +5 | awk '{ print $3 }' | grep -q ':')
+        ! $(nslookup ipv6.google.com $nameserver 2>/dev/null| tail -n +5 | awk '{ print $3 }' | grep -q ':')
         echo -n "\"$nameserver\" : $?"
     done
     echo -n " }, "
@@ -46,20 +64,29 @@ print() {
     # check DNS64 on all nameservers (WAN and freifunk)
     echo -n "\"dns64\" : { "
     nd=0
+    ip64="x" #we store the IPv6 of ipv4.google.com to test nat64 later
     for nameserver in $(cat /tmp/resolv.conf.auto | awk '{if($1=="nameserver") print $2;}'); do
         [ $nd -eq 0 ] && nd=1 || echo -n ", "
-        ! $(nslookup ipv4.google.com $nameserver | tail -n +5 | awk '{ print $3 }' | grep -q ':')
+        ! ip64_=$(nslookup ipv4.google.com $nameserver 2>/dev/null| tail -n +5 | awk '{ print $3 }' | grep ':' | head -1)
         echo -n "\"$nameserver\" : $?"
+        ip64=${ip64_:-$ip64}
     done
     echo -n " }, "
 
-    # check NAT64 on freifunk
-    local nat64=0
-    for nameserver in $(cat /tmp/resolv.conf.auto | awk '{if($1=="nameserver") print $2;}'); do
-        ! ping6 -c1 -I br-freifunk $(nslookup ipv4.google.com $nameserver | tail -n +5 | awk '{ print $3 }' | grep ':') > /dev/null 2>&1
-        [ $? -eq 1 ] && nat64=1
+    # check NAT64 through all freifunk gateways
+    echo -n "\"nat64\" : { "
+    nd=0
+    [[ "$ip64" = "x" ]] ||
+    for gateway in $(ip -6 route | grep default | grep freifunk | awk '{print $5}' | sort | uniq); do
+        [ $nd -eq 0 ] && nd=1 || echo -n ", "
+        ip -6 route add table 137 default from :: via $gateway dev br-freifunk 2>/dev/null
+        ip -6 rule add to $ip64 lookup 137 2>/dev/null
+        ! ping6 -c1 -I br-freifunk $ip64 > /dev/null 2>&1
+        echo -n "\"$gateway\" : $?"
+        ip -6 rule del lookup 137 2>/dev/null
+        ip -6 route flush table 137 2>/dev/null
     done
-    echo -n "\"nat64\" : $nat64"
+    echo -n " }"
 
     echo -n "}"
 }
