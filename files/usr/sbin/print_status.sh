@@ -8,6 +8,9 @@ set -o pipefail
 
 print() {
     echo -n "{"
+
+    echo -n "\"date\" : \"$(date)\", "
+
     # check internet access through WAN interface by pinging OpenDNS servers
     ! ping -c1 -I br-wan 208.67.222.222 > /dev/null 2>&1
     echo -n "\"internet4wan\" : $?, "
