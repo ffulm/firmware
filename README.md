@@ -1,4 +1,4 @@
-Firmware for Freifunk Ulm
+Mini Firmware for Freifunk Ulm
 =========================
 
 The firmware turns a common wireless router into a mesh networking device.
@@ -20,12 +20,11 @@ Build commands for the console:
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffulm/firmware.git
+    git clone -b mini https://github.com/ffulm/firmware.git
     cp -rf firmware/files firmware/package .
     chmod -R a+rX firmware/files/www
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
-    cd feeds/packages && git am --whitespace=nowarn ../../firmware/patches/packages/*.patch && cd -
     rm -rf firmware tmp
     
     make defconfig

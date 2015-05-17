@@ -1,0 +1,25 @@
+From ce04a4d604ada9f2ab424ebd450a48ab80584ae5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julian=20R=C3=BCth?= <julian.rueth@fsfe.org>
+Date: Thu, 26 Feb 2015 19:53:46 +0100
+Subject: [PATCH 5/5] disable ALFRED_VIS
+
+---
+ alfred/Config.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/alfred/Config.in b/alfred/Config.in
+index 97f9ea2..ead9b93 100644
+--- a/alfred/Config.in
++++ b/alfred/Config.in
+@@ -7,7 +7,7 @@ config ALFRED_NEEDS_libgps
+ config PACKAGE_ALFRED_VIS
+ 	bool "enable vis server for alfred"
+ 	depends on PACKAGE_alfred
+-	default y
++	default n
+ 
+ config PACKAGE_ALFRED_BATHOSTS
+ 	bool "enable autogeneration of /etc/bat-hosts"
+-- 
+2.1.4
+
