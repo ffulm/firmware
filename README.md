@@ -22,7 +22,6 @@ Build commands for the console:
     
     git clone -b mini https://github.com/ffulm/firmware.git
     cp -rf firmware/files firmware/package .
-    chmod -R a+rX firmware/files/www
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
     rm -rf firmware tmp
