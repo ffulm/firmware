@@ -1,10 +1,11 @@
 Mini Firmware for Freifunk Ulm
-=========================
+==============================
 
 The firmware turns a common wireless router into a mesh networking device.
 It connects to similar routers in the area and builds a Wifi-mesh network
 but also opens an access point for computers to connect over Wifi.
 Included is Internet connectivity and a web interface.
+For the Mini Firmware 4mb flash and 16mb memory required.
 
 To build the firmware you need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
@@ -31,13 +32,9 @@ Build commands for the console:
 
 Now select the right "Target System" and "Target Profile" for your AP model:
 
-For example, for the TL-WR841ND, select:
-* `Target System => Atheros AR7xxx/AR9xxx`
-* `Target Profile => TP-LINK TL-WR841ND`
-
-Or in case you have the DIR-300, select:
-* `Target System => <*> AR231x/AR5312`
-* `Target Profile => <*> Default`
+For example, for the Linksys WRT54GS v1.1, select:
+* `Target System => Broadcom BCM47xx/53xx (MIPS)`
+* `Target Profile => Generic`
 
 For other models you can lookup the "Target System" in the OpenWrt
 [hardware table](http://wiki.openwrt.org/toh/start). Your AP model
