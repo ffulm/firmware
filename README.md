@@ -7,7 +7,7 @@ but also opens an access point for computers to connect over Wifi.
 Included is Internet connectivity and a web interface.
 For the Mini Firmware 4mb flash and 16mb memory required.
 
-Note: The Mini Firmware extends only the Wifi-mesh network. There is no web interface, no client access point function and no connection to the internet over the wan interface possible.
+Note: The Mini Firmware extends only the Wifi-mesh network. There is no web interface, no client access point function and no connection to the internet over the wan interface.
 
 To build the firmware you need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
