@@ -2,12 +2,10 @@ Mini Firmware for Freifunk Ulm
 ==============================
 
 The firmware turns a common wireless router into a mesh networking device.
-It connects to similar routers in the area and builds a Wifi-mesh network
-but also opens an access point for computers to connect over Wifi.
-Included is Internet connectivity and a web interface.
+It connects to similar routers in the area and builds a Wifi-mesh network.
 For the Mini Firmware 4mb flash and 16mb memory required.
 
-Note: The Mini Firmware extends only the Wifi-mesh network. There is no web interface, no client access point function and no connection to the internet over the wan interface.
+Note: The Mini Firmware extends only the Wifi-mesh network. There is no web interface, no client access point function and no connection to the internet over the wan interface. 
 
 To build the firmware you need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
@@ -36,7 +34,7 @@ Now select the right "Target System" and "Target Profile" for your AP model:
 
 For example, for the Linksys WRT54GS v1.1, select:
 * `Target System => Broadcom BCM47xx/53xx (MIPS)`
-* `Target Profile => Generic`
+* `Target Profile => Legacy`
 
 For other models you can lookup the "Target System" in the OpenWrt
 [hardware table](http://wiki.openwrt.org/toh/start). Your AP model
@@ -52,6 +50,14 @@ images are for further updates.
 
 * Use `openwrt-[chip]-[model]-squashfs-factory.bin` for the initial flash.
 * Use `openwrt-[chip]-[model]-squashfs-sysupgrade.bin` for futher updates.
+
+Note: After the firmware upload wait about 10 minutes. The router reboots multible times and the firmware configuration takes a long time.
+
+The router configuration can be done in the file /etc/config/freifunk. Insert or change the following options:
+
+    option name 'Name of the router'
+    option contact 'Your eMail Adresse'
+    option geo 'Enter your cordinated her'
 
 Many routers have not been tested yet, but may work.
 Give it a try! :-)
