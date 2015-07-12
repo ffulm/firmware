@@ -25,7 +25,8 @@ Build commands for the console:
     chmod -R a+rX firmware/files/www
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
-    rm -rf firmware tmp
+    cd feeds/packages && git am --whitespace=nowarn ../../firmware/patches/packages/*.patch && cd -
+	rm -rf firmware tmp
     
     make defconfig
     make menuconfig
