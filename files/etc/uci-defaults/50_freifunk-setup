@@ -546,11 +546,6 @@ start()
 			update_045_to_050
 			update_version
 			;;
-		"0.4.4" | "0.4.5")
-			echo "(I) Apply update."
-			update_045_to_050
-			update_version
-			;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup "$to_version"
