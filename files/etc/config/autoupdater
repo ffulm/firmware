@@ -20,7 +20,7 @@ config branch stable
 	option apply_delay 0
 
 	# Minimum valid signatures required to perform the update
-	option good_signatures 1
+	option good_signatures 2
 
 	# List of public keys
 	list pubkey '4320668c6858faa064d2f205c538bafb7b042600eef6a7503258d7355d01e4f8' #mwarning
