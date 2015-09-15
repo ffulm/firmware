@@ -38,7 +38,7 @@ function getChangeModeAction(ifname)
 {
 	return function(e) {
 		var src = (e.target || e.srcElement);
-		var mode = src.value;
+		var mode = (src.data || src.value);
 		delNetSection(ifname);
 		addNetSection(ifname, mode);
 	};
@@ -79,6 +79,11 @@ function appendSetting(p, path, value, mode)
 			b = append_radio(p, "Bandbreitenkontrolle", id, value, [["An", "1"], ["Aus", "0"]]);
 			addHelpText(b, "Bandbreitenkontrolle f\xfcr den Upload-/Download \xfcber das Freifunknetz \xfcber den eigenen Internetanschluss.");
 		}
+		if(cfg == "fastd") {
+			b = append_radio(p, "Fastd VPN", id, value, [["An", "1"], ["Aus", "0"]]);
+			addHelpText(b, "Eine VPN-Verbindung zum Server \xfcber WAN aufbauen (per fastd).");
+			addClass(b, "adv_hide");
+		}
 		break;
 	case "publish_map":
 		b = append_radio(p, "Zur Karte beitragen", id, value, [["Ja", "1"], ["Nein", "0"]]);
@@ -99,10 +104,14 @@ function appendSetting(p, path, value, mode)
 		addHelpText(b, "Zugang zur Konfiguration \xfcber verschiedene Anschl\xfcsse/Netzwerke erm\xf6glichen.")
 		break;
 	case "service_link":
+		var ula_prefix = uci['network']['globals']['ula_prefix'];
+		var addr_prefix = ula_prefix.replace(/:\/[0-9]+$/,""); //cut off ':/64'
+		var regexp = new RegExp("^$|((?=.*"+addr_prefix+"|.*\.ff[a-z]{0,3})(?=^.{0,128}$))");
+
 		b = append_input(p, "Service Link", id, value);
-		b.lastChild.placeholder = "http://[fdef:17a0::1]/seite.html";
-		addInputCheck(b.lastChild, /^$|^[#\[\] \w&\/.:]{0,128}$/, "Ung\xfcltige Eingabe.");
-		addHelpText(b, "Ein Verweis auf eine Netzwerkresource. Z.B. \"http://[fdef:17a0::1]/seite.html\".");
+		b.lastChild.placeholder = "http://["+addr_prefix+":1]/index.html";
+		addInputCheck(b.lastChild, regexp, "Ung\xfcltige Eingabe.");
+		addHelpText(b, "Ein Verweis auf eine _interne_ Netzwerkresource. Z.B. \"http://["+addr_prefix+":1]/index.html\".");
 		break;
 	case "service_label":
 		b = append_input(p, "Service Name", id, value);
@@ -169,6 +178,12 @@ function rebuild_general()
 		appendSetting(tfs, ['simple-tc', i, "enabled"], t[i]["enabled"]);
 		appendSetting(tfs, ['simple-tc', i, "limit_ingress"], t[i]["limit_ingress"]);
 		appendSetting(tfs, ['simple-tc', i, "limit_egress"], t[i]["limit_egress"]);
+	}
+
+	if('fastd' in uci) {
+		var a = uci.fastd;
+		var i = firstSectionID(a, "fastd");
+		appendSetting(gfs, ['fastd', i, "enabled"], a[i]["enabled"]);
 	}
 }
 

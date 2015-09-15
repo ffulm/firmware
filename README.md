@@ -9,12 +9,12 @@ Included is Internet connectivity and a web interface.
 To build the firmware you need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
 
-    sudo apt-get install subversion g++ zlib1g-dev build-essential
-    sudo apt-get install git libncurses5-dev gawk gettext unzip file
+    sudo apt-get install subversion g++ zlib1g-dev build-essential git python
+    sudo apt-get install libncurses5-dev gawk gettext unzip file libssl-dev wget
 
 Build commands for the console:
 
-    git clone git://git.openwrt.org/14.07/openwrt.git
+    git clone git://git.openwrt.org/15.05/openwrt.git
     cd openwrt
     
     ./scripts/feeds update -a

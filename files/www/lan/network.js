@@ -6,6 +6,26 @@ The GUI code displayes and manipulated this variable.
 var uci = {};
 var gid = 0;
 var net_options = [["LAN", "lan"], ["Freifunk", "freifunk"], ["Mesh", "mesh"], ["WAN", "wan"], ["None", "none"]];
+var txpower_choices = [
+["20 dBm (100 mW)", "20"],
+["19 dBm (79 mW)", "19"],
+["18 dBm (63 mW)", "18"],
+["17 dBm (50 mW)", "17"],
+["16 dBm (39 mW)", "16"],
+["15 dBm (31 mW)", "15"],
+["14 dBm (25 mW)", "14"],
+["13 dBm (19 mW)", "13"],
+["12 dBm (15 mW)", "12"],
+["11 dBm (12 mW)", "11"],
+["10 dBm (10 mW)", "10"],
+["9 dBm (7 mW)", "9"],
+["8 dBm (6 mW)", "8"],
+["6 dBm (5 mW)", "6"],
+["5 dBm (3 mW)", "5"],
+["4 dBm (2 mW)", "4"],
+["0 dBm (1 mW)", "0"],
+["default", "undefined"]
+];
 
 function init()
 {
@@ -41,7 +61,7 @@ function getChangeModeAction(ifname)
 {
 	return function(e) {
 		var src = (e.target || e.srcElement);
-		var mode = src.value;
+		var mode = (src.data || src.value);
 		delNetSection(ifname);
 		addNetSection(ifname, mode);
 	};
@@ -66,6 +86,12 @@ function appendSetting(p, path, value, mode)
 		addClass(b.lastChild, "adv_disable");
 		addHelpText(b, "Der Kanal auf dem die WLAN-Karte sendet. Bitte denk daran, dass sich Router nicht sehen k\xf6nnen wenn beide Seiten auf unterschiedlichen Kan\xe4len funken. Der erste Kanal ist daher zu empfehlen.");
 		break;
+	case "txpower":
+		value = value ? value : 'undefined';
+		b = append_selection(p, "txpower", id, value, txpower_choices);
+		addHelpText(b, "Die Sendeleistung in dBm. Achtung! Beim Tausch der Antennen muss die Sendeleistung entsprechend angepasst werden!");
+		addClass(b, "adv_hide");
+		break;
 	case "mode":
 		if(!inArray(mode, ["wan", "none"]))
 			return;
@@ -84,7 +110,20 @@ function appendSetting(p, path, value, mode)
 		addInputCheck(b.lastChild, /^[\S]{8,32}$/, "Bitte nur ein Passwort aus mindestens acht sichbaren Zeichen verwenden.");
 		break;
 	case "hwmode":
-		b = append_label(p, "Modus", "802."+value);
+		if(value == "11g") {
+			value = "802.11g (2.4 GHz)";
+		} else if(value == "11a") {
+			value = "802.11a (5 GHz)";
+		} else {
+			value = "802." + value;
+		}
+		b = append_label(p, "Modus", value);
+		break;
+	case "mesh_id":
+		b = append_input(p, "Mesh ID", id, value);
+		if(!inArray(mode, ["wan", "lan", "none"]))
+			addClass(b.lastChild, "adv_disable");
+		addInputCheck(b.lastChild, /^[^\x00-\x1F\x80-\x9F]{3,30}$/, "Mesh ID ist ung\xfcltig.");
 		break;
 	case "ssid":
 		b = append_input(p, "SSID", id, value);
@@ -156,7 +195,7 @@ function getWifiMode(id)
 	if(obj.network == "freifunk") return "freifunk";
 	if(obj.network == "lan") return "lan";
 	if(obj.network == "wan") return "wan";
-	if(obj.mode == "adhoc") return "mesh";
+	if(obj.mode == "mesh") return "mesh";
 
 	return "none";
 }
@@ -187,7 +226,7 @@ function rebuild_assignment()
 	var fs = append_section(root, "Anschl\xfcsse");
 	addHelpText(fs, "Einzelne Anschl\xfcsse des Router die nicht als Teil des Switches oder WLANS zu identifizieren sind.");
 
-	var ignore = ["fastd_mesh", "bat0", "lo"];
+	var ignore = ["local-node", "fastd_mesh", "bat0", "lo"];
 	var ifnames = [];
 
 	//collect all interfaces
@@ -261,6 +300,10 @@ function addNetSection(ifname, mode)
 		var net = ifname.replace(".", "_");
 		n[net] = {"stype":"interface","ifname":ifname,"mtu":"1406","proto":"batadv","mesh":"bat0"};
 		break;
+	case "none":
+		var net = ifname.replace(".", "_");
+		n[net] = {"stype":"interface","ifname":ifname,"proto":"none"};
+		break;
 	default:
 		return;
 	}
@@ -312,7 +355,8 @@ function addWifiSection(device, mode)
 		break;
 	case "mesh":
 		var net = ifname.replace(".", "_");
-		w[id] = {"device":device,"stype":"wifi-iface","mode":"adhoc","ssid":s.default_ah_ssid,"bssid":s.default_ah_bssid,"hidden":1,"network":net};
+		//802.11s
+		w[id] = {"device":device,"stype":"wifi-iface","mode":"mesh","mesh_id":s.default_mesh_id,"mesh_fwding":0,"network":net};
 		//connected via option network
 		n[net] = {"stype":"interface","mtu":"1406","proto":"batadv","mesh":"bat0"};
 		n.pchanged = true;
@@ -360,6 +404,8 @@ function rebuild_wifi()
 		for(var sid in obj)
 			appendSetting(fs, ['wireless', dev, sid], obj[sid]);
 
+		appendSetting(fs, ['wireless', dev, 'txpower'], obj['txpower']);
+
 		var lan_help = "<b>LAN</b>: Aktiviert ein privates, passwortgesch\xfctztes WLAN-Netz mit Zugang zum eigenen Internetanschluss.";
 		var freifunk_help = "<b>Freifunk</b>: Der WLAN-Zugang zum Freifunk-Netz.";
 		var mesh_help = "<b>Mesh</b>: Das WLAN-Netz \xfcber das die Router untereinander kommunizieren.";
@@ -392,7 +438,7 @@ function rebuild_wifi()
 		onDesc(mode_checks, "INPUT", function(e) {
 			e.onclick = function(e) {
 				var src = (e.target || e.srcElement);
-				var mode = src.value;
+				var mode = (src.data || src.value);
 
 				if(src.checked) {
 					if(obj.type != "mac80211")
@@ -418,7 +464,7 @@ function apply_port_action(switch_root)
 			//uncheck all in same column
 			onDesc(switch_root, "INPUT", function(e) {
 				var src = (e.target || e.srcElement);
-				if(e.value == port && e != dst) {
+				if((e.data || e.value) == port && e != dst) {
 					e.checked = false;
 					while(e != document) {
 						if(e.onchange) {
@@ -524,6 +570,7 @@ function collect_switch_info(device)
 			obj.port_map = [['WAN',5], ['1',4], ['2',3], ['3',2], ['4',1],['_', 0]];
 			obj.ifname = "eth1";
 			break;
+		case 'tp-link-tl-wdr3500-v1':
 		case 'tp-link-tl-wr741n-nd-v4':
 		case 'tp-link-tl-wr841n-nd-v3':
 		case 'tp-link-tl-wr841n-nd-v5':
@@ -532,17 +579,28 @@ function collect_switch_info(device)
 			break;
 		case 'tp-link-tl-wr841n-nd-v8':
 			obj.ifname = "eth1";
-			obj.port_map = [['_',0], ['1',1], ['2',2], ['3',3], ['4',4]];
+			obj.port_map = [['_',0], ['1',4], ['2',1], ['3',2], ['4',3]];
+			break;
+		case 'tp-link-tl-wr842n-nd-v2':
+			obj.ifname = "eth1";
+			obj.port_map = [['_',0], ['1',4], ['2',3], ['3',2], ['4',1]];
 			break;
 		case 'tp-link-tl-wr841n-nd-v9':
-		case 'tp-link-tl-mr3420-v1':
 			obj.port_map = [['_',0], ['1',4], ['2',3], ['3',2], ['4',1]];
+			break;
+		case 'tp-link-tl-wr842n-nd-v1':
+		case 'tp-link-tl-mr3420-v1':
+			obj.port_map = [['_',0], ['1',1], ['2',2], ['3',3], ['4',4]];
 			break;
 		case 'tp-link-cpe210-v1-0':
 		case 'tp-link-cpe220-v1-0':
 		case 'tp-link-cpe510-v1-0':
 		case 'tp-link-cpe520-v1-0':
 			obj.port_map = [['_',0], ['lan0',5], ['lan1',4]];
+			break;
+		case 'tp-link-archer-c7-v2':
+			obj.port_map = [['_',0], ['WAN',1], ['LAN1',2], ['LAN2',3], ['LAN3',4], ['LAN4',5]];
+			obj.ifname = "eth1";
 			break;
 	}
 
@@ -626,7 +684,7 @@ function append_vlan_buttons(parent, switch_root, switch_device)
 		var all_unchecked = true;
 		var vlan_root = $("network#"+switch_root.lastChild.id+"#ports");
 		onDesc(vlan_root, "INPUT", function(e) {
-			if(isNaN(e.value) || !e.checked) //ignore tagged and unchecked port
+			if(isNaN((e.data || e.value)) || !e.checked) //ignore tagged and unchecked port
 				return;
 			all_unchecked = false;
 			return false;

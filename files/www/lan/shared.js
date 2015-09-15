@@ -240,12 +240,17 @@ function checkName(name)
 	return false;
 }
 
+//prepend input check
 function addInputCheck(input, regex, msg)
 {
 	var prev_value = input.value;
+	var prev_onchange = input.onchange;
 	input.onchange = function(e) {
-		if(regex.test(input.value))
+		if(regex.test(input.value)) {
+			if(prev_onchange)
+				prev_onchange(e);
 			return;
+		}
 		alert(msg);
 		input.value = prev_value;
 		e.stopPropagation();
@@ -262,7 +267,7 @@ function collect_inputs(p, obj)
 		else if(p.type == "checkbox" && p.checked)
 		{
 			var v = obj[p.name];
-			v = (typeof v == "undefined") ? p.value : (v + " " + p.value);
+			v = (typeof v == "undefined") ? (p.data || p.value) : (v + " " + (p.data || p.value));
 			obj[p.name] = v;
 		}
 
@@ -406,6 +411,7 @@ function _selection(type, parent, title, name, selected, choices)
 
 		input.name = name;
 		input.value = choice_value;
+		input.data = choice_value; //for IE :-(
 		input.type = type;
 		if(inArray(choice_value, selected))
 			input.checked = "checked"
