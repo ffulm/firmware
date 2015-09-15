@@ -124,7 +124,7 @@ initial_local_node_setup()
 
 	local ula_prefix="$(uci get network.globals.ula_prefix)"
 	local addr6="${ula_prefix%%::*}::0"
-	local addr4="10.26.127.0"
+	local addr4="10.33.127.0"
 
 	uci add_list network.freifunk.ipaddr="$addr4"
 
@@ -177,7 +177,7 @@ initial_wan_setup()
 
 initial_setup()
 {
-	local prefix="fdef:17a0:ffb1:300::/64"
+	local prefix="fdef:17a0:fff1:300::/64"
 
 	local wan_interface=$(uci get -q network.wan.ifname)
 	echo "(I) WAN interface: '$wan_interface'"
@@ -214,7 +214,7 @@ initial_setup()
 
 	uci set -q network.globals="globals"
 	uci set network.globals.ula_prefix="$prefix"
-	echo "10.26.127.0 node" >> /etc/hosts
+	echo "10.33.127.0 node" >> /etc/hosts
 
 	# ------------------------------------------- #
 	# S E T U P  W I R E L E S S #
@@ -396,7 +396,7 @@ update_043_to_044()
 	uci set fastd.vpn1_badsalzuflen.key="d780166fdedf9c311350902e1b71e7887c5bbd45a99c9813b0056de25b29a970"
 	uci commit fastd
 
-	uci set network.freifunk.ipaddr="10.26.127.0"
+	uci set network.freifunk.ipaddr="10.33.127.0"
 	uci set network.freifunk.netmask="255.255.192.0"
 	uci commit network
 
@@ -430,9 +430,9 @@ update_045_to_050()
 	cp /rom/etc/config/dhcp /etc/config/
 
 	#forgot to change last time
-	sed -i "s/192.168.132.1/10.26.127.0/" /etc/hosts
+	sed -i "s/192.168.132.1/10.33.127.0/" /etc/hosts
 
-	if [ "$(uci get -q network.freifunk.ipaddr)" = "10.26.127.0" ]; then
+	if [ "$(uci get -q network.freifunk.ipaddr)" = "10.33.127.0" ]; then
 		uci delete network.freifunk.ipaddr
 	fi
 
