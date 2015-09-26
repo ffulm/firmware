@@ -536,6 +536,9 @@ update_045_to_050()
 		config_get device $cfg "device"
 		config_get mode $cfg "mode"
 
+		#just to be sure
+		[ "$mode" = "adhoc" ] && mode="mesh"
+
 		uci rename wireless.$1="${device}_${mode}"
 	}
 
