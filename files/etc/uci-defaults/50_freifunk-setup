@@ -497,7 +497,7 @@ update_045_to_050()
 
 	uci delete freifunk.@settings[0].default_ah_ssid
 	uci delete freifunk.@settings[0].default_ah_bssid
-	uci set freifunk.@settings[0].default_mesh_id="mesh_v15"
+	uci set freifunk.@settings[0].default_mesh_id="ffulm_mesh"
 
 	#adhoc => 802.11s
 	wireless_adhoc_to_mesh() {
