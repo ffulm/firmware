@@ -422,10 +422,6 @@ update_044_to_045()
 
 update_045_to_050()
 {
-	#change address for Freifunk Ulm
-	sed -i 's/10.26.127.0/10.33.127.0/' /etc/config/*
-	sed -i 's/fdef:17a0:ffb1:300/fdef:17a0:fff1:300/' /etc/config/*
-
 	#keep previous HTTPS certs
 	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
 	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
@@ -443,6 +439,13 @@ update_045_to_050()
 	if [ "$(uci get -q network.freifunk.ipaddr)" = "10.26.127.0" ]; then
 		uci delete network.freifunk.ipaddr
 	fi
+
+	#Ulms autoupdater settings have changed
+	cp /rom/etc/config/autoupdater /etc/config/
+
+	#change address for Freifunk Ulm
+	sed -i 's/10.26.127.0/10.33.127.0/' /etc/config/*
+	sed -i 's/fdef:17a0:ffb1:300/fdef:17a0:fff1:300/' /etc/config/*
 
 	#use fresh firewall.user
 	cp /rom/etc/firewall.user /etc/
