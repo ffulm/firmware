@@ -1,4 +1,4 @@
-Firmware for Freifunk Ulm
+Firmware for Freifunk Bodensee
 =========================
 
 The firmware turns a common wireless router into a mesh networking device.
@@ -20,7 +20,7 @@ Build commands for the console:
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffulm/firmware.git
+    git clone https://github.com/ffbsee/firmware.git
     cp -rf firmware/files firmware/package .
     chmod -R a+rX firmware/files/www
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch

@@ -14,7 +14,7 @@ print() {
 	[ -n "$geo" ] && echo -n "\"geo\" : \"$geo\", "
 	[ -n "$name" ] && echo -n "\"name\" : \"$name\", "
 	[ -n "$contact" ] && echo -n "\"contact\" : \"$contact\", "
-	[ -n "$version" ] && echo -n "\"firmware\" : \"ffulm-$version\", "
+	[ -n "$version" ] && echo -n "\"firmware\" : \"ffbsee-$version\", "
 	[ -n "$community" ] && echo -n "\"community\" : \"$community\", "
 
 	echo -n "\"links\" : ["

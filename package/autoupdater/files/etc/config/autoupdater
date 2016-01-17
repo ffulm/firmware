@@ -6,7 +6,7 @@
 	# The branch name given in the manifest
 #	option name 'stable'
 
-#	list mirror 'http://[fdef:ffc0:3dd7::8]/~freifunk/firmware/autoupdate'
+#	list mirror 'http://[fdef:1701:b5ee::4]/~freifunk/firmware/autoupdate'
 
 	#Delay excution of the autoupdater for at most fetch_delay seconds.
 	#This spreads the load of the server when all nodes start

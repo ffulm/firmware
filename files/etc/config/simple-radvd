@@ -1,8 +1,8 @@
 
 config interface
 	option ifname 'br-freifunk'
-	list prefix 'fdef:17a0:fff1:300::/64'
+	list prefix 'fdef:1701:b5ee:23::/64'
 
 config interface
 	option ifname 'br-lan'
-	list prefix 'fdef:17a0:fff1:300::/64'
+	list prefix 'fdef:1701:b5ee:23::/64'
