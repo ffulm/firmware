@@ -314,6 +314,20 @@ initial_setup()
 	uci commit
 }
 
+update_002_to_004()
+{
+	echo "(I) Fix IPv6 prefix."
+	uci set network.globals.ula_prefix='fdef:1701:b5ee:42::/64'
+	uci delete network.freifunk.ip6addr
+
+	echo "(I) Update node IP."
+	uci set network.freifunk.ipaddr="10.11.175.127"
+	sed -i 's/10\.11\.174\.0/10.11.175.127/' /etc/firewall.user
+	sed -i 's/10\.11\.160\.174\.0/10.11.175.127/' /etc/hosts
+
+	uci commit network
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -334,6 +348,11 @@ start()
 
 	echo "(I) Update from '$from_version' to '$to_version'"
 	case "$from_version" in
+		"0.0.2")
+			echo "(I) Apply update."
+			update_002_to_004
+			update_version
+			;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
