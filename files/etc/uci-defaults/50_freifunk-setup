@@ -103,7 +103,7 @@ initial_freifunk_setup()
 	echo "(I) Setup freifunk network."
 
 	local freifunk_interfaces="$1"
-	local freifunk_mac="$2"	
+	local freifunk_mac="$2"
 
 	uci delete -q network.freifunk
 	uci set network.freifunk="interface"
@@ -314,43 +314,18 @@ initial_setup()
 	uci commit
 }
 
-update_050_to_051()
+update_002_to_004()
 {
-	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
-	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+	echo "(I) Fix IPv6 prefix."
+	uci set network.globals.ula_prefix='fdef:1701:b5ee:42::/64'
+	uci delete network.freifunk.ip6addr
 
-	#update autoupdater
-	local updater_enabled=$(uci get autoupdater.settings.enabled)
-	cp /rom/etc/config/autoupdater /etc/config/autoupdater
-	uci set autoupdater.settings.enabled="$updater_enabled"
-	uci commit autoupdater
+	echo "(I) Update node IP."
+	uci set network.freifunk.ipaddr="10.11.175.127"
+	sed -i 's/10\.11\.174\.0/10.11.175.127/' /etc/firewall.user
+	sed -i 's/10\.11\.160\.174\.0/10.11.175.127/' /etc/hosts
 
-	#use option instead of list
-	uci delete fastd.default.bind
-	uci set fastd.default.bind='any interface "br-wan"'
-	uci commit fastd
-
-	#set txpower for the web ui to show a selection (again)
-	wireless_set_txpower() {
-		local cfg="$1" txpower
-
-		config_get txpower $cfg "txpower"
-
-		[ -n "$txpower" ] || uci set wireless.$cfg.txpower="auto"
-	}
-
-	#make sure the is no macaddr set, some drivers have problems
-	wireless_remove_macaddr() {
-		local cfg="$1" macaddr
-
-		config_get macaddr $cfg "macaddr"
-		[ -n "$macaddr" ] && uci delete wireless.$cfg.macaddr
-	}
-
-	config_load wireless
-	config_foreach wireless_set_txpower wifi-device
-	config_foreach wireless_remove_macaddr wifi-iface
-	uci commit wireless
+	uci commit network
 }
 
 start()
@@ -373,9 +348,9 @@ start()
 
 	echo "(I) Update from '$from_version' to '$to_version'"
 	case "$from_version" in
-		"0.5.0")
+		"0.0.2")
 			echo "(I) Apply update."
-			update_050_to_051
+			update_002_to_004
 			update_version
 			;;
 		"")
