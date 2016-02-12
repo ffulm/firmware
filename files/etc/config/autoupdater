@@ -24,4 +24,4 @@ config branch stable
 	# List of public keys
 	list pubkey '9917fc356c2d9dbbcef05e94db5c69e7add4383c339355d5a2f48af64d707f4e' #mart
 	list pubkey '6e3d9c98e4f7f9139c01f99b539dce45a9339f10774d2a57095822dbc7e68d4a' #l3d
-	list pubkey '7c76dcb242c477b2f60afb7d94590c47c23edea0a23b544a87b2d37ed22b9238' #randomguy
+	list pubkey '4bc8902befbf3f3d4c308caad02cc1efd32e0309837c9fae9f1a264e47f7faee' #Xperimental
