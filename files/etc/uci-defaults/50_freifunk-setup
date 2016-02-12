@@ -325,6 +325,9 @@ update_002_to_004()
 	sed -i 's/10\.11\.174\.0/10.11.175.127/' /etc/firewall.user
 	sed -E -i 's/10\.11(\.160)?\.174\.0/10.11.175.127/' /etc/hosts
 
+	echo "(I) Fix Freifunk netmask."
+	uci set network.freifunk.netmask="255.255.240.0"
+	
 	uci commit network
 }
 
