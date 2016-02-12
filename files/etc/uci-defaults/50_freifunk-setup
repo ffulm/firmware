@@ -323,7 +323,7 @@ update_002_to_004()
 	echo "(I) Update node IP."
 	uci set network.freifunk.ipaddr="10.11.175.127"
 	sed -i 's/10\.11\.174\.0/10.11.175.127/' /etc/firewall.user
-	sed -i 's/10\.11\.160\.174\.0/10.11.175.127/' /etc/hosts
+	sed -E -i 's/10\.11(\.160)?\.174\.0/10.11.175.127/' /etc/hosts
 
 	uci commit network
 }
@@ -349,7 +349,12 @@ start()
 	echo "(I) Update from '$from_version' to '$to_version'"
 	case "$from_version" in
 		"0.0.2")
-			echo "(I) Apply update."
+			echo "(I) Apply 0.0.2 update."
+			update_002_to_004
+			update_version
+			;;
+		"0.0.3")
+			echo "(I) Apply 0.0.3 update."
 			update_002_to_004
 			update_version
 			;;
