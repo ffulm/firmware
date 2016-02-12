@@ -327,8 +327,14 @@ update_002_to_004()
 
 	echo "(I) Fix Freifunk netmask."
 	uci set network.freifunk.netmask="255.255.240.0"
-	
+
 	uci commit network
+}
+
+update_004()
+{
+	echo "(I) Update public key for autoupdater."
+	sed -i "s/7c76dcb242c477b2f60afb7d94590c47c23edea0a23b544a87b2d37ed22b9238' #randomguy/4bc8902befbf3f3d4c308caad02cc1efd32e0309837c9fae9f1a264e47f7faee' #Xperimental/" /etc/config/autoupdater
 }
 
 start()
@@ -354,11 +360,18 @@ start()
 		"0.0.2")
 			echo "(I) Apply 0.0.2 update."
 			update_002_to_004
+			update_004
 			update_version
 			;;
 		"0.0.3")
 			echo "(I) Apply 0.0.3 update."
 			update_002_to_004
+			update_004
+			update_version
+			;;
+		"0.0.4")
+			echo "(I) Apply 0.0.4 update."
+			update_004
 			update_version
 			;;
 		"")
