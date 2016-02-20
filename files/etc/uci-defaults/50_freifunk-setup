@@ -335,6 +335,7 @@ update_004()
 {
 	echo "(I) Update public key for autoupdater."
 	sed -i "s/7c76dcb242c477b2f60afb7d94590c47c23edea0a23b544a87b2d37ed22b9238' #randomguy/4bc8902befbf3f3d4c308caad02cc1efd32e0309837c9fae9f1a264e47f7faee' #Xperimental/" /etc/config/autoupdater
+        echo "(I) Add a 3rd VPN Server."
 	printf "config peer 'vpn3'\n        option enabled 1\n        option net 'default'\n        option group 'backbone'\n        option key '1e81443889a1b9d3ee14fcbbee0aaf7331c38163ee8f64ef49fb41004ccb8280'\n        list remote 'ipv4 "vpn3.ffbsee.de" port 1244'\n        option float 0\n" >> /etc/config/fastd
 }
 
