@@ -26,7 +26,7 @@ function adv_apply()
 function adv_toggle(e)
 {
 	adv_mode = !adv_mode;
-	e.innerHTML = adv_mode ? "Erweitert: An" : "Erweitert: Aus";
+	e.innerHTML = adv_mode ? "Erweitert: AN" : "Erweitert: AUS";
 	adv_apply();
 }
 
@@ -109,7 +109,7 @@ function logout() {
 	<li><a href="password.html">Password</a></li>
 	<li><a href="#" onclick="reboot()">Neustart</a></li>
 	<li><a href="#" onclick="logout()">Logout</a></li>
-	<li><a href="#" onclick="adv_toggle(this)">Erweitert: Aus</a></li>
+	<li><a href="#" onclick="adv_toggle(this)">Erweitert: AUS</a></li>
 </ul>
 <br>
 <pre id="msg" tabindex="-1"></pre>
