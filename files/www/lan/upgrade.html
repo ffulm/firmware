@@ -11,19 +11,19 @@
 <body onload="init();">
 
 <fieldset>
-	<legend>Aktuelle Firmware Suchen</legend>
+	<legend>Aktuelle Firmware suchen</legend>
 	<div>
 		<button type="button" onclick="lookup_upgrade()">Suchen</button>
 		<button type="button" onclick="lookup_and_apply_upgrade()">Suchen und Aktualisieren</button>
 	</div>
-	<div><br />Die Freifunk-Community bietet neue Firmware-Versionen für die Router an.<br />Diese enthalten Fehlerbereinigungen und neue Funktionen.</div>
+	<p>Die <a href="https://ffbsee.de/index.php/Hauptseite">Freifunk-Community Bodensee</a> bietet neue Firmware-Versionen für diesen Router an. Diese enthalten Fehlerbereinigungen und neue Funktionen.</p>
 </fieldset>
 <fieldset>
-	<legend>Router Zur&#252;cksetzen</legend>
+	<legend>Router zur&#252;cksetzen</legend>
 	<div>
 		<button type="button" onclick="restore_firmware()">Zur&#252;cksetzen</button>
 	</div>
-	<div><br />Alle Einstellungen werden zur&#252;ckgesetzt und der Router startet neu.</div>
+	<p>Alle Einstellungen werden zur&#252;ckgesetzt und der Router startet neu.</p>
 </fieldset>
 <fieldset>
 	<legend>Manuelles Update</legend>
@@ -38,11 +38,11 @@
 		</label>
 		<div>
 			<input type="checkbox" name="keep_config" value="yes" checked>
-			<label>Konfiguration erhalten</label>
+			<label>Konfiguration beibehalten</label>
 		</div>
 	</div>
 	</form>
-	<div><br />Hier kann ein Freifunk-Image verwendet werden (*-sysupgrade.bin) oder die Firmware des Routerherstellers.</div>
+	<p>Hier kann ein Freifunk-Image verwendet werden (*-sysupgrade.bin) oder die <a href="https://de.wikipedia.org/wiki/Firmware">Firmware</a> des Routerherstellers.</p>
 </fieldset>
 
 

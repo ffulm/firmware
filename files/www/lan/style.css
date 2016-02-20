@@ -142,6 +142,20 @@ option {
 	list-style: none;
 }
 
+button {
+	font-size: 0.8em;
+	color: white;
+	background-color: #0b77b7;
+}
+
+.final-button {
+	font-size: 1.2em;
+	color: white;
+	background-color: #0b77b7;
+	padding: 0.1em;
+	margin: 0.3em;
+}
+
 
 /* navigation */
 
@@ -164,7 +178,7 @@ option {
 
 #globalnav a {
 	display: block;
-	color: #444;
+	color: #0b77b7;
 	text-decoration: none;
 	font-weight: bold;
 	background: #ddd;

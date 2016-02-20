@@ -26,11 +26,11 @@ function adv_apply()
 function adv_toggle(e)
 {
 	adv_mode = !adv_mode;
-	e.innerHTML = adv_mode ? "Erweitert: An" : "Erweitert: Aus";
+	e.innerHTML = adv_mode ? "Erweitert: AN" : "Erweitert: AUS";
 	adv_apply();
 }
 
-function nav_onclick() 
+function nav_onclick()
 {
 	setText('msg', "");
 	var url = this.getAttribute("href");
@@ -104,12 +104,12 @@ function logout() {
 	<li><a href="home.html" id="first">Home</a></li>
 	<li><a href="settings.html">Einstellungen</a></li>
 	<li><a href="network.html">Netzwerk</a></li>
-	<li><a href="wifiscan.html">WifiScan</a></li>
+	<li><a href="wifiscan.html">WLAN-Scan</a></li>
 	<li><a href="upgrade.html">Upgrade</a></li>
-	<li><a href="password.html">Password</a></li>
+	<li><a href="password.html">Passwort</a></li>
 	<li><a href="#" onclick="reboot()">Neustart</a></li>
 	<li><a href="#" onclick="logout()">Logout</a></li>
-	<li><a href="#" onclick="adv_toggle(this)">Erweitert: Aus</a></li>
+	<li><a href="#" onclick="adv_toggle(this)">Erweitert: AUS</a></li>
 </ul>
 <br>
 <pre id="msg" tabindex="-1"></pre>
@@ -122,4 +122,3 @@ function logout() {
 
 </body>
 </html>
-

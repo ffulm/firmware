@@ -167,7 +167,7 @@ appears on the left side of the page.
     /*
     This styles the selected menu item `<li>`.
     */
-	
+
 	#menu .pure-menu-selected {
         background: #ffc12e;
 		color: #fff;
