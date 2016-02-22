@@ -12,7 +12,7 @@ TP-Link
 
 tp-link-tl-mr3020
 tp-link-tl-mr3040
-tp-link-tl-mr3220
+tp-link-tl-mr3220 ???
 tp-link-tl-mr3420
 tp-link-tl-wdr3600-v1
 tp-link-tl-wdr4300-v1
