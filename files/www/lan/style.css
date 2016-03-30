@@ -181,12 +181,12 @@ button {
 	color: #0b77b7;
 	text-decoration: none;
 	font-weight: bold;
-	background: #8feeff;
-	background: no-repeat center center,-moz-linear-gradient(left, rgba(95,214,255,0.8), rgba(123,255,223,0.8));
-	background: no-repeat center center,-webkit-linear-gradient(left, rgba(95,214,255,0.8), rgba(123,255,223,0.8));
-	background: no-repeat center center,-o-linear-gradient(left, rgba(95,214,255,0.8), rgba(123,255,223,0.8));
-	background: no-repeat center center,-ms-linear-gradient(left, rgba(95,214,255,0.8), rgba(123,255,223,0.8));
-	background: no-repeat center center,linear-gradient(left, rgba(95,214,255,0.8), rgba(123,255,223,0.8));
+	background: rgba(100,255,203,0.4);
+	background: no-repeat center center,-moz-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,-webkit-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,-o-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,-ms-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
 	margin: 0;
 	padding: 0.25em 1em;
 	border-left: 1px solid #fff;
@@ -198,12 +198,12 @@ button {
 #globalnav a:active,
 #globalnav a.here:link,
 #globalnav a.here:visited {
-	background: #70fee0;
-	background: no-repeat center center,-moz-linear-gradient(left, rgba(70,185,242,0.8), rgba(92,255,195,0.8));
-	background: no-repeat center center,-webkit-linear-gradient(left, rgba(70,185,242,0.8), rgba(92,255,195,0.8));
-	background: no-repeat center center,-o-linear-gradient(left, rgba(70,185,242,0.8), rgba(92,255,195,0.8));
-	background: no-repeat center center,-ms-linear-gradient(left, rgba(70,185,242,0.8), rgba(92,255,195,0.8));
-	background: no-repeat center center,linear-gradient(left, rgba(70,185,242,0.8), rgba(92,255,195,0.8));
+	rgba(80,225,255,0.4);
+	background: no-repeat center center,-moz-linear-gradient(left, rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,-webkit-linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,-o-linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,-ms-linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
 }
 
 #globalnav a.here:link,
