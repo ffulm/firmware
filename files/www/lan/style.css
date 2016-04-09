@@ -181,7 +181,12 @@ button {
 	color: #0b77b7;
 	text-decoration: none;
 	font-weight: bold;
-	background: #ddd;
+	background: rgba(100,255,203,0.4);
+	background: no-repeat center center,-moz-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,-webkit-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,-o-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,-ms-linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
+	background: no-repeat center center,linear-gradient(left, rgba(100,255,203,0.4), rgba(100,255,255,0.4));
 	margin: 0;
 	padding: 0.25em 1em;
 	border-left: 1px solid #fff;
@@ -193,7 +198,12 @@ button {
 #globalnav a:active,
 #globalnav a.here:link,
 #globalnav a.here:visited {
-	background: #bbb;
+	rgba(80,225,255,0.4);
+	background: no-repeat center center,-moz-linear-gradient(left, rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,-webkit-linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,-o-linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,-ms-linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
+	background: no-repeat center center,linear-gradient(left,  rgba(100,203,255,0.4), rgba(130,255,223,0.4));
 }
 
 #globalnav a.here:link,
@@ -209,7 +219,7 @@ button {
 	left: 0;
 	top: 1.5em;
 	float: left;
-	background: #bbb;
+	background: #70fee0;
 	width: 100%;
 	margin: 0;
 	padding: 0.25em 0.25em 0.25em 1em;
@@ -224,7 +234,7 @@ button {
 }
 
 #globalnav ul a {
-	background: #bbb;
+	background: #70fee0;
 	color: #fff;
 	display: inline;
 	margin: 0;
