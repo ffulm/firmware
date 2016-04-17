@@ -386,7 +386,7 @@ update_051_to_060()
 	uci rename freifunk.@settings[0].access_from=allow_access_from
 
 	# add community_url variable
-	uci set freifunk.@settings[0].community_url="http://freifunk-bielefeld.de"
+	uci set freifunk.@settings[0].community_url="http://freifunk-ulm.de"
 
 	uci commit freifunk
 
