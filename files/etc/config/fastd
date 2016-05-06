@@ -45,3 +45,12 @@ config peer 'vpn3'
         list remote 'ipv6 "vpn3.ffbsee.de" port 1244'
         list remote 'ipv4 "vpn3.ffbsee.de" port 1244'
         option float 0
+        
+config peer 'vpn4'
+        option enabled 1
+        option net 'default'
+        option group 'backbone'
+        option key '696b6fbfa5f1cc1a8a85c78276b55448d0cb89ed9d52f30234f02a811f7132d0'
+        list remote 'ipv6 "vpn4.ffbsee.de" port 1244'
+        list remote 'ipv4 "vpn4.ffbsee.de" port 1244'
+        option float 0
