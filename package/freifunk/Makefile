@@ -12,8 +12,8 @@ define Package/freifunk-basic
 	SECTION:=base
 	CATEGORY:=Freifunk
 	DEFAULT:=y
-	TITLE:= Freifunk-Bielefeld Basic
-	URL:=http://freifunk-bielefeld.de
+	TITLE:= Freifunk-Ulm Basic
+	URL:=http://freifunk-ulm.de
 	DEPENDS:=+kmod-batman-adv +alfred +sockread\
 		+uhttpd +haserl +uhttpd-mod-tls +px5g \
 		+fastd +ip +odhcpd +simple-radvd \
