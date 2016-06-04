@@ -7,7 +7,7 @@ config settings
 	option community 'bodensee'
 	option version '0.6.0-dev'
 	option publish_map '1'
-	option access_from 'lan'
+	option allow_access_from 'lan'
 	option service_link ''
 	option service_label ''
 	option service_display_max 0
