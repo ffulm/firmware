@@ -15,4 +15,5 @@ config settings
 	option service_display_max 0
 	option default_mesh_id 'ffbsee_mesh'
 	option mesh_on_wan '0'
+	option community_url 'https://ffbsee.de'
 	option first_boot '1'
