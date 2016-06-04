@@ -159,6 +159,7 @@ function appendSetting(p, path, value, mode)
 				}
 			}
 		});
+		addHelpText(b, "Diese Funktion schickt die Mesh-Pakete auf das Netz am WAN-Anschluss. Bitte beachten, dass diese Broadcast-Pakete im WAN-Netz befindliche WLAN APs negativ beeinflusst.");
 		break;
 	case "disabled":
 		b = append_radio(p, "Deaktiviert", id, value, [["Ja", "1"], ["Nein", "0"]]);
@@ -329,7 +330,7 @@ function addNetSection(ifname, mode)
 		break;
 	case "mesh":
 		var net = ifname.replace(".", "_");
-		n[net] = {"stype":"interface","ifname":ifname,"mtu":"1406","proto":"batadv","mesh":"bat0"};
+		n[net] = {"stype":"interface","ifname":ifname,"mtu":"1406","proto":"batadv","mesh":"bat0","mesh_no_rebroadcast":"1"};
 		break;
 	case "none":
 		var net = ifname.replace(".", "_");

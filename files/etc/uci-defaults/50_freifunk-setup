@@ -412,5 +412,6 @@ start()
 }
 
 start
+sync
 
 exit 0
