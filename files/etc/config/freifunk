@@ -8,6 +8,8 @@ config settings
 	option version '0.6.0-dev'
 	option publish_map 'basic'
 	option access_from 'lan'
+	option publish_map 'basic'
+	option allow_access_from 'lan'
 	option service_link ''
 	option service_label ''
 	option service_display_max 0
