@@ -1,11 +1,11 @@
 #!/bin/sh
 
-#create an IPv6 ULA-address based on EUI-64
+# Create an IPv6 ULA-address.
 ula_addr()
 {
         local prefix a mac="$1"
 
-	prefix="(uci get network.globals.ula_prefix)"
+	prefix="$(uci get network.globals.ula_prefix)"
 
 	# translate to local administered mac
 	a=${mac%%:*} #cut out first hex
