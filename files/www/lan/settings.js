@@ -92,7 +92,7 @@ function appendSetting(p, path, value, mode)
 		}
 		break;
 	case "publish_map":
-		b = append_radio(p, "Zur Karte beitragen", id, value, [["Ja", "1"], ["Nein", "0"]]);
+		b = append_radio(p, "Zur Karte beitragen", id, value, [["Nichts", "none"], ["Wenig", "basic"], ["Viel", "more"], ["Alles", "all"]]);
 		addHelpText(b, "Soll dieser Knoten auf der Knotenkarte angezeigt werden?");
 		break;
 	case "limit_egress":
