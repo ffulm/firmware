@@ -76,6 +76,22 @@ initial_wifi_setup()
 
 	config_load wireless
 	config_foreach config_wifi wifi-device
+
+
+	remove_ula() {
+		case "$1" in
+			*ff:fe*)
+				uci del_list network.freifunk.ip6addr="$1"
+				;;
+		esac
+	}
+
+	#remove hard stored ula address
+	config_load network
+	config_list_foreach freifunk ip6addr remove_ula
+
+
+ 	uci commit network
 }
 
 initial_lan_setup()
@@ -358,8 +374,8 @@ update_006()
 	# update fastd configuration
 	cp /rom/etc/config/fastd /etc/config/fastd
 
-	local geo="$(uci get freifunk.@settings[0].geo)"
-	local publish_map="$(uci get freifunk.@settings[0].publish_map)"
+	local geo="$(uci get -q freifunk.@settings[0].geo)"
+	local publish_map="$(uci get -q freifunk.@settings[0].publish_map)"
 
 	# replace geo by latitude / longitude
 	[  -n "$geo" ] && {
