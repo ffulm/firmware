@@ -349,6 +349,40 @@ update_005()
 	printf "\nconfig peer 'vpn4'\n        option enabled 1\n        option net 'default'\n        option group 'backbone'\n        option key '696b6fbfa5f1cc1a8a85c78276b55448d0cb89ed9d52f30234f02a811f7132d0'\n        list remote 'ipv6 \"vpn4.ffbsee.de\" port 1244'\n        list remote 'ipv4 \"vpn4.ffbsee.de\" port 1244'\n        option float 0\n" >> /etc/config/fastd
 }
 
+update_006()
+{
+	# preserve self signed certificates
+	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	local geo="$(uci get freifunk.@settings[0].geo)"
+	local publish_map="$(uci get freifunk.@settings[0].publish_map)"
+
+	# replace geo by latitude / longitude
+	[  -n "$geo" ] && {
+		uci set freifunk.@settings[0].latitude="${geo%% *}"
+		uci set freifunk.@settings[0].longitude="${geo##* }"
+		uci delete freifunk.@settings[0].geo
+	}
+
+	# change publish_map values
+	if [ "$publish_map" = "0" ]; then
+		uci set freifunk.@settings[0].publish_map="none"
+	else
+		uci set freifunk.@settings[0].publish_map="basic"
+	fi
+
+	# introduce new setting
+	uci set freifunk.@settings[0].mesh_on_wan=0
+
+	# rename option access_from to allow_access_from
+	uci rename freifunk.@settings[0].access_from=allow_access_from
+
+	uci commit freifunk
+}
+
+
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -373,22 +407,34 @@ start()
 			echo "(I) Apply 0.0.2 update."
 			update_002_to_004
 			update_004
+			update_005
+			update_006
 			update_version
 			;;
 		"0.0.3")
 			echo "(I) Apply 0.0.3 update."
 			update_002_to_004
 			update_004
+			update_005
+                        update_006
 			update_version
 			;;
 		"0.0.4")
 			echo "(I) Apply 0.0.4 update."
 			update_004
+			update_005
+                        update_006
 			update_version
 			;;
 		"0.0.5")
 			echo "(I) Apply 0.0.5 update."
 			update_005
+			update_006
+			update_version
+			;;
+		"0.0.6")
+			echo "(I) Apply 0.0.6 update."
+			update_006
 			update_version
 			;;
 		"")
