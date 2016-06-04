@@ -235,7 +235,12 @@ function rebuild_other()
 	if('network' in uci) {
 		var n = uci['network'];
 		var b = appendSetting(fs, ['network', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
-		if(b) show(root);
+	}
+
+	if('freifunk' in uci) {
+		var f = uci.freifunk;
+		var i = firstSectionID(f, "settings");
+		appendSetting(fs, ['freifunk', i, "mesh_on_wan"], f[i]["mesh_on_wan"]);
 	}
 
 	addClass(root, "adv_hide");
