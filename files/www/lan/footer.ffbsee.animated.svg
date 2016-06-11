@@ -41,40 +41,6 @@
          id="stop6908" />
     </linearGradient>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="129.86013"
-     inkscape:cy="64.82562"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="-15"
-     fit-margin-right="-15"
-     fit-margin-bottom="-2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1015"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata5148">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
   <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
@@ -93,7 +59,7 @@
        style="fill:#bebebe;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.11675666;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        sodipodi:nodetypes="cssscccccccccscccc" />
     <path
-       sodipodi:nodetypes="cssssssscccssssssssscccc"
+       sodipodi:nodetypes="cssc"
        inkscape:connector-curvature="0"
        id="path6850-0"
        d="m 361.47672,1010.6661 c 0,0 -24.94782,-18.0089 -25.44793,-18.396 -0.50011,-0.38697 -1.6655,-1.05055 -2.69533,-2.12861 -1.02983,-1.07815 -0.98116,-2.10101 -1.98067,-2.76451 -0.99951,-0.66352 -2.65982,-0.91232 -3.54678,-1.27166 -0.88697,-0.3594 -2.63666,-1.60343 -4.04941,-2.04575 -1.41275,-0.4423 -2.82265,-0.4423 -3.76365,-0.6082 -0.94101,-0.1659 -2.80108,-1.38225 -3.84964,-1.07814 -1.04855,0.3041 -2.36978,1.18874 -2.58969,1.38224 -11.45247,-1.58281 -16.27797,-15.96329 -24.8368,-8.28002 -0.0979,-0.0195 -0.62743,-0.29322 -0.62743,-0.29322 0,0 -3.26022,0.66467 -4.37585,0.4496 -1.11562,-0.21502 -2.87444,-0.13683 -3.53402,0.64509 -0.65958,0.78196 -3.70915,3.79231 -4.62487,4.26144 -0.91573,0.46922 -23.27688,18.84604 -27.5399,20.77394 -1.32785,0.6006 -23.5151,-15.7286 -31.78873,-15.94032 -7.03309,-0.17998 -19.60343,14.27802 -26.46761,13.76752 -3.10829,-0.2311 -18.52446,-27.12126 -35.46943,-23.01406 -12.1859,2.95367 -14.545,7.69055 -16.41579,8.58971 -1.8708,0.89917 7.95934,23.00515 10.68206,23.55325 23.75245,4.7819 89.84142,6.2383 89.84142,6.2383 l -6.81243,0.01 106.50343,1.1728 z"
@@ -147,12 +113,6 @@
        id="path5879-8"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccsccccc" />
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.62553608px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 352.36242,1014.8855 c 9.22665,0.2346 23.67255,-9.6733 36.67205,-10.556 10.22704,-0.6942 20.4863,3.9097 20.4863,3.9097 l -20.95545,6.2554 z"
-       id="path6848-9"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="csccc" />
 <g
        transform="matrix(0.5369633,0,0,0.5369633,259.64886,713.36961)"
        id="g6336">
@@ -456,11 +416,6 @@
          style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0.1329888;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 138.16374,543.06076 -2.08644,-12.48933 c 0,0 1.23424,4.6137 2.05707,6.22997 0.82281,1.61626 2.76233,5.34838 2.76233,5.34838 l -2.87988,0.0882"
          id="path4233"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 143.55903,543.30778 -0.0865,0.48987 -4.63937,0.40342 -3.25622,-0.14408 -0.80684,-0.74921 5.61912,-0.66277 0.66276,0.34579 2.04594,-0.20172 z"
-         id="path4235"
          inkscape:connector-curvature="0" />
     </g>
   </g>
