@@ -5,7 +5,7 @@ config settings
 	option latitude ''
 	option contact ''
 	option community 'bodensee'
-	option version '0.6.0-dev'
+	option version '0.1.1-dev'
 	option publish_map 'basic'
 	option access_from 'lan'
 	option publish_map 'basic'
