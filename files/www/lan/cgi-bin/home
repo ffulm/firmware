@@ -96,4 +96,9 @@ print 'freifunk_tx_bytes' "$(cat /sys/class/net/$freifunk/statistics/tx_bytes 2>
 print 'wan_rx_bytes' "$(cat /sys/class/net/$wan/statistics/rx_bytes 2> /dev/null)"
 print 'wan_tx_bytes' "$(cat /sys/class/net/$wan/statistics/tx_bytes 2> /dev/null)"
 
+if set "$(uci -q get freifunk.@settings[0].version | cut -d'-' -f2)"; then                                                                                            
+        print 'firmware_vers_stable_development' "<div class='development'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
+
+fi 
+
 %>

@@ -271,3 +271,12 @@ button {
     margin: -7.5%;
     margin-top: 8%;
 }
+
+.development {
+    padding: 1.3em;
+    color: #dc0067;
+    background: #f0ef95;
+    box-shadow: 1px 1px 6px 6px #f0ef95;
+    border-radius: 23px;
+    margin: 2.5em;
+}

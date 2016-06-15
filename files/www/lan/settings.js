@@ -54,15 +54,15 @@ function appendSetting(p, path, value, mode)
 	{
 	case "latitude":
 		b = append_input(p, "Breitengrad", id, value);
-		b.lastChild.placeholder = "52.xxx";
+		b.lastChild.placeholder = "47.xxx";
 		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
-		addHelpText(b, "GPRS-Koordinate dieses Knotens auf der Freifunk-Karte.");
+		addHelpText(b, "Der Breitengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "longitude":
 		b = append_input(p, "L\xe4ngengrad", id, value);
-		b.lastChild.placeholder = "8.xxx";
+		b.lastChild.placeholder = "9.xxx";
 		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
-		addHelpText(b, "GPRS-Koordinate dieses Knotens auf der Freifunk-Karte.");
+		addHelpText(b, "Der L\xe4ngengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "name":
 		b = append_input(p, "Knotenname", id, value);
@@ -79,7 +79,7 @@ function appendSetting(p, path, value, mode)
 	case "enabled":
 		if(cfg == "autoupdater") {
 			b = append_radio(p, "Autoupdater", id, value, [["An", "1"], ["Aus", "0"]]);
-			addHelpText(b, "Der Autoupdater aktualisiert die Firmware automatisch auf die neuste Version.");
+			addHelpText(b, "Der Autoupdater aktualisiert die Firmware automatisch auf die neuste Version. Dabei bleibt die Konfiguration die \xfcber die Weboberfl\xe4che gemacht wurde erhalten. Spezifische Anpassungen \xfcber SSH k\xf9nnten eventuell \xfcberschrieben werden!");
 		}
 		if(cfg == "simple-tc") {
 			b = append_radio(p, "Bandbreitenkontrolle", id, value, [["An", "1"], ["Aus", "0"]]);
