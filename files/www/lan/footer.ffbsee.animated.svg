@@ -327,25 +327,6 @@
          style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="g5301"
-       transform="matrix(1.0144799,0,0,1.0144799,101.38147,471.36777)">
-      <path
-         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0.051;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 136.14114,531.34183 c 0,0 -1.21027,8.41428 -1.2679,9.65336 -0.0576,1.23909 -0.17289,2.24766 -0.17289,2.24766 l 3.37147,-0.48988 c 0,0 -1.38317,-1.38316 -1.84423,-3.68845 -0.46105,-2.30528 -0.0865,-7.72269 -0.0865,-7.72269 z"
-         id="path5303"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0.1329888;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 138.16374,543.06076 -2.08644,-12.48933 c 0,0 1.23424,4.6137 2.05707,6.22997 0.82281,1.61626 2.76233,5.34838 2.76233,5.34838 l -2.87988,0.0882"
-         id="path5305"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 143.55903,543.30778 -0.0865,0.48987 -4.63937,0.40342 -3.25622,-0.14408 -0.80684,-0.74921 5.61912,-0.66277 0.66276,0.34579 2.04594,-0.20172 z"
-         id="path5307"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
        id="boot9"
        transform="matrix(2.5726871,0,0,2.5726871,-332.43141,-355.31564)">
       <path
@@ -412,11 +393,6 @@
                 <animateMotion dur="7000s" 
                          values="0,0; -500,0" 
                          repeatCount="indefinite" />    
-  <path
-         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0.1329888;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 138.16374,543.06076 -2.08644,-12.48933 c 0,0 1.23424,4.6137 2.05707,6.22997 0.82281,1.61626 2.76233,5.34838 2.76233,5.34838 l -2.87988,0.0882"
-         id="path4233"
-         inkscape:connector-curvature="0" />
     </g>
   </g>
 </svg>
