@@ -1,30 +1,43 @@
-From cc281cf08f722ebe66c5404bf46bb19eb4edd83a Mon Sep 17 00:00:00 2001
+From 44a516ce2bc99ee22cf63a810e9a4a4489c2ae62 Mon Sep 17 00:00:00 2001
 From: Moritz Warning <moritzwarning@web.de>
-Date: Thu, 6 Aug 2015 20:45:49 +0200
-Subject: [PATCH 2/5] alfred: upgrade package to latest release 2015.1
+Date: Sun, 1 May 2016 20:35:42 +0200
+Subject: [PATCH 1/4] alfred: update to 2016.1
 
 ---
- alfred/Makefile          |  9 +++++----
- alfred/files/alfred.init | 49 ++++++++++++++++++++++++++++--------------------
- 2 files changed, 34 insertions(+), 24 deletions(-)
+ alfred/Makefile          | 15 +++++-----
+ alfred/files/alfred.init | 74 +++++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 62 insertions(+), 27 deletions(-)
 
 diff --git a/alfred/Makefile b/alfred/Makefile
-index dade218..8f49b5a 100644
+index dade218..2e117b3 100644
 --- a/alfred/Makefile
 +++ b/alfred/Makefile
-@@ -11,9 +11,9 @@ include $(TOPDIR)/rules.mk
- # The latest alfred git hash in PKG_REV can be obtained from http://git.open-mesh.org/alfred.git
+@@ -8,15 +8,15 @@
+ include $(TOPDIR)/rules.mk
+ 
+ #
+-# The latest alfred git hash in PKG_REV can be obtained from http://git.open-mesh.org/alfred.git
++# The latest alfred git hash in PKG_REV can be obtained from https://git.open-mesh.org/alfred.git
  #
  PKG_NAME:=alfred
 -PKG_VERSION:=2014.4.0
-+PKG_VERSION:=2015.1
++PKG_VERSION:=2016.1
  PKG_RELEASE:=0
 -PKG_MD5SUM:=053cb5d9e7ca9384598e82944343dea2
-+PKG_MD5SUM:=fcce70cd8da764ee91c8cd2cbfa14362
++PKG_MD5SUM:=0caefc13ba631cba93b84d7f5685e8d0
  
  PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
- PKG_SOURCE_URL:=http://downloads.open-mesh.org/batman/releases/batman-adv-$(PKG_VERSION)
-@@ -28,7 +28,7 @@ define Package/alfred
+-PKG_SOURCE_URL:=http://downloads.open-mesh.org/batman/releases/batman-adv-$(PKG_VERSION)
++PKG_SOURCE_URL:=https://downloads.open-mesh.org/batman/releases/batman-adv-$(PKG_VERSION)
+ PKG_LICENSE:=GPL-2.0
+ 
+ include $(INCLUDE_DIR)/package.mk
+@@ -24,11 +24,11 @@ include $(INCLUDE_DIR)/package.mk
+ init-y := alfred
+ 
+ define Package/alfred
+-  URL:=http://www.open-mesh.org/
++  URL:=https://www.open-mesh.org/
    SECTION:=net
    CATEGORY:=Network
    TITLE:=A.L.F.R.E.D. - Almighty Lightweight Fact Remote Exchange Daemon
@@ -44,10 +57,10 @@ index dade218..8f49b5a 100644
  TARGET_CFLAGS  += -ffunction-sections -fdata-sections -flto
  TARGET_LDFLAGS += -Wl,--gc-sections -fuse-linker-plugin
 diff --git a/alfred/files/alfred.init b/alfred/files/alfred.init
-index b777b53..5ce06c0 100755
+index b777b53..4c9a9e1 100755
 --- a/alfred/files/alfred.init
 +++ b/alfred/files/alfred.init
-@@ -16,10 +16,27 @@ pid_file_alfred="/var/run/alfred.pid"
+@@ -16,10 +16,52 @@ pid_file_alfred="/var/run/alfred.pid"
  pid_file_vis="/var/run/batadv-vis.pid"
  enable=0
  vis_enable=0
@@ -73,10 +86,35 @@ index b777b53..5ce06c0 100755
 +	fi
 +}
 +
++wait_for_ll_address()
++{
++	local iface="$1"
++	local timeout=30
++
++	echo "${initscript}: waiting $timeout secs for $iface address..."
++	for i in $(seq $timeout); do
++		# We look for
++		# - the link-local address (starts with fe80)
++		# - without tentative flag (bit 0x40 in the flags field; the first char of the flags field begins 38 columns after the fe80 prefix
++		# - on interface $iface
++		if awk '
++			BEGIN { RET=1 }
++			/^fe80.{37} [012389ab]/ { if ($6 == "'"$iface"'") RET=0 }
++			END { exit RET }
++		' /proc/net/if_inet6; then
++			return
++		fi
++		sleep 1
++	done
++
++	echo "${initscript}: $iface address not detected, alfred not starting."
++	exit 1
++}
++
  alfred_start()
  {
  	local args=""
-@@ -41,14 +58,20 @@ alfred_start()
+@@ -41,14 +83,20 @@ alfred_start()
  	config_get batmanif "$section" batmanif
  	append args "-b $batmanif"
  
@@ -84,7 +122,7 @@ index b777b53..5ce06c0 100755
 +		wait_for_dir "$batmanif" "/sys/class/net/$batmanif/mesh"
 +	fi
 +
-+	wait_for_dir "$interface" "/sys/class/net/$interface/"
++	wait_for_ll_address "$interface"
 +
  	append alfred_args "$args"
  	enable=1
@@ -102,7 +140,7 @@ index b777b53..5ce06c0 100755
  
  	config_get_bool run_facters "$section" run_facters 0
  
-@@ -64,20 +87,6 @@ start()
+@@ -64,20 +112,6 @@ start()
  		exit 0
  	fi
  
@@ -124,5 +162,5 @@ index b777b53..5ce06c0 100755
  	SERVICE_PID_FILE="$pid_file_alfred"
  	service_start /usr/sbin/alfred ${alfred_args}
 -- 
-2.1.4
+2.8.0
 

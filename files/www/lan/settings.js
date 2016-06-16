@@ -52,11 +52,17 @@ function appendSetting(p, path, value, mode)
 	var name = path[path.length-1];
 	switch(name)
 	{
-	case "geo":
-		b = append_input(p, "GPS-Koordinaten", id, value);
-		b.lastChild.placeholder = "52.02713078 8.52829987";
-		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8} {1,3}\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
-		addHelpText(b, "Die Koordinaten dieses Knotens auf der Freifunk-Karte (z.B. \"52.02713078 8.52829987\").");
+	case "latitude":
+		b = append_input(p, "Breitengrad", id, value);
+		b.lastChild.placeholder = "47.xxx";
+		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
+		addHelpText(b, "Der Breitengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
+		break;
+	case "longitude":
+		b = append_input(p, "L\xe4ngengrad", id, value);
+		b.lastChild.placeholder = "9.xxx";
+		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
+		addHelpText(b, "Der L\xe4ngengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "name":
 		b = append_input(p, "Knotenname", id, value);
@@ -67,13 +73,13 @@ function appendSetting(p, path, value, mode)
 	case "contact":
 		b = append_input(p, "Kontaktdaten", id, value);
 		b.lastChild.placeholder = "info@example.com";
-		addInputCheck(b.lastChild, /^$|^[\-\^'\w\.\:\[\]\(\)\/ &@\+\u0080-\u00FF]{0,32}$/, "Ung\xfcltige Eingabe.");
+		addInputCheck(b.lastChild, /^$|^[\-\^'\w\.\:\[\]\(\)\/ &@\+\u0080-\u00FF]{0,50}$/, "Ung\xfcltige Eingabe.");
 		addHelpText(b, "Kontaktdaten f\xfcr die \xf6ffentliche Freifunk-Karte und Statusseite. Falls ihr euch von anderen Leuten kontaktieren lassen wollt (z.B. \"info@example.com\").");
 		break;
 	case "enabled":
 		if(cfg == "autoupdater") {
 			b = append_radio(p, "Autoupdater", id, value, [["An", "1"], ["Aus", "0"]]);
-			addHelpText(b, "Der Autoupdater aktualisiert die Firmware automatisch auf die neuste Version.");
+			addHelpText(b, "Der Autoupdater aktualisiert die Firmware automatisch auf die neuste Version. Dabei bleibt die Konfiguration die \xfcber die Weboberfl\xe4che gemacht wurde erhalten. Spezifische Anpassungen \xfcber SSH k\xf9nnten eventuell \xfcberschrieben werden!");
 		}
 		if(cfg == "simple-tc") {
 			b = append_radio(p, "Bandbreitenkontrolle", id, value, [["An", "1"], ["Aus", "0"]]);
@@ -86,8 +92,8 @@ function appendSetting(p, path, value, mode)
 		}
 		break;
 	case "publish_map":
-		b = append_radio(p, "Zur Karte beitragen", id, value, [["Ja", "1"], ["Nein", "0"]]);
-		addHelpText(b, "Soll dieser Knoten auf der Knotenkarte angezeigt werden?");
+		b = append_radio(p, "Zur Karte beitragen", id, value, [["Nichts", "none"], ["Wenig", "basic"], ["Mehr", "more"], ["Alles", "all"]]);
+		addHelpText(b, "Mit wie vielen Informationen soll dieser Knoten zur Knotenkarte beitragen? (Wenig: Name/Version/Position/Kontakt, Mehr: Modell/Uptime/CPU-Auslastung, Alles: Speicherauslastung/IP-Adressen)");
 		break;
 	case "limit_egress":
 		b = append_input(p, "Freifunk Upload", id, value);
@@ -99,7 +105,7 @@ function appendSetting(p, path, value, mode)
 		addInputCheck(b.lastChild, /^\d+$/, "Download ist ung\xfcltig.");
 		addHelpText(b, "Maximaler Download in KBit/s f\xfcr die Bandbreitenkontrolle.");
 		break;
-	case "access_from":
+	case "allow_access_from":
 		b = append_check(p, "SSH/HTTPS Zugriff", id, split(value), [["WAN","wan"], ["LAN","lan"], ["Freifunk","freifunk"]]);
 		addHelpText(b, "Zugang zur Konfiguration \xfcber verschiedene Anschl\xfcsse/Netzwerke erm\xf6glichen.")
 		break;
@@ -156,11 +162,12 @@ function rebuild_general()
 		var f = uci.freifunk;
 		var i = firstSectionID(f, "settings");
 		appendSetting(gfs, ['freifunk', i, "name"], f[i]["name"]);
-		appendSetting(gfs, ['freifunk', i, "geo"], f[i]["geo"]);
+		appendSetting(gfs, ['freifunk', i, "longitude"], f[i]["longitude"]);
+		appendSetting(gfs, ['freifunk', i, "latitude"], f[i]["latitude"]);
 		appendSetting(gfs, ['freifunk', i, "contact"], f[i]["contact"]);
 		appendSetting(rfs, ['freifunk', i, "community"], f[i]["community"]);
 		appendSetting(gfs, ['freifunk', i, "publish_map"], f[i]["publish_map"]);
-		appendSetting(gfs, ['freifunk', i, "access_from"], f[i]["access_from"]);
+		appendSetting(gfs, ['freifunk', i, "allow_access_from"], f[i]["allow_access_from"]);
 		appendSetting(rfs, ['freifunk', i, "service_label"], f[i]["service_label"]);
 		appendSetting(rfs, ['freifunk', i, "service_link"], f[i]["service_link"]);
 		appendSetting(rfs, ['freifunk', i, "service_display_max"], f[i]["service_display_max"]);

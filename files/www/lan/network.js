@@ -142,6 +142,25 @@ function appendSetting(p, path, value, mode)
 		addInputCheck(b.lastChild,/^((([0-9a-f]{2}:){5}([0-9a-f]{2}))|)$/, "Ung\xfcltige MAC-Adresse.");
 		addHelpText(b, "Die MAC-Adresse identifiziert den Knoten. Bei einem leeren Wert w\xe4hlt der Router selber einen aus.");
 		break;
+	case "mesh_on_wan":
+		b = append_radio(p, "Mesh-On-WAN", id, value, [["Ja", "1"], ["Nein", "0"]]);
+		onDesc(b, "INPUT", function(e) {
+			e.onclick = function(e) {
+				var src = (e.target || e.srcElement);
+				var val = (src.data || src.value);
+				if(val != value)
+				{
+					if(val == "1") {
+						uci.network['wan_mesh'] = {"stype":"interface", "ifname" : "@wan", "proto" : "batadv", "mesh" : "bat0", "mesh_no_rebroadcast" : "1"};
+					} else {
+						delete uci.network['wan_mesh'];
+					}
+					uci.network.pchanged = true;
+				}
+			}
+		});
+		addHelpText(b, "Diese Funktion schickt die Mesh-Pakete auf das Netz am WAN-Anschluss. Bitte beachten, dass diese Broadcast-Pakete im WAN-Netz befindliche WLAN APs negativ beeinflusst.");
+		break;
 	case "disabled":
 		b = append_radio(p, "Deaktiviert", id, value, [["Ja", "1"], ["Nein", "0"]]);
 		break;
@@ -216,7 +235,12 @@ function rebuild_other()
 	if('network' in uci) {
 		var n = uci['network'];
 		var b = appendSetting(fs, ['network', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
-		if(b) show(root);
+	}
+
+	if('freifunk' in uci) {
+		var f = uci.freifunk;
+		var i = firstSectionID(f, "settings");
+		appendSetting(fs, ['freifunk', i, "mesh_on_wan"], f[i]["mesh_on_wan"]);
 	}
 
 	addClass(root, "adv_hide");
@@ -232,6 +256,14 @@ function rebuild_assignment()
 	addHelpText(fs, "Einzelne Anschl\xfcsse des Router die nicht als Teil des Switches oder WLANS zu identifizieren sind.");
 
 	var ignore = ["local-node", "fastd_mesh", "bat0", "lo"];
+        switch (uci.misc.data.model)
+        {
+                case 'tp-link-tl-wr941n-nd-v1':
+		case 'tp-link-tl-wr941n-nd-v2':
+		case 'tp-link-tl-wr941n-nd-v3':
+                        ignore.push("eth0");
+                        break;
+        }
 	var ifnames = [];
 
 	//collect all interfaces
@@ -303,7 +335,7 @@ function addNetSection(ifname, mode)
 		break;
 	case "mesh":
 		var net = ifname.replace(".", "_");
-		n[net] = {"stype":"interface","ifname":ifname,"mtu":"1406","proto":"batadv","mesh":"bat0"};
+		n[net] = {"stype":"interface","ifname":ifname,"mtu":"1406","proto":"batadv","mesh":"bat0","mesh_no_rebroadcast":"1"};
 		break;
 	case "none":
 		var net = ifname.replace(".", "_");
@@ -361,7 +393,7 @@ function addWifiSection(device, mode)
 		//802.11s
 		w[ifname] = {"device":device,"stype":"wifi-iface","mode":"mesh","mesh_id":s.default_mesh_id,"mesh_fwding":0,"network":net};
 		//connected via option network
-		n[net] = {"stype":"interface","mtu":"1406","proto":"batadv","mesh":"bat0"};
+		n[net] = {"stype":"interface","mtu":"1532","proto":"batadv","mesh":"bat0"};
 		n.pchanged = true;
 		break;
 	case "freifunk":

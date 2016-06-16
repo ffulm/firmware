@@ -60,7 +60,7 @@ initial_wifi_setup()
 		#additional config for mesh interface
 		n="network.${wifi_device}_mesh"
 		uci set $n="interface"
-		uci set $n.mtu=1406
+		uci set $n.mtu=1532
 		uci set $n.proto="batadv"
 		uci set $n.mesh="bat0"
 
@@ -76,6 +76,22 @@ initial_wifi_setup()
 
 	config_load wireless
 	config_foreach config_wifi wifi-device
+
+
+	remove_ula() {
+		case "$1" in
+			*ff:fe*)
+				uci del_list network.freifunk.ip6addr="$1"
+				;;
+		esac
+	}
+
+	#remove hard stored ula address
+	config_load network
+	config_list_foreach freifunk ip6addr remove_ula
+
+
+ 	uci commit network
 }
 
 initial_lan_setup()
@@ -265,22 +281,26 @@ initial_setup()
 	# ------------------------------------- #
 
 	#special WR1043v2 switch fixup for the webui
-	if [ "$(cat /tmp/sysinfo/model)" = "TP-Link TL-WR1043N/ND v2" ]; then
-		uci set network.@switch_vlan[-2].ports="1 2 3 4 0t"
-		uci set network.@switch_vlan[-1].ports="5 0t"
-		uci set network.lan.ifname="eth1.1"
-		uci set network.wan.ifname="eth1.2"
-		uci commit network
-	fi
+	case "$(cat /tmp/sysinfo/model)" in
+		"TP-Link TL-WR1043N/ND v2" | "TP-Link TL-WR1043N/ND v3")
+			#special WR1043v2 switch fixup for the webui
+			uci set network.@switch_vlan[-2].ports="1 2 3 4 0t"
+			uci set network.@switch_vlan[-1].ports="5 0t"
+			uci set network.lan.ifname="eth1.1"
+			uci set network.wan.ifname="eth1.2"
+			uci commit network
+			;;
+		"TP-Link Archer C7 v2")
+			#special Archer C7 v2 switch fixup for the webui
+			uci set network.@switch_vlan[-2].ports="2 3 4 5 0t"
+			uci set network.@switch_vlan[-1].ports="1 6 0t"
+			uci set network.lan.ifname="eth1.1"
+			uci set network.wan.ifname="eth1.2"
+			uci commit network
+			;;
+	esac	
 
-	#special Archer C7 v2 switch fixup for the webui
-	if [ "$(cat /tmp/sysinfo/model)" = "TP-Link Archer C7 v2" ]; then
-		uci set network.@switch_vlan[-2].ports="2 3 4 5 0t"
-		uci set network.@switch_vlan[-1].ports="1 6 0t"
-		uci set network.lan.ifname="eth1.1"
-		uci set network.wan.ifname="eth1.2"
-		uci commit network
-	fi
+
 
 	#allow access of the local node using a common IP address
 	initial_local_node_setup
@@ -349,6 +369,60 @@ update_005()
 	printf "\nconfig peer 'vpn4'\n        option enabled 1\n        option net 'default'\n        option group 'backbone'\n        option key '696b6fbfa5f1cc1a8a85c78276b55448d0cb89ed9d52f30234f02a811f7132d0'\n        list remote 'ipv6 \"vpn4.ffbsee.de\" port 1244'\n        list remote 'ipv4 \"vpn4.ffbsee.de\" port 1244'\n        option float 0\n" >> /etc/config/fastd
 }
 
+update_006()
+{
+	# preserve self signed certificates
+	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	# update fastd configuration
+	cp /rom/etc/config/fastd /etc/config/fastd
+
+	local geo="$(uci get -q freifunk.@settings[0].geo)"
+	local publish_map="$(uci get -q freifunk.@settings[0].publish_map)"
+
+	# replace geo by latitude / longitude
+	[  -n "$geo" ] && {
+		uci set freifunk.@settings[0].latitude="${geo%% *}"
+		uci set freifunk.@settings[0].longitude="${geo##* }"
+		uci delete freifunk.@settings[0].geo
+	}
+
+	# change publish_map values
+	if [ "$publish_map" = "0" ]; then
+		uci set freifunk.@settings[0].publish_map="none"
+	else
+		uci set freifunk.@settings[0].publish_map="basic"
+	fi
+
+	# introduce new setting
+	uci set freifunk.@settings[0].mesh_on_wan=0
+
+	# rename option access_from to allow_access_from
+	uci rename freifunk.@settings[0].access_from=allow_access_from
+	
+	# add community_url variable
+	uci set freifunk.@settings[0].community_url="https://ffbsee.de"
+
+	uci commit freifunk
+	
+	# set batman-adv mtu for wireless interfaces
+	network_set_mesh_mtu() {
+		local cfg="$1" network
+
+		config_get network $cfg "network"
+		if [ -n "$network" -a "$(uci get -q network.$network.proto)" = "batadv" ]; then
+			uci set network.$network.mtu=1532
+		fi
+	}
+
+	config_load wireless
+	config_foreach network_set_mesh_mtu wifi-iface
+	uci commit network
+}
+
+
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -373,22 +447,34 @@ start()
 			echo "(I) Apply 0.0.2 update."
 			update_002_to_004
 			update_004
+			update_005
+			update_006
 			update_version
 			;;
 		"0.0.3")
 			echo "(I) Apply 0.0.3 update."
 			update_002_to_004
 			update_004
+			update_005
+                        update_006
 			update_version
 			;;
 		"0.0.4")
 			echo "(I) Apply 0.0.4 update."
 			update_004
+			update_005
+                        update_006
 			update_version
 			;;
 		"0.0.5")
 			echo "(I) Apply 0.0.5 update."
 			update_005
+			update_006
+			update_version
+			;;
+		"0.0.6")
+			echo "(I) Apply 0.0.6 update."
+			update_006
 			update_version
 			;;
 		"")
@@ -411,5 +497,6 @@ start()
 }
 
 start
+sync
 
 exit 0

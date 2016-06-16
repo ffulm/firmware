@@ -13,6 +13,19 @@ default_gw() {
 	ip -$1 route list 0/0 dev $2 2> /dev/null | awk '{print($3); exit(0)}'
 }
 
+memory_usage_percent() {
+	meminfo=$(cat /proc/meminfo)
+	free=$(echo "$meminfo" | awk /^MemFree:/'{print($2)}')
+	buffers=$(echo "$meminfo" | awk /^Buffers:/'{print($2)}')
+	cached=$(echo "$meminfo" | awk /^Cached:/'{print($2)}')
+	total=$(echo "$meminfo" | awk /^MemTotal:/'{print($2)}')
+	echo $free $buffers $cached $total | awk '{ printf("%u%%", 100 * (1 - ($1 + $2 + $3) / $4))}'
+}
+
+rootfs_usage_percent() {
+	df / | awk '/^rootfs/{print($5)}'
+}
+
 print() {
 	echo "	option $1 '$2'"
 }
@@ -22,6 +35,12 @@ printList() {
 		echo "	list $1 '$item'"
 	done
 }
+
+vpn_server() {
+	local vpn=$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"name": "\([^"]*\)"\(.*\)established\(.*\)/\2/g')	
+	echo "${vpn:--}"
+}
+
 
 #get physical device by config section
 wan="" lan="" freifunk=""
@@ -43,17 +62,15 @@ printList 'wan_addr4' "$(addr 4 $wan)"
 printList 'wan_addr6' "$(addr 6 $wan)"
 
 up="$(uptime)"
-print 'load' "${up##*:}"
 uptime="${up%%,*}"
+print 'load' "${up##*:}"
 print 'uptime' "${uptime##*up}"
+print 'memory_usage' "$(memory_usage_percent)"
+print 'rootfs_usage' "$(rootfs_usage_percent)"
 print 'uname' "$(uname -s -m -r)"
 print 'date' "$(date)"
 
-if [ $(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep  -c '"connection": {') -gt 0 ]; then
-	print 'has_vpn' 'Ja'
-else
-	print 'has_vpn' 'Nein'
-fi
+print 'vpn_server' "$(vpn_server)"
 
 if [ -n "$(default_gw 4 $wan)" -o  -n "$(default_gw 6 $wan)" ]; then
 	print 'has_internet' 'Ja'
@@ -66,7 +83,7 @@ print 'neigh_count' "$(cat /sys/kernel/debug/batman_adv/bat0/originators | grep 
 print 'firmware_version' "$(uci -q get freifunk.@settings[0].version)"
 print 'fastd_version' "$(fastd --version 2> /dev/null | cut -d' ' -f 2)"
 print 'batman_version' "$(cat /sys/module/batman_adv/version 2> /dev/null)"
-print 'openwrt_version' "$DISTRIB_DESCRIPTION"
+print 'openwrt_version' "$(echo $DISTRIB_DESCRIPTION | awk '{print($NF)}') ($DISTRIB_REVISION)"
 name="$(uci get -q freifunk.@settings[0].name)"
 print 'name' "${name:--}"
 print 'model' "$(cat /tmp/sysinfo/model 2> /dev/null)"
@@ -78,5 +95,10 @@ print 'freifunk_rx_bytes' "$(cat /sys/class/net/$freifunk/statistics/rx_bytes 2>
 print 'freifunk_tx_bytes' "$(cat /sys/class/net/$freifunk/statistics/tx_bytes 2> /dev/null)"
 print 'wan_rx_bytes' "$(cat /sys/class/net/$wan/statistics/rx_bytes 2> /dev/null)"
 print 'wan_tx_bytes' "$(cat /sys/class/net/$wan/statistics/tx_bytes 2> /dev/null)"
+
+if set "$(uci -q get freifunk.@settings[0].version | cut -d'-' -f2)"; then                                                                                            
+        print 'firmware_vers_stable_development' "<div class='development'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
+
+fi 
 
 %>

@@ -1,14 +1,19 @@
 
 config settings
 	option name ''
-	option geo ''
+	option longitude ''
+	option latitude ''
 	option contact ''
 	option community 'bodensee'
-	option version '0.0.5'
-	option publish_map '1'
+	option version '0.6.0-dev'
+	option publish_map 'basic'
 	option access_from 'lan'
+	option publish_map 'basic'
+	option allow_access_from 'lan'
 	option service_link ''
 	option service_label ''
 	option service_display_max 0
 	option default_mesh_id 'ffbsee_mesh'
+	option mesh_on_wan '0'
+	option community_url 'https://ffbsee.de'
 	option first_boot '1'

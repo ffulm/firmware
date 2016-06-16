@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title>Freifunk</title>
+<title id="title">Freifunk</title>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script src="shared.js"></script>
@@ -92,13 +92,22 @@ function reboot() {
 	});
 }
 
+  
+function setTitle() {
+	send("/cgi-bin/misc", { func : "name" }, function(name) {
+		if(name.length) {
+			$("title").textContent += " - " + name;
+		}
+	});
+}
+
 function logout() {
 	window.location="https://none@" + window.location.host;
 }
 </script>
 
 </head>
-<body onload="preselect();">
+<body onload="preselect(); setTitle();">
 
 <ul id="globalnav">
 	<li><a href="home.html" id="first">Home</a></li>
@@ -119,6 +128,7 @@ function logout() {
 <div id="body"></div>
 
 <div id="footer"></div>
-
+<noscript><h1>JavaScript ist deaktiviert</h1><br/><a>Hallo Freifunker, die Administration &#xFC;ber das Webinterface ben&#xF6;tigt <b>JavaScript!</b><br/><br/>Um diese Seite sinvoll Nutzen zu k&#xF6;nnen <b>aktivieren</b> Sie bitte entweder JavaScript oder Nutzen Sie den Zugang &#xFC;ber SSH. in diesem fall müssen Sie sich aber schon etwas mit der Konfiguration unter OpenWRT auskennen.<br/><br/><br/><br/></noscript>
+<img class="footer-svg" src="footer.ffbsee.animated.svg"/>
 </body>
 </html>

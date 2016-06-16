@@ -1,20 +1,24 @@
 #!/usr/bin/haserl
 <% echo -en "content-type: text/html\r\n\r\n" %>
 <!DOCTYPE html>
-<html lang="de"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="de">
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>info</title>
++<%
++name="$(uci get -q freifunk.@settings[0].name)"
++echo -n "<title>Freifunk${name:+ - $name}</title>"
++%>
 	<link rel="stylesheet" href="/css/pure-min.css">
 	<link rel="stylesheet" href="/css/side-menu.css">
 	<link rel="stylesheet" href="/css/grids-responsive-min.css">
 	<link rel="stylesheet" href="/css/style.css">
-</head>
+ </head>
 <body>
 	<div class="header">
 		<div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
-			<a class="pure-menu-heading" href="http://<% echo -n $(uci get -q freifunk.@settings[0].community) %>.freifunk.net"><% echo -n $(uci get -q freifunk.@settings[0].community) %>.freifunk.net</a>
+			<a class="pure-menu-heading" href="<% echo -n $(uci get -q freifunk.@settings[0].community_url) %>"><% echo -n $(uci get -q freifunk.@settings[0].community_url) | cut -d\/ -f3 %></a>
 			<ul>
 <%
 contact="$(uci get -q freifunk.@settings[0].contact)"
@@ -58,22 +62,97 @@ echo "		<h1>$(uci get -q freifunk.@settings[0].name)</h1>"
 		</div>
 	</div>
 
-	<div class="content">
 <%
+. /lib/ff_shared.sh
+
+echo '	<div class="content">'
+echo '		<h2 class="content-subhead">Nachbarknoten:</h2>'
+echo '		<ul>'
+
+macs="$(cat /sys/kernel/debug/batman_adv/bat0/neighbors | awk '{if(NR>2 && NF==3) print($2)}')"
+if [ -n "$macs" ]; then
+	i=1
+	for mac in $macs; do
+		echo "			<li><h3><a href=\"http://[$(ula_addr $mac)]\" class=\"neighbor\">Nachbarknoten $i</a></h3></li>"
+		i=$((i+1))
+	done
+else
+	echo '			<li><h3>Keine Nachbarn gefunden.</h3></li>'
+fi
+
+echo '		</ul>'
+echo '	</div>'
+
+
 max=$(uci get -q freifunk.@settings[0].service_display_max)
 if [ -n "$max" -a "$max" != "0" ]; then
-	ula_prefix="$(uci get network.globals.ula_prefix)"
 	addr_prefix="${ula_prefix%%::*}:"
 
-	echo '<h2 class="content-subhead">Liste lokaler Angebote im Freifunk-Netz:</h2>'
-	echo '<ul>'
+	echo '	<div class="content">'
+	echo '		<h2 class="content-subhead">Liste lokaler Angebote im Freifunk-Netz:</h2>'
+	echo '		<ul>'
 	link_list=$(
-		printf "$(alfred -r 91 | head -$max)" | awk -F'["\\]+' -v addr_prefix="$addr_prefix" '{ if($5 == "link" && match($7, "^[][ #[:alnum:]_\/.:]{1,128}$") && $9 == "label" && match($11, "^[][ [:alnum:]_\/.:]{1,32}$") && match($7, addr_prefix "|\.ff[a-z]{0,3}")) printf("	<li><h3><a href=\"%s\">%s</a></h3></li>\n", $7, $11) }'
+		printf "$(alfred -r 91 | head -$max)" | awk -F'["\\]+' -v addr_prefix="$addr_prefix" '{ if($5 == "link" && match($7, "^[][ #[:alnum:]_\/.:]{1,128}$") && $9 == "label" && match($11, "^[][ [:alnum:]_\/.:]{1,32}$") && match($7, addr_prefix "|\.ff[a-z]{0,3}")) printf("			<li><h3><a href=\"%s\">%s</a></h3></li>\n", $7, $11) }'
 	)
-	[ -n "$link_list" ] && echo "$link_list" || echo '	<li><h3>Keine Angebote gefunden.</h3></li>'
-	echo '</ul>'
+	[ -n "$link_list" ] && echo "$link_list" || echo '		<li><h3>Keine Angebote gefunden.</h3></li>'
+	echo '		</ul>'
+	echo '	</div>'
 fi
 %>
-	</div>
+
+<script>
+
+var own_data = <% /usr/sbin/print_map.sh %>;
+
+function createCORSRequest(method, url) {
+	var xhr = new XMLHttpRequest();
+	if ("withCredentials" in xhr) {
+		// XHR for Chrome/Firefox/Opera/Safari.
+		xhr.open(method, url, true);
+	} else if (typeof XDomainRequest != "undefined") {
+		// XDomainRequest for IE.
+		xhr = new XDomainRequest();
+		xhr.open(method, url);
+	} else {
+		// CORS not supported.
+		xhr = null;
+	}
+	return xhr;
+}
+
+var neighbors = document.getElementsByClassName("neighbor");
+Array.prototype.forEach.call(neighbors, function(el) {
+	var xhr = createCORSRequest('GET', el.href + "/cgi-bin/data");
+	xhr.onload = function() {
+		 +		var neigh_data = JSON.parse(xhr.responseText);
++
++		// set node name
++		if('name' in neigh_data) {
++			el.textContent = neigh_data.name;
++		}
++
++		// add connection quality
++		var qual = -1;
++		if('links' in neigh_data && 'links' in own_data) {
++			Array.prototype.forEach.call(neigh_data.links, function(neigh_link) {
++				Array.prototype.forEach.call(own_data.links, function(own_link) {
++					if(own_link.dmac == neigh_link.smac) {
++						qual = Math.max(qual, own_link.qual, neigh_link.qual);
++					}
++				});
++			});
++		}
++
++		if(qual > 0)
++		{
++			var e = document.createTextNode(" (" + (100. * qual / 255.).toFixed(0) + "%)");
++			el.parentNode.appendChild(e);	
+		}
+	};
+
+	xhr.send();
+});
+</script>
+
 </body>
 </html>
