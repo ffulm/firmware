@@ -76,3 +76,10 @@ a.pure-button-primary {
 .home-menu ul {
 	float: right;
 }
+
+ul {                                            
+        list-style-type: none;                  
+}                                               
+.neighbor {                                     
+        text-decoration: none;                  
+}    
