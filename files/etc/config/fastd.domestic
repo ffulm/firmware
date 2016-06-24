@@ -1,0 +1,30 @@
+
+config fastd 'default'
+	option enabled 1
+	option syslog_level 'warn'
+	option bind 'any interface "br-wan"'
+	list method 'salsa2012+umac'
+	option secure_handshakes 1
+	option hide_ip_addresses '1'
+	option hide_mac_addresses '1'
+	option status_socket '/var/run/fastd.status'
+	option mode 'tap'
+	option interface 'fastd_mesh'
+	option mtu 1406
+	option forward 0
+	option secret 'generate'
+	option packet_mark 1
+
+config peer_group 'backbone'
+	option enabled '1'
+	option net 'default'
+	option peer_limit '1'
+
+config peer 'vpn5'
+	option enabled 1
+	option net 'default'
+	option group 'backbone'
+	option key '47304aac66113490f790cad11ab74ac2260f2797b2ab6ea19d70f30dcb86a813'
+	list remote 'ipv6 "speedtest5.ffbsee.de" port 1244'
+	list remote 'ipv4 "speedtest5.ffbsee.de" port 1244'
+	option float 0

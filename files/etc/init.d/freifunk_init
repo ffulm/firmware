@@ -91,15 +91,22 @@ set_hostname()
 	fi
 }
 
+set_exittunnel()                                                                      
+{                                                                                     
+        local exittunnel="$(uci get -q freifunk.@settings[0].exittunnel 2> /dev/null)"
+	cp /etc/config/fastd.$exittunnel /etc/config/fastd                                                                                
+}
+
 start()
 {
 	exec >/tmp/freifunk_init.log 2>&1
 
 	echo "(I) Freifunk: start freifunk_init"
 
-	#set_macs
+	set_macs
 	set_access
 	set_hostname
+	set_exittunnel
 
 	echo "(I) Freifunk: done freifunk_init"
 }

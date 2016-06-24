@@ -41,6 +41,10 @@ vpn_server() {
 	echo "${vpn:--}"
 }
 
+vpn_exittunnel() {
+	local exittunnel="$(uci get -q freifunk.@settings[0].exittunnel 2> /dev/null)"
+	echo "${exittunnel:--}"
+}
 
 #get physical device by config section
 wan="" lan="" freifunk=""
@@ -71,6 +75,7 @@ print 'uname' "$(uname -s -m -r)"
 print 'date' "$(date)"
 
 print 'vpn_server' "$(vpn_server)"
+print 'vpn_exittunnel' "$(vpn_exittunnel)"
 
 if [ -n "$(default_gw 4 $wan)" -o  -n "$(default_gw 6 $wan)" ]; then
 	print 'has_internet' 'Ja'
@@ -95,6 +100,10 @@ print 'freifunk_rx_bytes' "$(cat /sys/class/net/$freifunk/statistics/rx_bytes 2>
 print 'freifunk_tx_bytes' "$(cat /sys/class/net/$freifunk/statistics/tx_bytes 2> /dev/null)"
 print 'wan_rx_bytes' "$(cat /sys/class/net/$wan/statistics/rx_bytes 2> /dev/null)"
 print 'wan_tx_bytes' "$(cat /sys/class/net/$wan/statistics/tx_bytes 2> /dev/null)"
-print 'firmware_vers_stable_development' "<div class='de$(uci -q get freifunk.@settings[0].version | cut -d'.' -f3 | sed s/[0-9]-[[:alpha:]]*/velopment/g)'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
+
+if set "$(uci -q get freifunk.@settings[0].version | cut -d'-' -f2)"; then                                                                                            
+        print 'firmware_vers_stable_development' "<div class='development'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
+
+fi 
 
 %>
