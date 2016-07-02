@@ -100,6 +100,11 @@ function appendSetting(p, path, value, mode)
 		addHelpText(b, "Internet_Datenverkehr im Ausland oder Inland ausleiten? (Ausland, Inland, oder egal)?");
 		addClass(b, "adv_hide");
 		break;
+        case "ipv6_only":
+                b = append_radio(p, "IP Protokoll:", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"]]);
+                addHelpText(b, "Welche Version des IP Protokolls soll f\xfcr den Verbindungsaufbau zum Supernode verwendet werden? (Dual Stack: IPv4 oder IPv6 verwenden, IPv6: Nur IPv6 verwenden.");
+                addClass(b, "adv_hide");
+                break;
 	case "limit_egress":
 		b = append_input(p, "Freifunk Upload", id, value);
 		addInputCheck(b.lastChild, /^\d+$/, "Upload ist ung\xfcltig.");
@@ -174,6 +179,7 @@ function rebuild_general()
 		appendSetting(gfs, ['freifunk', i, "publish_map"], f[i]["publish_map"]);
 		appendSetting(gfs, ['freifunk', i, "allow_access_from"], f[i]["allow_access_from"]);
 		appendSetting(gfs, ['freifunk', i, "exittunnel"], f[i]["exittunnel"]);
+                appendSetting(gfs, ['freifunk', i, "ipv6_only"], f[i]["ipv6_only"]);
 		appendSetting(rfs, ['freifunk', i, "service_label"], f[i]["service_label"]);
 		appendSetting(rfs, ['freifunk', i, "service_link"], f[i]["service_link"]);
 		appendSetting(rfs, ['freifunk', i, "service_display_max"], f[i]["service_display_max"]);
