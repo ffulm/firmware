@@ -172,8 +172,8 @@ function rebuild_general()
 		var f = uci.freifunk;
 		var i = firstSectionID(f, "settings");
 		appendSetting(gfs, ['freifunk', i, "name"], f[i]["name"]);
-		appendSetting(gfs, ['freifunk', i, "longitude"], f[i]["longitude"]);
 		appendSetting(gfs, ['freifunk', i, "latitude"], f[i]["latitude"]);
+		appendSetting(gfs, ['freifunk', i, "longitude"], f[i]["longitude"]);
 		appendSetting(gfs, ['freifunk', i, "contact"], f[i]["contact"]);
 		appendSetting(rfs, ['freifunk', i, "community"], f[i]["community"]);
 		appendSetting(gfs, ['freifunk', i, "publish_map"], f[i]["publish_map"]);
