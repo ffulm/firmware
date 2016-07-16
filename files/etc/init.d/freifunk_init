@@ -100,11 +100,18 @@ set_ipv6_only(){
 	local ipv6_only="$(uci get -q freifunk.@settings[0].ipv6_only 2> /dev/null)"
 	
 	if [ "$ipv6_only" = "ipv6" ]; then
-                if !(grep "#list remote" /etc/config/fastd); then sed -i "s/list remote 'ipv4/#list remote 'ipv4/g" /etc/config/fastd; fi
+                if !(grep "#list remote 'ipv4" /etc/config/fastd); then sed -i "s/list remote 'ipv4/#list remote 'ipv4/g" /etc/config/fastd; fi
+                if (grep "#list remote 'ipv6" /etc/config/fastd); then sed -i "s/#list remote 'ipv6/list remote 'ipv6/g" /etc/config/fastd; fi
 	fi
 	if [ "$ipv6_only" = "both" ]; then
-		if (grep "#list remote" /etc/config/fastd); then sed -i "s/#list remote 'ipv4/list remote 'ipv4/g" /etc/config/fastd; fi
+		if (grep "#list remote 'ipv4" /etc/config/fastd); then sed -i "s/#list remote 'ipv4/list remote 'ipv4/g" /etc/config/fastd; fi
+                if (grep "#list remote 'ipv6" /etc/config/fastd); then sed -i "s/#list remote 'ipv6/list remote 'ipv6/g" /etc/config/fastd; fi
 	fi
+        if [ "$ipv6_only" = "legacy" ]; then
+                if (grep "#list remote 'ipv4" /etc/config/fastd); then sed -i "s/#list remote 'ipv4/list remote 'ipv4/g" /etc/config/fastd; fi
+                if !(grep "#list remote 'ipv6" /etc/config/fastd); then sed -i "s/list remote 'ipv6/#list remote 'ipv6/g" /etc/config/fastd; fi
+        fi
+
 }
 
 start()
