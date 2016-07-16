@@ -96,13 +96,13 @@ function appendSetting(p, path, value, mode)
 		addHelpText(b, "Mit wie vielen Informationen soll dieser Knoten zur Knotenkarte beitragen? (Wenig: Name/Version/Position/Kontakt, Mehr: Modell/Uptime/CPU-Auslastung, Alles: Speicherauslastung/IP-Adressen)");
 		break;
 	case "exittunnel":
-		b = append_radio(p, "Exittunnel", id, value, [["Ausland", "foreign"], ["Inland", "domestic"], ["Egal", "either"]]);
-		addHelpText(b, "Internet_Datenverkehr im Ausland oder Inland ausleiten? (Ausland, Inland, oder egal)?");
+		b = append_radio(p, "Exittunnel", id, value, [["Ausland", "foreign"], ["Deutschland", "domestic"], ["Egal", "either"]]);
+		addHelpText(b, "Internet_Datenverkehr im Ausland oder nach Deutschland ausleiten? (Ausland, Deutschland, oder egal)?");
 		addClass(b, "adv_hide");
 		break;
         case "ipv6_only":
-                b = append_radio(p, "IP Protokoll:", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"]]);
-                addHelpText(b, "Welche Version des IP Protokolls soll f\xfcr den Verbindungsaufbau zum Supernode verwendet werden? (Dual Stack: IPv4 oder IPv6 verwenden, IPv6: Nur IPv6 verwenden.");
+                b = append_radio(p, "IP Protokoll", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"]]);
+                addHelpText(b, "Welche Version des Fastd IP-Protokolls soll f\xfcr den Verbindungsaufbau zum Supernode verwendet werden? (Dual Stack: IPv4 oder IPv6 verwenden, IPv6: Nur IPv6 verwenden.)");
                 addClass(b, "adv_hide");
                 break;
 	case "limit_egress":

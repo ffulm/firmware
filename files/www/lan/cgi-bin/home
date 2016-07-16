@@ -41,11 +41,6 @@ vpn_server() {
 	echo "${vpn:--}"
 }
 
-vpn_exittunnel() {
-	local exittunnel="$(uci get -q freifunk.@settings[0].exittunnel 2> /dev/null)"
-	echo "${exittunnel:--}"
-}
-
 #get physical device by config section
 wan="" lan="" freifunk=""
 network_get_physdev wan 'wan'
@@ -75,7 +70,6 @@ print 'uname' "$(uname -s -m -r)"
 print 'date' "$(date)"
 
 print 'vpn_server' "$(vpn_server)"
-print 'vpn_exittunnel' "$(vpn_exittunnel)"
 
 if [ -n "$(default_gw 4 $wan)" -o  -n "$(default_gw 6 $wan)" ]; then
 	print 'has_internet' 'Ja'
@@ -100,9 +94,8 @@ print 'freifunk_rx_bytes' "$(cat /sys/class/net/$freifunk/statistics/rx_bytes 2>
 print 'freifunk_tx_bytes' "$(cat /sys/class/net/$freifunk/statistics/tx_bytes 2> /dev/null)"
 print 'wan_rx_bytes' "$(cat /sys/class/net/$wan/statistics/rx_bytes 2> /dev/null)"
 print 'wan_tx_bytes' "$(cat /sys/class/net/$wan/statistics/tx_bytes 2> /dev/null)"
-print 'ipv6_only' "$(uci get -q freifunk.@settings[0].ipv6_only | sed 's/ipv6/IPv6 only/g' | sed 's/both/Dual Stack/g')"
+print 'ipv6_only' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"address": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/\(.*\):.*/\1/g' | sed /:/!s/\[[0-9]*\.*/IPv4/g | sed s/\.*:.*/IPv6/g)"
 print 'vpn_exit_location' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"name": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/vpn1/Deutschland/g' | sed 's/vpn2/Deutschland/g' | sed 's/vpn3/Deutschland/g' | sed 's/vpn4/Deutschland/g' | sed 's/vpn5/Ausland/g' | sed 's/vpn6/Ausland/g' | sed 's/vpn7/Ausland/g' | sed 's/vpn8/Ausland/g' )"
 print 'firmware_vers_stable_development' "<div class='de$(uci -q get freifunk.@settings[0].version | cut -d'.' -f3 | sed s/[0-9]-[[:alpha:]]*/velopment/g)'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
-
 
 %>
