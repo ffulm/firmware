@@ -105,7 +105,7 @@ function appendSetting(p, path, value, mode)
                 addHelpText(b, "Welche Version des Fastd IP-Protokolls soll f\xfcr den Verbindungsaufbau zum Supernode verwendet werden? (Dual Stack: IPv4 oder IPv6 verwenden, IPv6: Nur IPv6 verwenden, IPv4: Nur IPv4 verwenden!)");
                 addClass(b, "adv_hide");
                 break;
-	case "limit_egress"
+	case "limit_egress":
 		b = append_input(p, "Freifunk Upload", id, value);
 		addInputCheck(b.lastChild, /^\d+$/, "Upload ist ung\xfcltig.");
 		addHelpText(b, "Maximaler Upload in KBit/s f\xfcr die Bandbreitenkontrolle.");
