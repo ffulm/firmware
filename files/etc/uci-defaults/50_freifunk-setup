@@ -376,7 +376,9 @@ update_006()
 	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
 
 	# update fastd configuration
-	cp /rom/etc/config/fastd /etc/config/fastd
+	cp /rom/etc/config/fastd.foreign /etc/config/fastd
+        cp /rom/etc/config/fastd.either /etc/config/fastd
+        cp /rom/etc/config/fastd.domestic /etc/config/fastd
 
 	local geo="$(uci get -q freifunk.@settings[0].geo)"
 	local publish_map="$(uci get -q freifunk.@settings[0].publish_map)"
@@ -387,6 +389,12 @@ update_006()
 		uci set freifunk.@settings[0].longitude="${geo##* }"
 		uci delete freifunk.@settings[0].geo
 	}
+
+	# add setting for chosen exit tunnel scheme and make foreign standard
+        uci set freifunk.@settings[0].exittunnel="foreign"
+
+        # add setting for explicitly using ipv6 fast connection
+        uci set freifunk.@settings[0].ipv6_only="both"
 
 	# change publish_map values
 	if [ "$publish_map" = "0" ]; then
@@ -477,6 +485,11 @@ start()
 			update_006
 			update_version
 			;;
+		"0.1.0-testing")
+                        echo "(I) Apply 0.1.0-testing update."
+                        update_006
+                        update_version
+                        ;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
