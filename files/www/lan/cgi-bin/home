@@ -95,7 +95,7 @@ print 'freifunk_tx_bytes' "$(cat /sys/class/net/$freifunk/statistics/tx_bytes 2>
 print 'wan_rx_bytes' "$(cat /sys/class/net/$wan/statistics/rx_bytes 2> /dev/null)"
 print 'wan_tx_bytes' "$(cat /sys/class/net/$wan/statistics/tx_bytes 2> /dev/null)"
 print 'ipv6_only' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"address": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/\(.*\):.*/\1/g' | sed /:/!s/\[[0-9]*\.*/IPv4/g | sed s/\.*:.*/IPv6/g)"
-print 'vpn_exit_location' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"name": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/vpn1/Ausland/g' | sed 's/vpn2/Ausland/g' | sed 's/vpn3/Ausland/g' | sed 's/vpn4/Ausland/g' | sed 's/vpn5/Deutschland/g' | sed 's/vpn6/Ausland/g' | sed 's/vpn7/Ausland/g' | sed 's/vpn8/Ausland/g' )"
+print 'vpn_exit_location' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"name": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/vpn1/Ausland/g' | sed 's/vpn2/Ausland/g' | sed 's/vpn3/Ausland/g' | sed 's/vpn4/Ausland/g' | sed 's/vpn5/Deutschland/g' | sed 's/vpn6/Deutschland/g' | sed 's/vpn7/Deutschland/g' | sed 's/vpn8/Deutschland/g' )"
 print 'firmware_vers_stable_development' "<div class='de$(uci -q get freifunk.@settings[0].version | cut -d'.' -f3 | sed s/[0-9]-[[:alpha:]]*/velopment/g)'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
 
 %>
