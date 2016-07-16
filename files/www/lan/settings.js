@@ -101,7 +101,7 @@ function appendSetting(p, path, value, mode)
 		addClass(b, "adv_hide");
 		break;
         case "ipv6_only":
-                b = append_radio(p, "IP Protokoll", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"], ["IPv4 (legacy)", "legacy"]]);
+                b = append_radio(p, "IP Protokoll VPN", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"], ["IPv4 (legacy)", "legacy"]]);
                 addHelpText(b, "Welche Version des Fastd IP-Protokolls soll f\xfcr den Verbindungsaufbau zum Supernode verwendet werden? (Dual Stack: IPv4 oder IPv6 verwenden, IPv6: Nur IPv6 verwenden, IPv4: Nur IPv4 verwenden!)");
                 addClass(b, "adv_hide");
                 break;
