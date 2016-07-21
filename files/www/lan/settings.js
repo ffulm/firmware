@@ -78,8 +78,8 @@ function appendSetting(p, path, value, mode)
 		break;
 	case "enabled":
 		if(cfg == "autoupdater") {
-			b = append_radio(p, "Autoupdater", id, value, [["An", "1"], ["Aus", "0"]]);
-			addHelpText(b, "Der Autoupdater aktualisiert die Firmware automatisch auf die neuste Version. Dabei bleibt die Konfiguration die \xfcber die Weboberfl\xe4che gemacht wurde erhalten. Spezifische Anpassungen \xfcber SSH k\xf9nnten eventuell \xfcberschrieben werden!");
+			b = append_radio(p, "Auto-Updater", id, value, [["An", "1"], ["Aus", "0"]]);
+			addHelpText(b, "Der Auto-Updater aktualisiert die Firmware automatisch auf die neuste Version. Dabei bleibt die Konfiguration, die \xfcber die Weboberfl\xe4che gemacht wurde, erhalten. Spezifische Anpassungen \xfcber SSH k\xf9nnten eventuell \xfcberschrieben werden!");
 		}
 		if(cfg == "simple-tc") {
 			b = append_radio(p, "Bandbreitenkontrolle", id, value, [["An", "1"], ["Aus", "0"]]);
@@ -87,7 +87,7 @@ function appendSetting(p, path, value, mode)
 		}
 		if(cfg == "fastd") {
 			b = append_radio(p, "Fastd VPN", id, value, [["An", "1"], ["Aus", "0"]]);
-			addHelpText(b, "Eine VPN-Verbindung zum Server \xfcber WAN aufbauen (per fastd).");
+			addHelpText(b, "Eine VPN-Verbindung zum Server \xfcber WAN aufbauen (per Fastd).");
 			addClass(b, "adv_hide");
 		}
 		break;
@@ -96,8 +96,8 @@ function appendSetting(p, path, value, mode)
 		addHelpText(b, "Mit wie vielen Informationen soll dieser Knoten zur Knotenkarte beitragen? (Wenig: Name/Version/Position/Kontakt, Mehr: Modell/Uptime/CPU-Auslastung, Alles: Speicherauslastung/IP-Adressen)");
 		break;
 	case "exittunnel":
-		b = append_radio(p, "Exittunnel", id, value, [["Ausland", "foreign"], ["Deutschland", "domestic"], ["Egal", "either"]]);
-		addHelpText(b, "Internet_Datenverkehr im Ausland oder nach Deutschland ausleiten? (Ausland, Deutschland, oder egal)?");
+		b = append_radio(p, "Exit-Tunnel", id, value, [["Ausland", "foreign"], ["Deutschland", "domestic"], ["Egal", "either"]]);
+		addHelpText(b, "Datenverkehr im Ausland oder in Deutschland ins Internet ausleiten? Oder einfach den zuerst antwortenden Exit nutzen?");
 		addClass(b, "adv_hide");
 		break;
         case "ipv6_only":
@@ -106,17 +106,17 @@ function appendSetting(p, path, value, mode)
                 addClass(b, "adv_hide");
                 break;
 	case "limit_egress":
-		b = append_input(p, "Freifunk Upload", id, value);
+		b = append_input(p, "Freifunk-Upload", id, value);
 		addInputCheck(b.lastChild, /^\d+$/, "Upload ist ung\xfcltig.");
 		addHelpText(b, "Maximaler Upload in KBit/s f\xfcr die Bandbreitenkontrolle.");
 		break;
 	case "limit_ingress":
-		b = append_input(p, "Freifunk Download", id, value);
+		b = append_input(p, "Freifunk-Download", id, value);
 		addInputCheck(b.lastChild, /^\d+$/, "Download ist ung\xfcltig.");
 		addHelpText(b, "Maximaler Download in KBit/s f\xfcr die Bandbreitenkontrolle.");
 		break;
 	case "allow_access_from":
-		b = append_check(p, "SSH/HTTPS Zugriff", id, split(value), [["WAN","wan"], ["LAN","lan"], ["Freifunk","freifunk"]]);
+		b = append_check(p, "SSH-/HTTPS-Zugriff", id, split(value), [["WAN","wan"], ["LAN","lan"], ["Freifunk","freifunk"]]);
 		addHelpText(b, "Zugang zur Konfiguration \xfcber verschiedene Anschl\xfcsse/Netzwerke erm\xf6glichen.")
 		break;
 	case "service_link":
@@ -124,19 +124,19 @@ function appendSetting(p, path, value, mode)
 		var addr_prefix = ula_prefix.replace(/:\/[0-9]+$/,""); //cut off ':/64'
 		var regexp = new RegExp("^$|((?=.*"+addr_prefix+"|.*\.ff[a-z]{0,3})(?=^.{0,128}$))");
 
-		b = append_input(p, "Service Link", id, value);
+		b = append_input(p, "Service-Link", id, value);
 		b.lastChild.placeholder = "http://["+addr_prefix+":1]/index.html";
 		addInputCheck(b.lastChild, regexp, "Ung\xfcltige Eingabe.");
 		addHelpText(b, "Ein Verweis auf eine _interne_ Netzwerkresource. Z.B. \"http://["+addr_prefix+":1]/index.html\".");
 		break;
 	case "service_label":
-		b = append_input(p, "Service Name", id, value);
+		b = append_input(p, "Service-Name", id, value);
 		b.lastChild.placeholder = "MeineWebseite";
 		addInputCheck(b.lastChild, /^$|^[\[\]\(\) \w&\/.:\u0080-\u00FF]{0,32}$/, "Ung\xfcltige Eingabe.");
-		addHelpText(b, "Ein Name der angegebenen Netzwerkresource. Z.B. \"Meine Webseite\".");
+		addHelpText(b, "Ein Name der angegebenen Netzwerkressource. Z.B. \"Meine Webseite\".");
 		break;
 	case "service_display_max":
-		b = append_input(p, "Max. Angezeigte-Eintr\xe4ge", id, value);
+		b = append_input(p, "Max. angezeigte Eintr\xe4ge", id, value);
 		addInputCheck(b.lastChild, /^\d+$/, "Ung\xfcltige Zahl.");
 		addHelpText(b, "Maximale Anzahl der auf der eigenen Statusseite angezeigten Eintr\xe4ge.");
 		break;
@@ -144,7 +144,7 @@ function appendSetting(p, path, value, mode)
 		b = append_input(p, "Community", id, value);
 		addClass(b, "adv_hide");
 		addInputCheck(b.lastChild, /^[a-z0-9_\-]{3,30}$/, "Ung\xfcltiger Bezeichner.");
-		addHelpText(b, "Der Bezeichner der Community, zu der dieser Knoten geh\xf6rt.");
+		addHelpText(b, "Name der Community, zu der dieser Knoten geh\xf6rt.");
 		break;
 	default:
 		return;
