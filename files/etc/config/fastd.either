@@ -69,8 +69,8 @@ config peer 'vpn6'
         option net 'default'
         option group 'backbone'
         option key '6b6aa97d779fa56ef9aefbbc9e4d479e0dfe82066af9b1d962ee722c640cdae5'
-        list remote 'ipv6 "speedtest.vpn5.ffbsee.de" port 1244'
-        list remote 'ipv4 "speedtest.vpn5.ffbsee.de" port 1244'
+        list remote 'ipv6 "speedtest.vpn6.ffbsee.de" port 1244'
+        list remote 'ipv4 "speedtest.vpn6.ffbsee.de" port 1244'
         option float 0
 
 config peer 'vpn7'
