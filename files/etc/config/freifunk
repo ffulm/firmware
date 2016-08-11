@@ -5,7 +5,7 @@ config settings
 	option longitude ''
 	option contact ''
 	option community 'bodensee'
-	option version '0.6.1'
+	option version '0.6.2'
 	option publish_map 'basic'
 	option exittunnel 'foreign'
 	option ipv6_only 'both'
