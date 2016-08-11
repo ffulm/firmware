@@ -429,7 +429,13 @@ update_006()
 	uci commit network
 }
 
-
+update_061()
+{
+	# update fastd configuration
+	cp /rom/etc/config/fastd.foreign /etc/config/fastd
+        cp /rom/etc/config/fastd.either /etc/config/fastd
+        cp /rom/etc/config/fastd.domestic /etc/config/fastd
+}
 
 start()
 {
@@ -457,6 +463,7 @@ start()
 			update_004
 			update_005
 			update_006
+			update_061
 			update_version
 			;;
 		"0.0.3")
@@ -465,6 +472,7 @@ start()
 			update_004
 			update_005
                         update_006
+                        update_061
 			update_version
 			;;
 		"0.0.4")
@@ -472,22 +480,37 @@ start()
 			update_004
 			update_005
                         update_006
+			update_061
 			update_version
 			;;
 		"0.0.5")
 			echo "(I) Apply 0.0.5 update."
 			update_005
 			update_006
+			update_061
 			update_version
 			;;
 		"0.0.6")
 			echo "(I) Apply 0.0.6 update."
 			update_006
+			update_061
 			update_version
 			;;
 		"0.1.0-testing")
                         echo "(I) Apply 0.1.0-testing update."
                         update_006
+                        update_061
+                        update_version
+                        ;;
+                "0.6.0-dev")
+                	echo "(I) Apply 0.6.0-dev update."
+                        update_006
+                        update_061
+                        update_version
+                        ;;
+                "0.6.1")
+                echo "(I) Apply 0.6.1 update."
+                        update_061
                         update_version
                         ;;
 		"")
