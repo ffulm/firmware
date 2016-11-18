@@ -6,7 +6,9 @@ It connects to similar routers in the area and builds a Wifi-mesh network
 but also opens an access point for computers to connect over Wifi.
 Included is Internet connectivity and a web interface.
 
-To build the firmware you need a Unix console to enter commands into.
+[Precompiled firmware images](https://map.freifunk-ulm.de/firmware/latest/ "Precompiled firmware images") are available on our server. All other released versions here on github are out-of-date.
+
+To build the firmware yourself you need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
 
     sudo apt-get install subversion g++ zlib1g-dev build-essential git python
