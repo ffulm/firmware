@@ -101,8 +101,6 @@ analyse_manifest() {
     # report back missing model
     #wget -T 3 --spider "${MIRROR}/request_image.sh?model=${my_model}" -O /dev/null &> /dev/null
     return 1
-  else
-    wget -T 3 --spider "${MIRROR}/request_image.sh?model=${my_model}" -O /dev/null &> /dev/null
   fi
 
   fw_version=$(echo "${my_firmware}"|cut -d' ' -f2)
