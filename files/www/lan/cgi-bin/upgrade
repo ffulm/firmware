@@ -36,7 +36,7 @@ case "${GET_func:-$POST_func}" in
 		reboot
 	;;
 	*)
-		echo "(E) Update: Invalid command: '$GET_func'"
+		echo "(E) Update - ungültiger Befehl: '$GET_func'"
 	;;
 esac
 %>
