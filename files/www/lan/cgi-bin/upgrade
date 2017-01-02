@@ -30,7 +30,7 @@ case "${GET_func:-$POST_func}" in
 		autoupdater -f 2>&1
 	;;
 	restore_firmware)
-		echo "(I) Einstellungen werden zurueckgesetzt..."
+		echo "(I) Alle Einstellungen werden zur&#252;ckgesetzt..."
 		echo y | firstboot
 		echo "(I) Router wird neugestartet..."
 		reboot
