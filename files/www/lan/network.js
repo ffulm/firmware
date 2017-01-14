@@ -691,6 +691,9 @@ function collect_switch_info(device)
 			obj.port_map = [['_',0], ['WAN',1], ['LAN1',2], ['LAN2',3], ['LAN3',4], ['LAN4',5]];
 			obj.ifname = "eth1";
 			break;
+		case 'd-link-dir-860l-b1':
+			obj.port_map = [['LAN1',4], ['LAN2',3], ['LAN3',2], ['LAN4',1], ['WAN',0], ['_',6]];
+			break;
 	}
 
 	//create generic ports string
