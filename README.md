@@ -63,3 +63,5 @@ images are for further updates.
 
 Many routers have not been tested yet, but may work.
 Give it a try! :-)
+
+To build all images for all supported models see [github.com/freifunk-bielefeld](https://github.com/freifunk-bielefeld/docs/blob/master/release_howto.md#images-bauen)
