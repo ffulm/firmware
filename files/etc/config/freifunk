@@ -7,7 +7,7 @@ config settings
 	option community 'bodensee'
 	option version '0.6.3-development'
 	option publish_map 'basic'
-	option exittunnel 'foreign'
+	option exittunnel 'either'
 	option ipv6_only 'both'
 	option access_from 'lan'
 	option publish_map 'basic'
