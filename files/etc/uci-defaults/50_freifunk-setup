@@ -458,7 +458,7 @@ start()
 
 	echo "(I) Update from '$from_version' to '$to_version'"
 	case "$from_version" in
-		"0.0.2")
+		0.0.2*)
 			echo "(I) Apply 0.0.2 update."
 			update_002_to_004
 			update_004
@@ -466,7 +466,7 @@ start()
 			update_006
 			update_version
 			;;
-		"0.0.3")
+		0.0.3*)
 			echo "(I) Apply 0.0.3 update."
 			update_002_to_004
 			update_004
@@ -474,35 +474,35 @@ start()
                         update_006
 			update_version
 			;;
-		"0.0.4")
+		0.0.4*)
 			echo "(I) Apply 0.0.4 update."
 			update_004
 			update_005
                         update_006
 			update_version
 			;;
-		"0.0.5")
+		0.0.5*)
 			echo "(I) Apply 0.0.5 update."
 			update_005
 			update_006
 			update_version
 			;;
-		"0.0.6")
+		0.0.6*)
 			echo "(I) Apply 0.0.6 update."
 			update_006
 			update_version
 			;;
-		"0.1.0-testing")
+		0.1.0*)
                         echo "(I) Apply 0.1.0-testing update."
                         update_006
                         update_version
                         ;;
-                "0.6.0-dev")
+                0.6.0*)
                 	echo "(I) Apply 0.6.0-dev update."
                         update_061
                         update_version
                         ;;
-                "0.6.1")
+                0.6.1*)
                 echo "(I) Apply 0.6.1 update."
                         update_061
                         update_version
