@@ -143,13 +143,14 @@ initial_freifunk_setup()
 
 initial_local_node_setup()
 {
-	echo "(I) Setup IPv4 local node access."
+	echo "(I) Setup IPv4 and IPv6 local node access."
 
-	local ula_prefix="$(uci get network.globals.ula_prefix)"
-	local addr6="${ula_prefix%%::*}::0"
 	local addr4="10.11.175.127"
+	local addr6="$(uci get network.globals.ula_prefix)" #CIDR notation
+
 
 	uci add_list network.freifunk.ipaddr="$addr4"
+	uci add_list network.freifunk.ipaddr6="$addr6"
 
 	cat >> /etc/firewall.user <<-  EOF
 
