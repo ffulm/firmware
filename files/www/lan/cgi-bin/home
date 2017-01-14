@@ -91,20 +91,18 @@ print 'ipv6_only' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | g
 print 'vpn_exit_location' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"name": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/vpn1/Ausland/g' | sed 's/vpn2/Ausland/g' | sed 's/vpn3/Ausland/g' | sed 's/vpn4/Ausland/g' | sed 's/vpn5/Deutschland/g' | sed 's/vpn6/Deutschland/g' | sed 's/vpn7/Deutschland/g' | sed 's/vpn8/Deutschland/g' )"
 print 'firmware_vers_stable_development' "<div class='de$(uci -q get freifunk.@settings[0].version | cut -d'.' -f3 | sed s/[0-9]-[[:alpha:]]*/velopment/g | sed s/[0-9]/0/g)'><a><b>Achtung:</b> Die Firmware $(uci -q get freifunk.@settings[0].version) befindet sich noch in der Entwicklungs- und Testphase.<br/>Verwenden Sie besser eine getestete 'stable' Version der Freifunk Bodensee Firmware!</a></div>"
 
-# Write network speed and data into /var
-/usr/sbin/update_network_stats.sh br-lan br-wan br-freifunk
-
+# Ermittle Uebertragene Daten
 print 'lan_rx_data' "$(cat /var/rx_data_br-lan 2> /dev/null)"
 print 'lan_tx_data' "$(cat /var/tx_data_br-lan 2> /dev/null)"
-print 'freifunk_rx_data' "$(cat /var/rx_data_br-freifunk 2> /dev/null)"
-print 'freifunk_tx_data' "$(cat /var/tx_data_br-freifunk 2> /dev/null)"
+print 'freifunk_rx_data' "$(cat /var/rx_data_bat0 2> /dev/null)"
+print 'freifunk_tx_data' "$(cat /var/tx_data_bat0 2> /dev/null)"
 print 'wan_rx_data' "$(cat /var/rx_data_br-wan 2> /dev/null)"
 print 'wan_tx_data' "$(cat /var/tx_data_br-wan 2> /dev/null)"
 
 print 'lan_rx_speed' "$(calc_speed.sh br-lan rx 2> /dev/null)"
 print 'lan_tx_speed' "$(calc_speed.sh br-lan tx 2> /dev/null)"
-print 'freifunk_rx_speed' "$(calc_speed.sh br-freifunk rx 2> /dev/null)"
-print 'freifunk_tx_speed' "$(calc_speed.sh br-freifunk tx 2> /dev/null)"
+print 'freifunk_rx_speed' "$(calc_speed.sh bat0 rx 2> /dev/null)"
+print 'freifunk_tx_speed' "$(calc_speed.sh bat0 tx 2> /dev/null)"
 print 'wan_rx_speed' "$(calc_speed.sh br-wan rx 2> /dev/null)"
 print 'wan_tx_speed' "$(calc_speed.sh br-wan tx 2> /dev/null)"
 %>
