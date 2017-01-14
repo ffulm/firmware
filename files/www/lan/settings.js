@@ -55,13 +55,13 @@ function appendSetting(p, path, value, mode)
 	case "latitude":
 		b = append_input(p, "Breitengrad", id, value);
 		b.lastChild.placeholder = "47.xxx";
-		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
+		addInputCheck(b.lastChild, /^$|^[1-9]\d{0,2}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas oder f\xfchrenden Nullen verwenden.");
 		addHelpText(b, "Der Breitengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "longitude":
 		b = append_input(p, "L\xe4ngengrad", id, value);
 		b.lastChild.placeholder = "9.xxx";
-		addInputCheck(b.lastChild, /^$|^\d{1,3}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas verwenden.");
+		addInputCheck(b.lastChild, /^$|^[1-9]\d{0,2}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen und keine Kommas oder f\xfchrende Nullen verwenden.");
 		addHelpText(b, "Der L\xe4ngengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "name":
