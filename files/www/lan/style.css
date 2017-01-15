@@ -125,7 +125,7 @@ fieldset {
 	background: rgb(222, 222, 228);
 	padding: 0.5em;
 	margin: 0.5em;
-	width: 36em;
+	min-width: 36em;
 	border-radius: 3px 3px;
 }
 
