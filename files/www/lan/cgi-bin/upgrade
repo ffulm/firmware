@@ -3,6 +3,16 @@
 echo -en "content-type: text/plain\r\n\r\n"
 
 case "${GET_func:-$POST_func}" in
+	details)
+			print() {
+					echo "	option $1 '$2'"
+				}
+
+			echo "package misc"
+			echo "config data 'data'"
+			print 'firmware_version' "$(uci -q get freifunk.@settings[0].version)"
+			print 'model' "$(cat /tmp/sysinfo/model 2> /dev/null)"
+	;;
 	apply_firmware)
 		path="$POST_firmware"
 		keep="$POST_keep_config"
@@ -39,4 +49,5 @@ case "${GET_func:-$POST_func}" in
 		echo "(E) Update - ungültiger Befehl: '$GET_func'"
 	;;
 esac
+
 %>

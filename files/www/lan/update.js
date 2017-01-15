@@ -1,6 +1,17 @@
 
 function init() {
-	/* Nothing to do */
+	send("/cgi-bin/upgrade", { func : 'details' }, function(data) {
+		var obj = fromUCI(data).misc.data;
+		for (var key in obj) {
+			var value = obj[key];
+
+			if (key == 'stype') {
+				continue;
+			}
+
+			setText(key, value);
+		}
+	});
 }
 
 function restore_firmware() {

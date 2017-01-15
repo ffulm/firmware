@@ -52,7 +52,7 @@ function init() {
 	addHelpText($("lan"), "Das private Netz bzw. LAN.");
 	addHelpText($("wan"), "Das Netz \xfcber dass das Internet erreicht wird.");
 	addHelpText($("software"), "Einige installierte Softwareversionen.");
-	addHelpText($("freifunk_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
+	addHelpText($("freifunk_user_count"), "Die Anzahl der Nutzer, die über das Freifunknetz mit diesem Router verbunden sind.");
 	addHelpText($("lan_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
-	addHelpText($("vpn_server"), "Der VPN-Server im Internet, mit dem der Knoten verbunden ist.");
+	addHelpText($("vpn_server"), "Der Supernode im Internet, mit dem der Knoten (direkt) verbunden ist.");
 }
