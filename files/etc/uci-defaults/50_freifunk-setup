@@ -301,8 +301,6 @@ initial_setup()
 			;;
 	esac	
 
-
-
 	#allow access of the local node using a common IP address
 	initial_local_node_setup
 
@@ -503,7 +501,7 @@ start()
                         update_version
                         ;;
                 0.6.1*)
-                echo "(I) Apply 0.6.1 update."
+                	echo "(I) Apply 0.6.1 update."
                         update_061
                         update_version
                         ;;
