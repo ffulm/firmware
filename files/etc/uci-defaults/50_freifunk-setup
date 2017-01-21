@@ -505,6 +505,14 @@ start()
                         update_061
                         update_version
                         ;;
+		0.6.2*)
+			echo "(I) Apply 0.6.2 update."
+			update_version
+			;;
+		0.6.3*)
+			echo "(I) Apply 0.6.3-development update."
+			update_version
+			;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
