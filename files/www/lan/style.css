@@ -25,8 +25,22 @@ body {
 	font: normal 14px verdana,arial,'Bitstream Vera Sans',helvetica,sans-serif;
 }
 
+#footer-svg {
+	width: 113%;
+	z-index: 0;
+	margin: -7.5%;
+	margin-top: 0%;
+}
+
+#footer {
+	text-align: right;
+}
 
 /* specific */
+
+#hidesvg {
+	color: #aaa;
+}
 
 .mac {
 	color: #0033CC;
@@ -73,28 +87,32 @@ body {
 	border-radius: 3px 3px;
 }
 
-#switches label {
-	width: 6em;
+#switches label, #assignment label {
+	width: 9em;
 }
 
 
-/* message */
+/* messages */
 
-#msg, {
+#msg {
 	margin: 0.5em 0.5em 1.5em 0.5em;
 	padding: 0 0 0 1.5rem;
 	line-height: 1.9rem;
-	background-color: rgba(255, 180, 0, 0.26);
 	color: #000000;
+	background-color: rgba(255, 180, 0, 0.26);
 	border-radius: 1px 10px;
 }
 
 .development {
+	margin: 0.5em 0 2em 0;
 	padding: 1.3em;
 	color: #9a0808;
 	background-color: rgba(255, 49, 0, 0.26);
 	border-radius: 1px 10px;
-	margin: 0.5em 0 2em 0;
+}
+
+.de0 {
+	display: none;
 }
 
 
@@ -144,6 +162,7 @@ fieldset div > * {
 }
 
 /* Text input */
+
 input[type=text] {
 	padding: 3px 7px;
 	margin-bottom: 2px;
@@ -162,6 +181,7 @@ input[type=text]:disabled {
 }
 
 /* radio & check boxes */
+
 input[type=checkbox]:hover, input[type=checkbox]:focus {
 	box-shadow: 0px 0px 3px #AAA,inset 0px 10px 23px -10px #AAA;
 }
@@ -215,7 +235,8 @@ button {
 	list-style: none;
 }
 
-/* Button */
+/* Buttons */
+
 .button, input[type=button], input[type=submit], button {
 	text-decoration: none;
 	border-color:#888;
@@ -300,7 +321,7 @@ button {
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,.75)), to(rgba(255,255,255,0)));
 }
 
-/* Colors/Styles */
+/* Buttons - Colors/Styles */
 .button.blue {
 	background-color: rgb(179, 208, 230);
 }
@@ -464,15 +485,4 @@ button {
 #globalnav ul a.here:link,
 #globalnav ul a.here:visited {
 	color: #444;
-}
-
-.footer-svg {
-	width: 113%;
-	z-index: 0;
-	margin: -7.5%;
-	margin-top: 0%;
-}
-
-.de0 {
-	display: none;
 }
