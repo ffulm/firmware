@@ -87,7 +87,8 @@ body {
 	border-radius: 3px 3px;
 }
 
-#switches label, #assignment label {
+#switches label,
+#assignment label {
 	width: 9em;
 }
 
@@ -104,6 +105,7 @@ body {
 }
 
 .development {
+	width: 35.5em;
 	margin: 0.5em 0 2em 0;
 	padding: 1.3em;
 	color: #9a0808;
@@ -119,30 +121,30 @@ body {
 /* forms */
 
 legend {
+	width: 50%;
+	padding: 0 0.3rem 0 1.5rem;
 	background-color: #009ee0;
 	font-size: 115%;
 	font-style: italic;
 	color: #ffffff;
-	width: 50%;
-	padding: 0 0.3rem 0 1.5rem;
 	line-height: 1.5rem;
 	border-radius: 1px 10px;
 }
 
 label {
-	/* float: left; */
 	width: 12em;
-	text-align: right;
 	margin-right: 1em;
+	/* float: left; */
+	text-align: right;
 	white-space: nowrap;
 }
 
 fieldset {
-	border: 1px solid #a2a2a2;
-	background: rgba(222, 222, 228, 0.6);
+	width: 36em;
 	padding: 0.5em;
 	margin: 0.5em;
-	width: 36em;
+	border: 1px solid #a2a2a2;
+	background: rgba(222, 222, 228, 0.6);
 	border-radius: 3px 3px;
 }
 
@@ -171,7 +173,8 @@ input[type=text] {
 	color: #4c4c4c;
 }
 
-input[type=text]:hover, input[type=text]:focus {
+input[type=text]:hover,
+input[type=text]:focus {
 	box-shadow: 1px 1px 3px #AAA,inset 3px 10px 23px -10px #AAA;
 }
 
@@ -182,11 +185,13 @@ input[type=text]:disabled {
 
 /* radio & check boxes */
 
-input[type=checkbox]:hover, input[type=checkbox]:focus {
+input[type=checkbox]:hover,
+input[type=checkbox]:focus {
 	box-shadow: 0px 0px 3px #AAA,inset 0px 10px 23px -10px #AAA;
 }
 
-input[type=radio]:hover, input[type=radio]:focus {
+input[type=radio]:hover,
+input[type=radio]:focus {
 	box-shadow: 0px 0px 3px #AAA,inset 0px 10px 23px -10px #AAA;
 }
 
@@ -202,7 +207,8 @@ button {
 	margin: 0.2em;
 }
 
-.radio_option div, .radio_option_upgrade div {
+.radio_option div,
+.radio_option_upgrade div {
 	float: left;
 	white-space: nowrap;
 	clear: none;
@@ -213,11 +219,14 @@ button {
 	float: left;
 }
 
-.radio_option div label, .radio_option div input, .radio_option_upgrade div label, .radio_option_upgrade div input {
+.radio_option div label,
+.radio_option div input,
+.radio_option_upgrade div label,
+.radio_option_upgrade div input {
+	width: auto;
 	vertical-align: middle;
 	display: inline;
 	float: none;
-	width: auto;
 	background: none;
 	border: none;
 }
@@ -228,9 +237,9 @@ button {
 }
 
 .list_option div {
-	clear: left;
 	margin: 0;
 	padding: 0;
+	clear: left;
 	float: left;
 	list-style: none;
 }
@@ -394,10 +403,10 @@ button {
 }
 
 #menu {
-	margin-right: 1.5em;
-	padding-bottom: 0.5em;
 	width: 100%;
 	max-width: 15.0rem;
+	margin-right: 1.5em;
+	padding-bottom: 0.5em;
 	float: left;
 	box-shadow: 0px 0px 2px 1px #c9c9c9;
 	background: #f9f9f9;
@@ -410,10 +419,10 @@ button {
 }
 
 #globalnav {
-	position: relative;
-	/* float: auto; */
 	margin: 0;
 	margin-bottom: 2%;
+	position: relative;
+	/* float: auto; */
 	list-style: none;
 	font-size: 113%;
 	border-bottom-color: #a0a0a0;
@@ -427,13 +436,13 @@ button {
 }
 
 #globalnav a {
+	margin: 0;
+	padding: 0.35em 1.5em;
 	display: block;
 	color: #0b77b7;
 	text-decoration: none;
 	font-weight: bold;
 	background: rgb(222, 222, 228);
-	margin: 0;
-	padding: 0.35em 1.5em;
 	text-shadow: 0px 0px 3px white;
 }
 
@@ -453,30 +462,30 @@ button {
 /* sub-navigation */
 
 #globalnav ul {
+	width: 100%;
+	margin: 0;
+	padding: 0.25em 0.25em 0.25em 1em;
 	position: absolute;
 	left: 0;
 	top: 1.5em;
 	float: left;
 	background: #70fee0;
-	width: 100%;
-	margin: 0;
-	padding: 0.25em 0.25em 0.25em 1em;
 	list-style: none;
 	border-top: 1px solid #fff;
 }
 
 #globalnav ul li {
+	margin-top: 1px;
 	float: left;
 	display: block;
-	margin-top: 1px;
 }
 
 #globalnav ul a {
+	margin: 0;
+	padding: 0 1em;
 	background: #70fee0;
 	color: #fff;
 	display: inline;
-	margin: 0;
-	padding: 0 1em;
 	border: 0;
 }
 
