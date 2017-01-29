@@ -396,6 +396,7 @@ button {
 /* navigation */
 
 #main {
+	max-width: 40.2em;	
 	padding: 0em 1em 1em;
 	float: left;
 	box-shadow: 0px 0px 2px 1px #c9c9c9;
@@ -412,6 +413,16 @@ button {
 	background: #f9f9f9;
 }
 
+@media screen and (max-width: 940px) {
+	#menu {
+		max-width: 40.2em;
+		margin-right: 0px;
+		margin-bottom: 10px;
+		float: none
+	}
+}
+
+
 #extendedview {
 	margin-left: 1rem;
 	font-size: small;
@@ -419,7 +430,6 @@ button {
 }
 
 #globalnav {
-	margin: 0;
 	margin-bottom: 2%;
 	position: relative;
 	/* float: auto; */
@@ -428,6 +438,13 @@ button {
 	border-bottom-color: #a0a0a0;
 	border-bottom-style: solid;
 	border-bottom-width: thin;
+}
+
+@media screen and (max-width: 940px) {
+	#globalnav {
+		margin-bottom: 1%;
+		font-size: 100%;
+	}
 }
 
 #globalnav li {
