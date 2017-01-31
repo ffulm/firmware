@@ -161,11 +161,9 @@ initial_local_node_setup()
 	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv4 --ip-source $addr4/32 -j DROP
 	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv4 --ip-source $addr4/32 -j DROP
 
-	# isolate local-node IPv6 address
-	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}/128 -j DROP
-	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}/128 -j DROP
-	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-source ${addr6%%??}/128 -j DROP
-	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-source ${addr6%%??}/128 -j DROP
+	# Hope to isolate local-node IPv6 address
+	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
 
 	
 	EOF
@@ -438,13 +436,27 @@ update_006()
 	uci commit network
 }
 
-update_061()
-{
+update_061(){
 	# update fastd configuration
 	cp /rom/etc/config/fastd.foreign /etc/config/fastd
         cp /rom/etc/config/fastd.either /etc/config/fastd
         cp /rom/etc/config/fastd.domestic /etc/config/fastd
 }
+update_063(){
+	echo "10.11.175.127 nextnode.ffbsee" >> /etc/hosts
+	local addr6="$(uci get network.globals.ula_prefix)" #CIDR notation
+	uci add_list network.freifunk.ip6addr="$addr6"
+
+	cat >> /etc/firewall.user <<-  EOF
+
+	# Hope to isolate local-node IPv6 address
+	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+
+	
+	EOF
+}
+
 
 start()
 {
@@ -521,6 +533,7 @@ start()
 			;;
 		0.6.3*)
 			echo "(I) Apply 0.6.3-development update."
+			update_064
 			update_version
 			;;
 		"")
