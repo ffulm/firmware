@@ -151,14 +151,23 @@ initial_local_node_setup()
 
 	uci add_list network.freifunk.ipaddr="$addr4"
 	uci add_list network.freifunk.ipaddr6="$addr6"
+	uci add_list network.freifunk.ip6addr="$addr6"
 
 	cat >> /etc/firewall.user <<-  EOF
 
-	#isolate local-node IPv4 address
+	# isolate local-node IPv4 address
 	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p arp --arp-ip-dst $addr4/32 -j DROP
 	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p arp --arp-ip-dst $addr4/32 -j DROP
 	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv4 --ip-source $addr4/32 -j DROP
 	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv4 --ip-source $addr4/32 -j DROP
+
+	# isolate local-node IPv6 address
+	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}/128 -j DROP
+	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}/128 -j DROP
+	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-source ${addr6%%??}/128 -j DROP
+	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-source ${addr6%%??}/128 -j DROP
+
+	
 	EOF
 }
 
@@ -239,6 +248,7 @@ initial_setup()
 	uci set -q network.globals="globals"
 	uci set network.globals.ula_prefix="$prefix"
 	echo "10.11.175.127 node" >> /etc/hosts
+	echo "10.11.175.127 nextnode.ffbsee" >> /etc/hosts
 
 	# ------------------------------------------- #
 	# S E T U P  W I R E L E S S #
