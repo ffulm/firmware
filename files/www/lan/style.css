@@ -219,6 +219,11 @@ button {
 	float: left;
 }
 
+#keep_config {
+	margin-bottom: 10px;
+	vertical-align: baseline;
+}
+
 .radio_option div label,
 .radio_option div input,
 .radio_option_upgrade div label,
@@ -512,7 +517,3 @@ button {
 #globalnav ul a.here:visited {
 	color: #444;
 }
-.radio_option_upgrade {
-	        margin: 0.5em;
-	        margin-bottom: 2em;
-} 

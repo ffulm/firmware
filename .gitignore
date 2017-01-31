@@ -1,3 +1,10 @@
 .directory
 */.directory
 **/.directory
+**.directory
+**.png
+**.jpeg
+**.jpg
+**.pdf
+**.swp
+**.gif
