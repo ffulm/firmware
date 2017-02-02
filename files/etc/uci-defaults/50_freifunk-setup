@@ -547,7 +547,7 @@ start()
 			update_version
 			;;
 		0.6.4*)
-			echo "(I) Apply 0.6.4 update."
+			echo "(I) Apply 0.6.4-development update."
 			update_064
 			update_version
 			;;
