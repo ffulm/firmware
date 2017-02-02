@@ -344,7 +344,7 @@ initial_setup()
 	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'/" /etc/config/system
 	sed -E -i "s/list\ server\ '1.openwrt.pool.ntp.org'/list\ server\ 'fdef:1701:b5ee:42:1337::13d'/" /etc/config/system
 	sed -E -i "s/list\ server\ '2.openwrt.pool.ntp.org'/#list\ server\ '1.openwrt.pool.ntp.org'/" /etc/config/system
-	sed -E -i "s/list\ server\ '3.openwrt.pool.ntp.org'/#list\ server\ '1.openwrt.pool.ntp.org'/" /etc/config/system
+	sed -E -i "s/list\ server\ '3.openwrt.pool.ntp.org'/#list\ server\ '2.openwrt.pool.ntp.org'/" /etc/config/system
 }
 
 update_002_to_004(){
@@ -463,7 +463,7 @@ update_064(){
 	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'/" /etc/config/system
 	sed -E -i "s/list\ server\ '1.openwrt.pool.ntp.org'/list\ server\ 'fdef:1701:b5ee:42:1337::13d'/" /etc/config/system
 	sed -E -i "s/list\ server\ '2.openwrt.pool.ntp.org'/#list\ server\ '1.openwrt.pool.ntp.org'/" /etc/config/system
-	sed -E -i "s/list\ server\ '3.openwrt.pool.ntp.org'/#list\ server\ '1.openwrt.pool.ntp.org'/" /etc/config/system
+	sed -E -i "s/list\ server\ '3.openwrt.pool.ntp.org'/#list\ server\ '2.openwrt.pool.ntp.org'/" /etc/config/system
 }
 
 
@@ -547,9 +547,9 @@ start()
 			update_version
 			;;
 		0.6.4*)
-			echo "(I) Apply 0.6.4-development update."
-			update_version
+			echo "(I) Apply 0.6.4 update."
 			update_064
+			update_version
 			;;
 		"")
 			echo "(I) Start initial setup."
