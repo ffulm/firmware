@@ -25,3 +25,4 @@ config branch stable
 	list pubkey '9917fc356c2d9dbbcef05e94db5c69e7add4383c339355d5a2f48af64d707f4e' #mart
 	list pubkey '6e3d9c98e4f7f9139c01f99b539dce45a9339f10774d2a57095822dbc7e68d4a' #l3d
 	list pubkey '4bc8902befbf3f3d4c308caad02cc1efd32e0309837c9fae9f1a264e47f7faee' #Xperimental
+	list pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3
