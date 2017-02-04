@@ -341,10 +341,8 @@ initial_setup()
 	uci commit
 
 	# NTP Server Update
-	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'/" /etc/config/system
-	sed -E -i "s/list\ server\ '1.openwrt.pool.ntp.org'/list\ server\ 'fdef:1701:b5ee:42:1337::13d'/" /etc/config/system
-	sed -E -i "s/list\ server\ '2.openwrt.pool.ntp.org'/#list\ server\ '1.openwrt.pool.ntp.org'/" /etc/config/system
-	sed -E -i "s/list\ server\ '3.openwrt.pool.ntp.org'/#list\ server\ '2.openwrt.pool.ntp.org'/" /etc/config/system
+	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'\n\tlist\ server\ 'fdef:1701:b5ee:42:1337::13d'\n\tlist\ server\ '0.openwrt.pool.ntp.org'/" /etc/config/system
+
 }
 
 update_002_to_004(){
