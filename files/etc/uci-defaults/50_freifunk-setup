@@ -456,14 +456,13 @@ update_064(){
 	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
 	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
 
-	
 	EOF
 
-	# Update NTP
-	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'/" /etc/config/system
-	sed -E -i "s/list\ server\ '1.openwrt.pool.ntp.org'/list\ server\ 'fdef:1701:b5ee:42:1337::13d'/" /etc/config/system
-	sed -E -i "s/list\ server\ '2.openwrt.pool.ntp.org'/#list\ server\ '1.openwrt.pool.ntp.org'/" /etc/config/system
-	sed -E -i "s/list\ server\ '3.openwrt.pool.ntp.org'/#list\ server\ '2.openwrt.pool.ntp.org'/" /etc/config/system
+	# Update NTP config
+	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'\n\tlist\ server\ 'fdef:1701:b5ee:42:1337::13d'\n\tlist\ server\ '0.openwrt.pool.ntp.org'/" /etc/config/system
+	
+	# Add public key for autoupdater
+	echo -e "\n\tlist pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3" >> /etc/config/autoupdater
 }
 
 
