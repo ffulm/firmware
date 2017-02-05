@@ -143,21 +143,29 @@ initial_freifunk_setup()
 
 initial_local_node_setup()
 {
-	echo "(I) Setup IPv4 local node access."
+	echo "(I) Setup IPv4 and IPv6 local node access."
 
-	local ula_prefix="$(uci get network.globals.ula_prefix)"
-	local addr6="${ula_prefix%%::*}::0"
 	local addr4="10.11.175.127"
+	local addr6="$(uci get network.globals.ula_prefix)" #CIDR notation
+
 
 	uci add_list network.freifunk.ipaddr="$addr4"
+	uci add_list network.freifunk.ipaddr6="$addr6"
+	uci add_list network.freifunk.ip6addr="$addr6"
 
 	cat >> /etc/firewall.user <<-  EOF
 
-	#isolate local-node IPv4 address
+	# isolate local-node IPv4 address
 	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p arp --arp-ip-dst $addr4/32 -j DROP
 	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p arp --arp-ip-dst $addr4/32 -j DROP
 	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv4 --ip-source $addr4/32 -j DROP
 	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv4 --ip-source $addr4/32 -j DROP
+
+	# Hope to isolate local-node IPv6 address
+	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+
+	
 	EOF
 }
 
@@ -215,7 +223,7 @@ initial_setup()
 	(echo ""; sleep 1; echo "") | passwd > /dev/null
 
 	#get a unique MAC address to identify the node
-	local mac="$(cat /sys/class/ieee80211/phy0/macaddress)"
+	local mac="$(cat /sys/class/ieee80211/phy0/macaddress 2> /dev/null)"
 	if [ -z "$mac" -o "$mac" = "00:11:22:33:44:55" ]; then
 		mac="$(cat /sys/class/net/eth0/address)"
 		if [ -z "$mac" -o "$mac" = "00:11:22:33:44:55" ]; then
@@ -238,6 +246,7 @@ initial_setup()
 	uci set -q network.globals="globals"
 	uci set network.globals.ula_prefix="$prefix"
 	echo "10.11.175.127 node" >> /etc/hosts
+	echo "10.11.175.127 nextnode.ffbsee" >> /etc/hosts
 
 	# ------------------------------------------- #
 	# S E T U P  W I R E L E S S #
@@ -246,13 +255,13 @@ initial_setup()
 	initial_wifi_setup
 
 	# ------------------------------------- #
-	# P R I V A T E  S E T U P #
+	# L A N  S E T U P #
 	# ------------------------------------- #
 
 	initial_lan_setup "$lan_interface"
 
 	# ------------------------------------- #
-	# P U B L I C  S E T U P #
+	# F R E I F U N K  S E T U P #
 	# ------------------------------------- #
 
 	initial_freifunk_setup "bat0" "$mac_la"
@@ -300,8 +309,6 @@ initial_setup()
 			;;
 	esac	
 
-
-
 	#allow access of the local node using a common IP address
 	initial_local_node_setup
 
@@ -332,10 +339,13 @@ initial_setup()
 
 	#write everything to flash
 	uci commit
+
+	# NTP Server Update
+	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'\n\tlist\ server\ 'fdef:1701:b5ee:42:1337::13d'\n\tlist\ server\ '0.openwrt.pool.ntp.org'/" /etc/config/system
+
 }
 
-update_002_to_004()
-{
+update_002_to_004(){
 	echo "(I) Fix IPv6 prefix."
 	uci set network.globals.ula_prefix='fdef:1701:b5ee:42::/64'
 	uci delete network.freifunk.ip6addr
@@ -351,8 +361,7 @@ update_002_to_004()
 	uci commit network
 }
 
-update_004()
-{
+update_004(){
 	echo "(I) Update public key for autoupdater."
 	sed -i "s/7c76dcb242c477b2f60afb7d94590c47c23edea0a23b544a87b2d37ed22b9238' #randomguy/4bc8902befbf3f3d4c308caad02cc1efd32e0309837c9fae9f1a264e47f7faee' #Xperimental/" /etc/config/autoupdater
         echo "(I) Make vpn1 prefer ipv6"
@@ -363,14 +372,12 @@ update_004()
 	printf "\nconfig peer 'vpn3'\n        option enabled 1\n        option net 'default'\n        option group 'backbone'\n        option key '1e81443889a1b9d3ee14fcbbee0aaf7331c38163ee8f64ef49fb41004ccb8280'\n        list remote 'ipv6 \"vpn3.ffbsee.de\" port 1244'\n        list remote 'ipv4 \"vpn3.ffbsee.de\" port 1244'\n        option float 0\n" >> /etc/config/fastd
 }
 
-update_005()
-{
+update_005(){
 	echo "(I) Add a 4th VPN Server."
 	printf "\nconfig peer 'vpn4'\n        option enabled 1\n        option net 'default'\n        option group 'backbone'\n        option key '696b6fbfa5f1cc1a8a85c78276b55448d0cb89ed9d52f30234f02a811f7132d0'\n        list remote 'ipv6 \"vpn4.ffbsee.de\" port 1244'\n        list remote 'ipv4 \"vpn4.ffbsee.de\" port 1244'\n        option float 0\n" >> /etc/config/fastd
 }
 
-update_006()
-{
+update_006(){
 	# preserve self signed certificates
 	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
 	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
@@ -429,13 +436,33 @@ update_006()
 	uci commit network
 }
 
-update_061()
-{
+update_061(){
 	# update fastd configuration
 	cp /rom/etc/config/fastd.foreign /etc/config/fastd
         cp /rom/etc/config/fastd.either /etc/config/fastd
         cp /rom/etc/config/fastd.domestic /etc/config/fastd
 }
+update_064(){
+	# IP config update
+	echo "10.11.175.127 nextnode.ffbsee" >> /etc/hosts
+	local addr6="$(uci get network.globals.ula_prefix)" #CIDR notation
+	uci add_list network.freifunk.ip6addr="$addr6"
+
+	cat >> /etc/firewall.user <<-  EOF
+
+	# Hope to isolate local-node IPv6 address
+	ebtables -A FORWARD --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+	ebtables -A OUTPUT --logical-out br-freifunk -o bat0 -p IPv6 --ip6-dst ${addr6%%??}128 -j DROP
+
+	EOF
+
+	# Update NTP config
+	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'\n\tlist\ server\ 'fdef:1701:b5ee:42:1337::13d'\n\tlist\ server\ '0.openwrt.pool.ntp.org'/" /etc/config/system
+	
+	# Add public key for autoupdater
+	echo -e "\n\tlist pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3" >> /etc/config/autoupdater
+}
+
 
 start()
 {
@@ -457,7 +484,7 @@ start()
 
 	echo "(I) Update from '$from_version' to '$to_version'"
 	case "$from_version" in
-		"0.0.2")
+		0.0.2*)
 			echo "(I) Apply 0.0.2 update."
 			update_002_to_004
 			update_004
@@ -465,7 +492,7 @@ start()
 			update_006
 			update_version
 			;;
-		"0.0.3")
+		0.0.3*)
 			echo "(I) Apply 0.0.3 update."
 			update_002_to_004
 			update_004
@@ -473,39 +500,54 @@ start()
                         update_006
 			update_version
 			;;
-		"0.0.4")
+		0.0.4*)
 			echo "(I) Apply 0.0.4 update."
 			update_004
 			update_005
                         update_006
 			update_version
 			;;
-		"0.0.5")
+		0.0.5*)
 			echo "(I) Apply 0.0.5 update."
 			update_005
 			update_006
 			update_version
 			;;
-		"0.0.6")
+		0.0.6*)
 			echo "(I) Apply 0.0.6 update."
 			update_006
 			update_version
 			;;
-		"0.1.0-testing")
+		0.1.0*)
                         echo "(I) Apply 0.1.0-testing update."
                         update_006
                         update_version
                         ;;
-                "0.6.0-dev")
+                0.6.0*)
                 	echo "(I) Apply 0.6.0-dev update."
                         update_061
                         update_version
                         ;;
-                "0.6.1")
-                echo "(I) Apply 0.6.1 update."
+                0.6.1*)
+                	echo "(I) Apply 0.6.1 update."
                         update_061
                         update_version
                         ;;
+		0.6.2*)
+			echo "(I) Apply 0.6.2 update."
+			update_064
+			update_version
+			;;
+		0.6.3*)
+			echo "(I) Apply 0.6.3-development update."
+			update_064
+			update_version
+			;;
+		0.6.4*)
+			echo "(I) Apply 0.6.4-development update."
+			update_064
+			update_version
+			;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup

@@ -3,6 +3,16 @@
 echo -en "content-type: text/plain\r\n\r\n"
 
 case "${GET_func:-$POST_func}" in
+	details)
+			print() {
+					echo "	option $1 '$2'"
+				}
+
+			echo "package misc"
+			echo "config data 'data'"
+			print 'firmware_version' "$(uci -q get freifunk.@settings[0].version)"
+			print 'model' "$(cat /tmp/sysinfo/model 2> /dev/null)"
+	;;
 	apply_firmware)
 		path="$POST_firmware"
 		keep="$POST_keep_config"
@@ -18,7 +28,7 @@ case "${GET_func:-$POST_func}" in
 			args="-n"
 		fi
 
-		echo "(I) Starte sysupgrade..."
+		echo "(I) Starte Firmwareupdate..."
 
 		#apply openwrt or vendor image
 		sysupgrade $args $path
@@ -30,13 +40,14 @@ case "${GET_func:-$POST_func}" in
 		autoupdater -f 2>&1
 	;;
 	restore_firmware)
-		echo "(I) Undo all changes ..."
+		echo "(I) Alle Einstellungen werden zur&#252;ckgesetzt..."
 		echo y | firstboot
-		echo "(I) Rebooting now ..."
+		echo "(I) Router wird neugestartet..."
 		reboot
 	;;
 	*)
-		echo "(E) upgrade: Invalid command: '$GET_func'"
+		echo "(E) Update - ungültiger Befehl: '$GET_func'"
 	;;
 esac
+
 %>
