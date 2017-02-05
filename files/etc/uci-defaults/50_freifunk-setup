@@ -460,7 +460,7 @@ update_064(){
 	sed -E -i "s/list\ server\ '0.openwrt.pool.ntp.org'/list\ server\ 'ntp.ffbsee'\n\tlist\ server\ 'fdef:1701:b5ee:42:1337::13d'\n\tlist\ server\ '0.openwrt.pool.ntp.org'/" /etc/config/system
 	
 	# Add public key for autoupdater
-	echo -e "\n\tlist pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3" >> /etc/config/autoupdater
+	sed -E -i "s/Xperimental/Xperimental\n\tlist pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3/" /etc/config/autoupdater
 }
 
 
