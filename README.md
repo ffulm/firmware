@@ -58,18 +58,15 @@ Now start the build process. This takes some time:
 ```bash
     make
 ```
-*You have the opportunity to compile the firmware at more CPU Threats.*
+*You have the opportunity to compile the firmware at more CPU threats to speed up the process.*
+*e.g. to run 3 jobs (commands) simultaneously use the following option:* `make -j 3` 
 
-*E.g. for 4-Threats type:* `make -j4` 
+The **firmware image files** will be stored in the `bin`-folder. These images can now directly be used to update your router. Please note, that two differnt image types (per router) will be provided:
 
-The **firmware images** are now in the `bin`-folder. Use the firmware update
-functionality of your router and upload the factory image to flash it with the freifunk firmware. The sysupgrade
-images are for further updates.
-
-* Use `openwrt-[chip]-[model]-squashfs-factory.bin` for the initial flash.
-* Use `openwrt-[chip]-[model]-squashfs-sysupgrade.bin` for futher updates.
+* Use `openwrt-[chip]-[model]-squashfs-factory.bin` for the initial flash (for routers running stock/vendor firmware).
+* Use `openwrt-[chip]-[model]-squashfs-sysupgrade.bin` for futher updates (for routers having already another Freifunk FW flashed).
 
 **Many routers have not been tested yet, but may work.**
-***Give it a try! :-)***
+***Give it a try! :-) ...and tell us about your experiences***
 
 To build all images for all supported models see [github.com/freifunk-bielefeld](https://github.com/freifunk-bielefeld/docs/blob/master/release_howto.md#images-bauen)
