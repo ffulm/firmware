@@ -52,8 +52,8 @@ Now start the build process. This takes some time:
 ```bash
     make
 ```
-*You have the opportunity to compile the firmware at more CPU Threats. 
-E.g. for 4-Threats type* `make -j4` .
+*You have the opportunity to compile the firmware on more CPU Threads. 
+E.g. for 4 threads type* `make -j4` .
 
 The **firmware images** are now in the `bin`-folder. Use the firmware update
 functionality of your router and upload the factory image to flash it with the freifunk firmware. The sysupgrade
