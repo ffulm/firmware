@@ -463,6 +463,34 @@ update_064(){
 	sed -E -i "s/Xperimental/Xperimental\n\tlist pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3/" /etc/config/autoupdater
 }
 
+update_070(){
+    #find out old ssid and store it
+	oldssid0=$(uci get wireless.radio0_ap.ssid)
+    oldmac0=$(uci get wireless.radio0_ap.macaddr)
+	# set new Freifunk ssid
+	uci set wireless.radio0_ap.ssid='Freifunk'
+	#set old SSID as extra SSID
+	uci set wireless.radio0_extrassid=wifi-iface
+    uci set wireless.radio0_extrassid.network='freifunk'
+    uci set wireless.radio0_extrassid.encryption='none'
+    uci set wireless.radio0_extrassid.macaddr=$oldmac0
+    uci set wireless.radio0_extrassid.device='radio0'
+    uci set wireless.radio0_extrassid.mode='ap'
+    uci set wireless.radio0_extrassid.ssid=$oldssid0
+    if [[ $(uci get wireless.radio1) = "wifi-device" ]]; then
+        oldssid1=$(uci get wireless.radio1_ap.ssid)
+        oldmac1=$(uci get wireless.radio1_ap.macaddr)
+        uci set wireless.radio1_ap.ssid='Freifunk'
+        uci set wireless.radio1_extrassid=wifi-iface
+        uci set wireless.radio1_extrassid.network='freifunk'
+        uci set wireless.radio1_extrassid.option encryption 'none'
+        uci set wireless.radio1_extrassid.macaddr=$oldmac1
+        uci set wireless.radio1_extrassid.device='radio1'
+        uci set wireless.radio1_extrassid.mode='ap'
+        uci set wireless.radio1_extrassid.ssid=$oldssid1
+    fi
+    uci commit wireless
+}
 
 start()
 {
@@ -491,6 +519,7 @@ start()
 			update_005
 			update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.3*)
@@ -500,6 +529,7 @@ start()
 			update_005
                         update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.4*)
@@ -508,6 +538,7 @@ start()
 			update_005
                         update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.5*)
@@ -515,43 +546,56 @@ start()
 			update_005
 			update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.6*)
 			echo "(I) Apply 0.0.6 update."
 			update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.1.0*)
                         echo "(I) Apply 0.1.0-testing update."
                         update_006
 			update_064
+			update_070
                         update_version
                         ;;
                 0.6.0*)
                 	echo "(I) Apply 0.6.0-dev update."
                         update_064
+			update_070
                         update_version
                         ;;
                 0.6.1*)
                 	echo "(I) Apply 0.6.1 update."
                         update_064
+			update_070
                         update_version
                         ;;
 		0.6.2*)
 			echo "(I) Apply 0.6.2 update."
 			update_064
+			update_070
 			update_version
 			;;
 		0.6.3*)
 			echo "(I) Apply 0.6.3-development update."
 			update_064
+			update_070
 			update_version
 			;;
 		0.6.4*)
 			echo "(I) Apply 0.6.4-development update."
 			update_064
+			update_070
+			update_version
+			;;
+		0.7.0*)
+			echo "(I) Apply 0.7.0 update."
+			update_070
 			update_version
 			;;
 		"")
