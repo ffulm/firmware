@@ -39,7 +39,7 @@ config peer 'vpn2'
 	option float 0
 
 config peer 'vpn3'
-	option enabled 1
+	option enabled 0
 	option net 'default'
 	option group 'backbone'
 	option key '7a6a679880776608b23b037c5efe209433f6c0f1a2e160cf83759334c3367dee'
@@ -66,7 +66,7 @@ config peer 'vpn5'
 	option float 0
 
 config peer 'vpn6'
-	option enabled 1
+	option enabled 0
 	option net 'default'
 	option group 'backbone'
 	option key '8bc0158ce98dad2c7e1f122a36657208a3b8cc18f68cfb3c32862ed398786fb8'
