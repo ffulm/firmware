@@ -21,19 +21,17 @@ Install dependencies for the build environment (Debian/Ubuntu):
 Build commands for the console:
 
 ```bash
-    git clone https://github.com/openwrt/openwrt.git
-    cd openwrt
-    git reset --hard 0f757bd2606971252f901ef3faf4dbd0086315f7
+    git clone git://git.lede-project.org/source.git
+    cd source
+    git reset --hard 6b6578feec74dfe1f5767c573d75ba08cc57c885
     
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
     git clone https://github.com/ffbsee/firmware.git
     cp -rf firmware/files firmware/package .
-    chmod -R a+rX firmware/files/www
-    git am --whitespace=nowarn firmware/patches/openwrt/*.patch
+    git am --whitespace=nowarn firmware/patches/lede/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
-    cd feeds/packages && git am --whitespace=nowarn ../../firmware/patches/packages/*.patch && cd -
     rm -rf firmware tmp
     
     make defconfig
@@ -41,13 +39,13 @@ Build commands for the console:
 ```
 Now select the right "Target System" and "Target Profile" for your AP model:
 
-For example, for the TL-WR841ND, select:
+For example, for the TL-WR841ND v3, select:
 * `Target System => Atheros AR7xxx/AR9xxx`
-* `Target Profile => TP-LINK TL-WR841ND`
+* `Target Profile => <*> TP-LINK TL-WR842N/ND v3`
 
-Or in case you have the DIR-300, select:
-* `Target System => <*> AR231x/AR5312`
-* `Target Profile => <*> Default`
+Or in case you have the Ubiquiti UniFi Outdoor, select:
+* `Target System => Atheros AR7xxx/AR9xxx`
+* `Target Profile => <*> Ubiquiti UniFi Outdoor`
 
 For other models you can lookup the "Target System" in the OpenWrt
 [hardware table](http://wiki.openwrt.org/toh/start). Your AP model
