@@ -6,15 +6,15 @@ START=19
 #allow/block access via ssh/https from lan/wan/freifunk
 set_access() {
 	local src port default_target target
-	local from=`uci get -q freifunk.@settings[0].allow_access_from`
+	local from=`uci -q get freifunk.@settings[0].allow_access_from`
 
 	echo "(I) Freifunk: allow_access_from: '$from'"
 
 	#remove existing rules
 	for src in wan lan freifunk; do
-		for port in 22 443; do
+		for port in 22 80 443; do
 			local s="firewall.${src}${port}"
-			uci delete -q $s
+			uci -q delete $s
 		done
 	done
 
@@ -35,7 +35,7 @@ set_access() {
 		config_foreach find_default_target 'zone' $src
 		list_contains from "$src" && target=ACCEPT || target=REJECT
 		[ "$target" = "$default_target" ] && continue
-		for port in 22 443; do
+		for port in 22 80 443; do
 			local s="firewall.${src}${port}"
 			uci set $s=rule
 			uci set $s.src=$src
@@ -73,11 +73,10 @@ set_macs() {
 	config_foreach wireless_set_macaddr wifi-iface
 }
 
-
 set_hostname()
 {
-	local hostname="$(uci get -q system.@system[0].hostname)"
-	local name="$(uci get -q freifunk.@settings[0].name)"
+	local hostname="$(uci -q get system.@system[0].hostname)"
+	local name="$(uci -q get freifunk.@settings[0].name)"
 
 	#sanitize name
 	name="$(echo -n \"$name\" | sed -e 's/[^A-Za-z0-9]//g' -e 's/^[0-9]//g')"
@@ -120,7 +119,7 @@ start()
 
 	echo "(I) Freifunk: start freifunk_init"
 
-	set_macs
+	#set_macs
 	set_access
 	set_hostname
 	set_exittunnel
