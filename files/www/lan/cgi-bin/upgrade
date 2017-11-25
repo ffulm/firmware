@@ -3,22 +3,12 @@
 echo -en "content-type: text/plain\r\n\r\n"
 
 case "${GET_func:-$POST_func}" in
-	details)
-			print() {
-					echo "	option $1 '$2'"
-				}
-
-			echo "package misc"
-			echo "config data 'data'"
-			print 'firmware_version' "$(uci -q get freifunk.@settings[0].version)"
-			print 'model' "$(cat /tmp/sysinfo/model 2> /dev/null)"
-	;;
 	apply_firmware)
 		path="$POST_firmware"
 		keep="$POST_keep_config"
 
 		if [ ! -f "$path" ]; then
-			echo "(E) Datei nicht gefunden."
+			echo "Fehler: Datei nicht gefunden."
 			exit 1
 		fi
 
@@ -28,9 +18,9 @@ case "${GET_func:-$POST_func}" in
 			args="-n"
 		fi
 
-		echo "(I) Starte Firmwareupdate..."
+		echo "Starte Update ..."
 
-		#apply openwrt or vendor image
+		#apply lede or vendor image
 		sysupgrade $args $path
 	;;
 	lookup_upgrade)
@@ -40,14 +30,13 @@ case "${GET_func:-$POST_func}" in
 		autoupdater -f 2>&1
 	;;
 	restore_firmware)
-		echo "(I) Alle Einstellungen werden zur&#252;ckgesetzt..."
+		echo "Alle &#196;nderungen werden zurückgesetzt ..."
 		echo y | firstboot
-		echo "(I) Router wird neugestartet..."
+		echo "Router wird neugestartet..."
 		reboot
 	;;
 	*)
-		echo "(E) Update - ungültiger Befehl: '$GET_func'"
+		echo "Fehler: Unbekannter Befehl: '$GET_func'"
 	;;
 esac
-
 %>
