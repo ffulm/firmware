@@ -7,7 +7,7 @@ var uci = {};
 var wifi_status = {};
 
 var gid = 0;
-var net_options = [["LAN", "lan"], ["Freifunk", "freifunk"], ["Mesh", "mesh"], ["WAN", "wan"], ["None", "none"]];
+var net_options = [["LAN", "lan"], ["Freifunk", "freifunk"], ["Mesh", "mesh"], ["WAN", "wan"], ["None", "none"], ["ExtraSSID", "extrassid"]];
 var txpower_choices = [
 ["20 dBm (100 mW)", "20"],
 ["19 dBm (79 mW)", "19"],
@@ -130,9 +130,14 @@ function appendSetting(p, path, value, mode)
 		addInputCheck(b.lastChild, /^[^\x00-\x1F\x80-\x9F]{3,30}$/, "Mesh ID ist ung\xfcltig.");
 		break;
 	case "ssid":
+		if ( value == "Freifunk" ) {
+		b = append_label(p, "SSID", "Freifunk");
+		} else {
+		
 		b = append_input(p, "SSID", id, value);
+		}
 		if (!inArray(mode, ["wan", "lan", "none"]))
-			addClass(b.lastChild, "adv_disable");
+			addClass(b.lastChild);
 		addInputCheck(b.lastChild, /^[^\x00-\x1F\x80-\x9F]{3,30}$/, "SSID ist ung\xfcltig.");
 		break;
 /*
@@ -223,6 +228,7 @@ function rebuild_other()
 	if ('freifunk' in uci) {
 		var f = uci.freifunk;
 		var i = firstSectionID(f, "settings");
+		appendSetting(fs, ['wireless', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
 		appendSetting(fs, ['freifunk', i, "mesh_on_wan"], f[i]["mesh_on_wan"]);
 	}
 
@@ -379,8 +385,11 @@ function addWifiSection(device, mode)
 		n.pchanged = true;
 		break;
 	case "freifunk":
-		w[ifname] = {"device":device,"stype":"wifi-iface","mode":"ap","ssid":(s.community+".freifunk.net"),"network":"freifunk"};
+		w[ifname] = {"device":device,"stype":"wifi-iface","mode":"ap","ssid":("Freifunk"),"network":"freifunk"};
 		break;
+	case "extrassid":                                                                                                                                  
+                w[ifname] = {"device":device,"stype":"wifi-iface","mode":"ap","ssid":("bodensee.freifunk.net"),"network":"freifunk"};                                 
+                break;
 	case "lan":
 		w[ifname] = {"device":device,"stype":"wifi-iface","mode":"ap","ssid":"MyNetwork","key":randomString(10),"encryption":"psk2","network":"lan"};
 		break;
@@ -467,7 +476,8 @@ function rebuild_wifi()
 		var freifunk_help = "<b>Freifunk</b>: Der WLAN-Zugang zum Freifunk-Netz.";
 		var mesh_help = "<b>Mesh</b>: Das WLAN-Netz \xfcber das die Router untereinander kommunizieren.";
 		var wan_help = "<b>WAN</b>: Erm\xf6glicht den Internetzugang eines anderen, herk\xf6mmlichen Routers zu nutzen (nutzt WDS).";
-		var mode_checks = append_check(fs, "Modus", dev+"_mode", info.modes, [["LAN","lan", lan_help], ["Freifunk","freifunk", freifunk_help], ["Mesh", "mesh", mesh_help], ["WAN", "wan", wan_help]]);
+		var extrassid_help = "<b>ExtraSSID</b>: Weitere SSID, die ebenfalls das Freifunknetz ausstrahlt.";
+		var mode_checks = append_check(fs, "Modus", dev+"_mode", info.modes, [["LAN","lan", lan_help], ["Freifunk","freifunk", freifunk_help], ["Mesh", "mesh", mesh_help], ["WAN", "wan", wan_help], ["ExtraSSID", "extrassid", extrassid_help]]);
 		var parent = append(fs, "div");
 
 		// Print wireless interfaces.
@@ -559,6 +569,8 @@ function collect_switch_info(device)
 			break;
 		case 'tp-link-tl-wr842n-nd-v1':
 		case 'tp-link-tl-wr842n-nd-v2':
+			obj.map = [['eth1',0],['LAN1',2],['LAN2',3],['LAN3',4],['LAN4',1]];
+ 			break;
 		case 'tp-link-tl-wr842n-nd-v3':
 			obj.map = [['eth0',0],['LAN1',4],['LAN2',3],['LAN3',2],['LAN4',1]];
 			break;
@@ -579,11 +591,9 @@ function collect_switch_info(device)
 			obj.map = [['eth1',0],['LAN1',2],['LAN2',3],['LAN3',4],['LAN4',5],['eth0',6],['WAN',1]];
 			break;
 		case 'd-link-dir-615-d':
-			obj.map = [['eth0',6],['LAN1',3],['LAN2',2],['LAN3',1],['LAN4',0],['Internet',4]];
-			break;
 		case 'd-link-dir-615-h1':
 		case 'd-link-dir-615-h2':
-			obj.map = [['eth0',5],['LAN1',3],['LAN2',2],['LAN3',1],['LAN4',0],['Internet',4]];
+			obj.map = [['eth0',6],['LAN1',3],['LAN2',2],['LAN3',1],['LAN4',0],['Internet',4]];
 			break;
 		case 'd-link-dir-860l-b1':
 			obj.map = [['eth0',6],['LAN1',1],['LAN2',2],['LAN3',3],['LAN4',4],['WAN',0]] ;
