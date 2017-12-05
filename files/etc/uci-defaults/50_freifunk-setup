@@ -16,7 +16,7 @@ initial_wifi_setup()
 	echo "(I) Setup /etc/config/wireless"
 
 	#AP default SSID
-	local ap_ssid="$(uci get freifunk.@settings[0].community).freifunk.net"
+	local ap_ssid="Freifunk"
 
 	#802.11s default mesh id
 	local mesh_id="$(uci get freifunk.@settings[0].default_mesh_id)"
