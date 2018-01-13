@@ -5,11 +5,11 @@ function formatSize(bytes) {
 	} else if (bytes < 1000) {
 		return bytes + "  B";
 	} else if (bytes < 1000*1000) {
-		return (bytes/ 1000.0).toFixed(0)  + " KB";
+		return (bytes/ 1000.0).toFixed(0)  + " K";
 	} else if (bytes < 1000*1000*1000) {
-		return (bytes/1000.0/1000.0).toFixed(1)  + " MB";
+		return (bytes/1000.0/1000.0).toFixed(1)  + " M";
 	} else {
-		return (bytes/1000.0/1000.0/1000.0).toFixed(2) + " GB";
+		return (bytes/1000.0/1000.0/1000.0).toFixed(2) + " G";
 	}
 }
 
@@ -52,7 +52,7 @@ function init() {
 	addHelpText($("lan"), "Das private Netz bzw. LAN.");
 	addHelpText($("wan"), "Das Netz \xfcber dass das Internet erreicht wird.");
 	addHelpText($("software"), "Einige installierte Softwareversionen.");
-	addHelpText($("freifunk_user_count"), "Die Anzahl der Nutzer, die über das Freifunknetz mit diesem Router verbunden sind.");
+	addHelpText($("freifunk_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
 	addHelpText($("lan_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
-	addHelpText($("vpn_server"), "Der Supernode im Internet, mit dem der Knoten (direkt) verbunden ist.");
+	addHelpText($("vpn_server"), "Der VPN-Server im Internet, mit dem der Knoten verbunden ist.");
 }
