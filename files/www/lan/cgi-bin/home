@@ -69,6 +69,9 @@ print 'rootfs_usage' "$(rootfs_usage_percent)"
 print 'uname' "$(uname -s -m -r)"
 print 'date' "$(date)"
 print 'vpn_server' "$(vpn_server)"
+print 'ip_version' "$(sockread /var/run/fastd.status < /dev/null 2> /dev/null | grep 'established' | sed 's/\(.*\)"address": "\([^"]*\)"\(.*\)established\(.*\)/\2/g' | sed 's/\(.*\):.*/\1/g' | sed /:/!s/\[[0-9]*\.*/IPv4/g | sed s/\.*:.*/IPv6/g)"
+
+
 
 if [ -n "$(default_gw 4 $wan)" -o  -n "$(default_gw 6 $wan)" ]; then
 	print 'has_internet' 'Ja'

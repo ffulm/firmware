@@ -56,23 +56,23 @@ function appendSetting(p, path, value, mode)
 		b = append_input(p, "Breitengrad", id, value);
 		b.lastChild.placeholder = "52.xxx";
 		addInputCheck(b.lastChild, /^$|^[1-9]\d{0,2}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen, keine Kommas und f\xfchrende Nullen verwenden.");
-		addHelpText(b, "GPS-Koordinate dieses Knotens auf der Freifunk-Karte.");
+		addHelpText(b, "Der Breitengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "longitude":
 		b = append_input(p, "L\xe4ngengrad", id, value);
 		b.lastChild.placeholder = "8.xxx";
 		addInputCheck(b.lastChild, /^$|^[1-9]\d{0,2}\.\d{1,8}$/, "Ung\xfcltige Eingabe. Bitte nur maximal 8 Nachkommastellen, keine Kommas und f\xfchrende Nullen verwenden.");
-		addHelpText(b, "GPS-Koordinate dieses Knotens auf der Freifunk-Karte.");
+		addHelpText(b, "Der L\xe4ngengrad (als Dezimalzahl) dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "name":
 		b = append_input(p, "Knotenname", id, value);
-		b.lastChild.placeholder = "MeinRouter";
+		b.lastChild.placeholder = "MeinFreifunkRouter";
 		addInputCheck(b.lastChild, /^$|^[\-\^'\w\.\:\[\]\(\)\/ &@\+\u0080-\u00FF]{0,32}$/, "Ung\xfcltige Eingabe.");
 		addHelpText(b, "Der Name dieses Knotens auf der Freifunk-Karte.");
 		break;
 	case "contact":
 		b = append_input(p, "Kontaktdaten", id, value);
-		b.lastChild.placeholder = "info@example.com";
+		b.lastChild.placeholder = "kontakt@example.com";
 		addInputCheck(b.lastChild, /^$|^[\-\^'\w\.\:\[\]\(\)\/ &@\+\u0080-\u00FF]{0,50}$/, "Ung\xfcltige Eingabe.");
 		addHelpText(b, "Kontaktdaten f\xfcr die \xf6ffentliche Freifunk-Karte und Statusseite. Falls ihr euch von anderen Leuten kontaktieren lassen wollt (z.B. \"info@example.com\").");
 		break;
@@ -86,7 +86,7 @@ function appendSetting(p, path, value, mode)
 	case "enabled":
 		if (cfg == "autoupdater") {
 			b = append_radio(p, "Autoupdater", id, value, [["An", "1"], ["Aus", "0"]]);
-			addHelpText(b, "Der Autoupdater aktualisiert die Firmware automatisch auf die neuste Version.");
+			addHelpText(b, "Der Auto-Updater aktualisiert die Firmware automatisch auf die neuste Version. Dabei bleibt die Konfiguration, die \xfcber die Weboberfl\xe4che gemacht wurde, erhalten. Spezifische Anpassungen \xfcber SSH k\xf9nnten eventuell \xfcberschrieben werden!");
 		}
 		if (cfg == "simple-tc") {
 			b = append_radio(p, "Bandbreitenkontrolle", id, value, [["An", "1"], ["Aus", "0"]]);
@@ -94,9 +94,14 @@ function appendSetting(p, path, value, mode)
 		}
 		if (cfg == "fastd") {
 			b = append_radio(p, "Fastd VPN", id, value, [["An", "1"], ["Aus", "0"]]);
-			addHelpText(b, "Eine VPN-Verbindung zum Server \xfcber WAN aufbauen (per fastd).");
+			addHelpText(b, "Eine VPN-Verbindung zum Server \xfcber deinen Internetanschluss (WAN-Anschluss im Freifunk Router) aufbauen (per FastD).");
 			addClass(b, "adv_hide");
 		}
+        case "ipv6_only":
+            b = append_radio(p, "IP Protokoll VPN", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"], ["IPv4 (legacy)", "legacy"]]);
+            addHelpText(b, "Welche Version des IP-Protokolls soll f\xfcr den Verbindungsaufbau zum Gateway verwendet werden? (Dual Stack (empfohlen): Alle verfügbaren, IPv6: Nur IPv6 verwenden, IPv4: Nur IPv4 verwenden!)");
+            addClass(b, "adv_hide");
+            break;
 		break;
 	case "publish_map":
 		b = append_radio(p, "Zur Karte beitragen", id, value, [["Nichts", "none"], ["Wenig", "basic"], ["Mehr", "more"], ["Alles", "all"]]);
@@ -128,57 +133,58 @@ function appendSetting(p, path, value, mode)
 		break;
 	case "service_label":
 		b = append_input(p, "Service Name", id, value);
-		b.lastChild.placeholder = "MeineWebseite";
-		addInputCheck(b.lastChild, /^$|^[\[\]\(\) \w&\/.:\u0080-\u00FF]{0,32}$/, "Ung\xfcltige Eingabe.");
-		addHelpText(b, "Ein Name der angegebenen Netzwerkresource. Z.B. \"Meine Webseite\".");
-		break;
-	case "service_display_max":
-		b = append_input(p, "Max.-Eintr\xe4ge", id, value);
-		addInputCheck(b.lastChild, /^\d+$/, "Ung\xfcltige Zahl.");
-		addHelpText(b, "Maximale Anzahl der auf der eigenen Statusseite angezeigten Eintr\xe4ge.");
-		break;
-	case "community":
-		b = append_input(p, "Community", id, value);
-		addClass(b, "adv_hide");
-		addInputCheck(b.lastChild, /^[a-z0-9_\-]{3,30}$/, "Ung\xfcltiger Bezeichner.");
-		addHelpText(b, "Der Bezeichner der Community, zu der dieser Knoten geh\xf6rt.");
-		break;
-	default:
-		return;
-	}
+        b.lastChild.placeholder = "MeineWebseite";
+        addInputCheck(b.lastChild, /^$|^[\[\]\(\) \w&\/.:\u0080-\u00FF]{0,32}$/, "Ung\xfcltige Eingabe.");
+        addHelpText(b, "Ein Name der angegebenen Netzwerkresource. Z.B. \"Meine Webseite\".");
+        break;
+    case "service_display_max":
+        b = append_input(p, "Max.-Eintr\xe4ge", id, value);
+        addInputCheck(b.lastChild, /^\d+$/, "Ung\xfcltige Zahl.");
+        addHelpText(b, "Maximale Anzahl der auf der eigenen Statusseite angezeigten Eintr\xe4ge.");
+        break;
+    case "community":
+        b = append_input(p, "Community", id, value);
+        addClass(b, "adv_hide");
+        addInputCheck(b.lastChild, /^[a-z0-9_\-]{3,30}$/, "Ung\xfcltiger Bezeichner.");
+        addHelpText(b, "Der Bezeichner der Community, zu der dieser Knoten geh\xf6rt.");
+        break;
+    default:
+        return;
+    }
 
-	b.id = id; //needed for updateFrom
-	b.onchange = function() {
-		updateFrom(b);
-	};
+    b.id = id; //needed for updateFrom
+    b.onchange = function() {
+        updateFrom(b);
+    };
 
-	return b;
+    return b;
 }
 
 function rebuild_general()
 {
-	var gfs = $("general");
-	var rfs = $("resource");
-	var tfs = $("traffic");
+    var gfs = $("general");
+    var rfs = $("resource");
+    var tfs = $("traffic");
 
-	removeChilds(gfs);
-	removeChilds(rfs);
-	removeChilds(tfs);
+    removeChilds(gfs);
+    removeChilds(rfs);
+    removeChilds(tfs);
 
-	if ('freifunk' in uci) {
-		var f = uci.freifunk;
-		var i = firstSectionID(f, "settings");
-		appendSetting(gfs, ['freifunk', i, "name"], f[i]["name"]);
-		appendSetting(gfs, ['freifunk', i, "longitude"], f[i]["longitude"]);
-		appendSetting(gfs, ['freifunk', i, "latitude"], f[i]["latitude"]);
-		appendSetting(gfs, ['freifunk', i, "contact"], f[i]["contact"]);
-		appendSetting(rfs, ['freifunk', i, "community_url"], f[i]["community_url"]);
-		appendSetting(rfs, ['freifunk', i, "community"], f[i]["community"]);
-		appendSetting(gfs, ['freifunk', i, "publish_map"], f[i]["publish_map"]);
-		appendSetting(gfs, ['freifunk', i, "allow_access_from"], f[i]["allow_access_from"]);
-		appendSetting(rfs, ['freifunk', i, "service_label"], f[i]["service_label"]);
-		appendSetting(rfs, ['freifunk', i, "service_link"], f[i]["service_link"]);
-		appendSetting(rfs, ['freifunk', i, "service_display_max"], f[i]["service_display_max"]);
+    if ('freifunk' in uci) {
+        var f = uci.freifunk;
+        var i = firstSectionID(f, "settings");
+        appendSetting(gfs, ['freifunk', i, "name"], f[i]["name"]);
+        appendSetting(gfs, ['freifunk', i, "longitude"], f[i]["longitude"]);
+        appendSetting(gfs, ['freifunk', i, "latitude"], f[i]["latitude"]);
+        appendSetting(gfs, ['freifunk', i, "contact"], f[i]["contact"]);
+        appendSetting(rfs, ['freifunk', i, "community_url"], f[i]["community_url"]);
+        appendSetting(rfs, ['freifunk', i, "community"], f[i]["community"]);
+		appendSetting(gfs, ['freifunk', i, "ipv6_only"], f[i]["ipv6_only"]);
+        appendSetting(gfs, ['freifunk', i, "publish_map"], f[i]["publish_map"]);
+        appendSetting(gfs, ['freifunk', i, "allow_access_from"], f[i]["allow_access_from"]);
+        appendSetting(rfs, ['freifunk', i, "service_label"], f[i]["service_label"]);
+        appendSetting(rfs, ['freifunk', i, "service_link"], f[i]["service_link"]);
+        appendSetting(rfs, ['freifunk', i, "service_display_max"], f[i]["service_display_max"]);
 	}
 
 	if ('autoupdater' in uci) {
