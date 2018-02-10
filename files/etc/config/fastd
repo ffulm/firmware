@@ -57,3 +57,23 @@ config peer 'gw03'
     option float 0
 
 
+config peer 'gw04'
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key '3bdfa53bd034694ef180a8b69d772a1b2d80201b540c1acb1f46b496ec9b0b22'
+    list remote 'ipv6 "speedtest.gw04.ffbsee.net" port 1244'
+    list remote 'ipv4 "speedtest.gw04.ffbsee.net" port 1244'
+    option float 0
+
+config peer 'gw05'
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key '78bcd22af09a7d88de16416cc83d7ee85f352bdbe8cb5372b3b475f555df8fd8'
+    list remote 'ipv6 "speedtest.gw05.ffbsee.net" port 1244'
+    list remote 'ipv4 "speedtest.gw05.ffbsee.net" port 1244'
+    option float 0
+
+
+
