@@ -476,7 +476,7 @@ function rebuild_wifi()
 		var freifunk_help = "<b>Freifunk</b>: Der WLAN-Zugang zum Freifunk-Netz.";
 		var mesh_help = "<b>Mesh</b>: Das WLAN-Netz \xfcber das die Router untereinander kommunizieren.";
 		var wan_help = "<b>WAN</b>: Erm\xf6glicht den Internetzugang eines anderen, herk\xf6mmlichen Routers zu nutzen (nutzt WDS).";
-		var extrassid_help = "<b>ExtraSSID</b>: Weitere SSID, die ebenfalls das Freifunknetz ausstrahlt.";
+		var extrassid_help = "<b>ExtraSSID</b>: Diese Option bietet eine weitere SSID, die ebenfalls das Freifunknetz ausstrahlt. Es kann sein, dass nicht jeder sieht ob dieser Knopf geklickt wurde. Zum Deaktivieren der zweiten SSID das Freifunk WLAN komplett deaktivieren und dann nur Freifunk (ohne extra SSID) wieder aktivieren";
 		var mode_checks = append_check(fs, "Modus", dev+"_mode", info.modes, [["LAN","lan", lan_help], ["Freifunk","freifunk", freifunk_help], ["Mesh", "mesh", mesh_help], ["WAN", "wan", wan_help], ["ExtraSSID", "extrassid", extrassid_help]]);
 		var parent = append(fs, "div");
 

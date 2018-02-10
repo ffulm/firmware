@@ -100,7 +100,7 @@ function appendSetting(p, path, value, mode)
         break;
     case "exittunnel":                                                                                                                                        
         b = append_radio(p, "Exit-Tunnel", id, value, [["Ausland", "foreign"], ["Deutschland", "domestic"], ["Egal", "either"]]);   
-        addHelpText(b, "Welchen Gateway soll dieser Freifunk bevorzugen? [Diese Option verschwindet bald) Ausland: Gateways auserhalb von Deutschland bevorzugen. Deutschland: Gateways innerhalb deutschlands bevorzugen. Egal: Schnelle Gateways bevorzugen");          
+        addHelpText(b, "Welchen Gateway soll dieser Freifunk bevorzugen? [Diese Option wird demnächst weg-optimiert] Ausland: Gateways auserhalb von Deutschland bevorzugen. Deutschland: Gateways innerhalb deutschlands bevorzugen. Egal: Schnelle Gateways bevorzugen");          
         addClass(b, "adv_hide");                                                                                                 
         break; 
     case "ipv6_only":
