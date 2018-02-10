@@ -20,6 +20,42 @@ config peer_group 'backbone'
 	option net 'default'
 	option peer_limit '1'
 
+config peer 'gw01'
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key 'b8661d203e35247b7991e3700f9c7c952517a6e37bb1c1cc671c4c723d6df32c'
+    list remote 'ipv6 "speedtest.gw01.ffbsee.net" port 1244'
+    list remote 'ipv4 "speedtest.gw01.ffbsee.net" port 1244'
+    option float 0
+
+
+config peer 'gw02'
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key '580d21611a1bd85bc402edb9eb2f2305890c03e58024cd68d7f350557ddde3a9'
+    list remote 'ipv6 "speedtest.gw02.ffbsee.net" port 1244'
+    option float 0
+
+config peer 'gw03'
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key '650f4e883714bc439ea0fb58548f65291942546ac68f5baf8ef32f340aa19900'
+    list remote 'ipv6 "speedtest.gw03.ffbsee.net" port 1244'
+    list remote 'ipv4 "speedtest.gw03.ffbsee.net" port 1244'
+    option float 0
+
+config peer 'sn01'
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key 'e8ba3102b0f1d412e5da3d742d58719186f36413db9ad6fe7f6b98c3ec835493'
+    list remote 'ipv6 "speedtest.sn01.ffbsee.net" port 1244'
+    list remote 'ipv4 "speedtest.sn01.ffbsee.net" port 1244'
+    option float 0
+
 config peer 'vpn5'
 	option enabled 1
 	option net 'default'
@@ -30,29 +66,20 @@ config peer 'vpn5'
 	option float 0
 
 config peer 'vpn6'
-        option enabled 1
-        option net 'default'
-        option group 'backbone'
-        option key '6b6aa97d779fa56ef9aefbbc9e4d479e0dfe82066af9b1d962ee722c640cdae5'
-        list remote 'ipv6 "speedtest.vpn6.ffbsee.de" port 1244'
-        list remote 'ipv4 "speedtest.vpn6.ffbsee.de" port 1244'
-        option float 0
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key '6b6aa97d779fa56ef9aefbbc9e4d479e0dfe82066af9b1d962ee722c640cdae5'
+    list remote 'ipv6 "speedtest.vpn6.ffbsee.de" port 1244'
+    list remote 'ipv4 "speedtest.vpn6.ffbsee.de" port 1244'
+    option float 0
 
 config peer 'vpn7'
-        option enabled 1
-        option net 'default'
-        option group 'backbone'
-        option key '6153895a2711146d343d61dcda6c888d7afda83f2ea3685467c78f15dfa22423'
-        list remote 'ipv6 "speedtest.vpn7.ffbsee.de" port 1244'
-        list remote 'ipv4 "speedtest.vpn7.ffbsee.de" port 1244'
-        option float 0
-
-config peer 'vpn8'
-        option enabled 1
-        option net 'default'
-        option group 'backbone'
-        option key 'b8661d203e35247b7991e3700f9c7c952517a6e37bb1c1cc671c4c723d6df32c'
-        list remote 'ipv6 "speedtest.vpn8.ffbsee.de" port 1244'
-        list remote 'ipv4 "speedtest.vpn8.ffbsee.de" port 1244'
-        option float 0
+    option enabled 1
+    option net 'default'
+    option group 'backbone'
+    option key '6153895a2711146d343d61dcda6c888d7afda83f2ea3685467c78f15dfa22423'
+    list remote 'ipv6 "speedtest.vpn7.ffbsee.de" port 1244'
+    list remote 'ipv4 "speedtest.vpn7.ffbsee.de" port 1244'
+    option float 0
 
