@@ -8,7 +8,7 @@ Included is Internet connectivity and a web interface.
 
 Please talk to us on IRC if anything does not work!
 
-[Precompiled firmware images](https://vpn1.ffbsee.de/freifunk/firmware/ "Precompiled firmware images") are available on our server. All other released versions here on github are out-of-date.
+[Precompiled firmware images](https://firmware.ffbsee.de/firmware/ "Precompiled firmware images") are available on our server. All other released versions here on github are out-of-date.
 
 To build the firmware yourself you need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
@@ -18,6 +18,10 @@ Install dependencies for the build environment (Debian/Ubuntu):
     sudo apt-get install subversion g++ zlib1g-dev build-essential git python
     sudo apt-get install libncurses5-dev gawk gettext unzip file libssl-dev wget
 ```
+
+If you want to build your own firmware we suggest to use our newest development-branch.
+Right now this is the branch [dev-new](https://github.com/ffbsee/firmware/tree/dev-new).
+
 Build commands for the console:
 
 ```bash
