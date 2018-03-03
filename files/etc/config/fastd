@@ -16,18 +16,9 @@ config fastd 'default'
 	option packet_mark 1
 
 config peer_group 'backbone'
-    option enabled '1'
-    option net 'default'
-    option peer_limit '1'
-
-config peer 'sn01'
-    option enabled 1
-    option net 'default'
-    option group 'backbone'
-    option key 'e8ba3102b0f1d412e5da3d742d58719186f36413db9ad6fe7f6b98c3ec835493'
-    list remote 'ipv6 "speedtest.sn01.ffbsee.net" port 1244'
-    list remote 'ipv4 "speedtest.sn01.ffbsee.net" port 1244'
-    option float 0
+	option enabled '1'
+	option net 'default'
+	option peer_limit '1'
 
 config peer 'gw01'
     option enabled 1
@@ -38,30 +29,29 @@ config peer 'gw01'
     list remote 'ipv4 "speedtest.gw01.ffbsee.net" port 1244'
     option float 0
 
-
 config peer 'gw02'
     option enabled 1
     option net 'default'
     option group 'backbone'
-    option key '580d21611a1bd85bc402edb9eb2f2305890c03e58024cd68d7f350557ddde3a9'
+    option key '47304aac66113490f790cad11ab74ac2260f2797b2ab6ea19d70f30dcb86a813'
     list remote 'ipv6 "speedtest.gw02.ffbsee.net" port 1244'
+    list remote 'ipv4 "speedtest.gw02.ffbsee.net" port 1244'
     option float 0
 
 config peer 'gw03'
     option enabled 1
     option net 'default'
     option group 'backbone'
-    option key '650f4e883714bc439ea0fb58548f65291942546ac68f5baf8ef32f340aa19900'
+    option key '961b675cf8844e756dee9bd9f138a380f717d67e8bdef930435ba31890c179ac'
     list remote 'ipv6 "speedtest.gw03.ffbsee.net" port 1244'
     list remote 'ipv4 "speedtest.gw03.ffbsee.net" port 1244'
     option float 0
-
 
 config peer 'gw04'
     option enabled 1
     option net 'default'
     option group 'backbone'
-    option key '3bdfa53bd034694ef180a8b69d772a1b2d80201b540c1acb1f46b496ec9b0b22'
+    option key '696b6fbfa5f1cc1a8a85c78276b55448d0cb89ed9d52f30234f02a811f7132d0'
     list remote 'ipv6 "speedtest.gw04.ffbsee.net" port 1244'
     list remote 'ipv4 "speedtest.gw04.ffbsee.net" port 1244'
     option float 0
@@ -74,6 +64,5 @@ config peer 'gw05'
     list remote 'ipv6 "speedtest.gw05.ffbsee.net" port 1244'
     list remote 'ipv4 "speedtest.gw05.ffbsee.net" port 1244'
     option float 0
-
 
 
