@@ -490,6 +490,11 @@ update_070(){
         uci set wireless.radio1_extrassid.ssid=$oldssid1
     fi
     uci commit wireless
+    
+    # update fastd configuration
+	cp /rom/etc/config/fastd.foreign /etc/config/fastd
+        cp /rom/etc/config/fastd.either /etc/config/fastd
+        cp /rom/etc/config/fastd.domestic /etc/config/fastd
 }
 
 start()
