@@ -492,9 +492,10 @@ update_070(){
     uci commit wireless
     
     # update fastd configuration
-	cp /rom/etc/config/fastd.foreign /etc/config/fastd
-        cp /rom/etc/config/fastd.either /etc/config/fastd
-        cp /rom/etc/config/fastd.domestic /etc/config/fastd
+    	cp /rom/etc/config/fastd /etc/config/
+	cp /rom/etc/config/fastd.foreign /etc/config/
+        cp /rom/etc/config/fastd.either /etc/config/
+        cp /rom/etc/config/fastd.domestic /etc/config/
 }
 
 start()
