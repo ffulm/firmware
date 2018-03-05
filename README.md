@@ -8,7 +8,7 @@ Included is Internet connectivity and a web interface.
 
 Please talk to us on [IRC](https://webirc.hackint.org/#irc://irc.hackint.org/#ffbsee) if anything does not work!
 
-[Precompiled firmware images](https://firmware.ffbsee.de//firmware/ "Precompiled firmware images") are available on our server. You can search them via [Fir,ware-Wizard](https://firmware.ffbsee.de/firmware-wizard/). All other released versions here on github are **out-of-date**.
+[Precompiled firmware images](https://firmware.ffbsee.de//firmware/ "Precompiled firmware images") are available on our server. You can search them via [Firmware-Wizard](https://firmware.ffbsee.de/firmware-wizard/). All other released versions here on github are **out-of-date**.
 
 To build the firmware yourself you need a Unix console to enter commands into.
 Please have a look at the different Branches if you want to build the newest Beta-Firmware Version.
