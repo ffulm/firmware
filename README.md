@@ -6,11 +6,13 @@ It connects to similar routers in the area and builds a Wifi-mesh network
 but also opens an access point for computers to connect over Wifi.
 Included is Internet connectivity and a web interface.
 
-Please talk to us on IRC if anything does not work!
+Please talk to us on [IRC](https://webirc.hackint.org/#irc://irc.hackint.org/#ffbsee) if anything does not work!
 
-[Precompiled firmware images](https://firmware.ffbsee.de/firmware/ "Precompiled firmware images") are available on our server. All other released versions here on github are out-of-date.
+[Precompiled firmware images](https://firmware.ffbsee.de//firmware/ "Precompiled firmware images") are available on our server. You can search them via [Firmware-Wizard](https://firmware.ffbsee.de/firmware-wizard/). All other released versions here on github are **out-of-date**.
 
 To build the firmware yourself you need a Unix console to enter commands into.
+Please have a look at the different Branches if you want to build the newest Beta-Firmware Version.
+
 Install dependencies for the build environment (Debian/Ubuntu):
 
 ```bash
@@ -18,26 +20,20 @@ Install dependencies for the build environment (Debian/Ubuntu):
     sudo apt-get install subversion g++ zlib1g-dev build-essential git python
     sudo apt-get install libncurses5-dev gawk gettext unzip file libssl-dev wget
 ```
-
-If you want to build your own firmware we suggest to use our newest development-branch.
-Right now this is the branch [dev-new](https://github.com/ffbsee/firmware/tree/dev-new).
-
 Build commands for the console:
 
 ```bash
-    git clone https://github.com/openwrt/openwrt.git
-    cd openwrt
-    git reset --hard 0f757bd2606971252f901ef3faf4dbd0086315f7
+    git clone git://git.lede-project.org/source.git
+    cd source
+    git reset --hard 6b6578feec74dfe1f5767c573d75ba08cc57c885
     
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffbsee/firmware.git
+    git clone https://github.com/ffbsee/firmware.git -b master
     cp -rf firmware/files firmware/package .
-    chmod -R a+rX firmware/files/www
-    git am --whitespace=nowarn firmware/patches/openwrt/*.patch
+    git am --whitespace=nowarn firmware/patches/lede/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
-    cd feeds/packages && git am --whitespace=nowarn ../../firmware/patches/packages/*.patch && cd -
     rm -rf firmware tmp
     
     make defconfig
@@ -45,17 +41,19 @@ Build commands for the console:
 ```
 Now select the right "Target System" and "Target Profile" for your AP model:
 
-For example, for the TL-WR841ND, select:
+For example, for the TL-WR841ND v3, select:
 * `Target System => Atheros AR7xxx/AR9xxx`
-* `Target Profile => TP-LINK TL-WR841ND`
+* `Target Profile => <*> TP-LINK TL-WR842N/ND v3`
 
-Or in case you have the DIR-300, select:
-* `Target System => <*> AR231x/AR5312`
-* `Target Profile => <*> Default`
+Or in case you have the Ubiquiti UniFi Outdoor, select:
+* `Target System => Atheros AR7xxx/AR9xxx`
+* `Target Profile => <*> Ubiquiti UniFi Outdoor`
 
 For other models you can lookup the "Target System" in the OpenWrt
 [hardware table](http://wiki.openwrt.org/toh/start). Your AP model
 should now be visible in the "Target Profile" list.
+
+Please notice, that some Routers need different drivers for 5GHz. Sometimes you need to select them manually.
 
 Now start the build process. This takes some time:
 
@@ -63,7 +61,10 @@ Now start the build process. This takes some time:
     make
 ```
 *You have the opportunity to compile the firmware at more CPU threats to speed up the process.*
-*e.g. to run 3 jobs (commands) simultaneously use the following option:* `make -j 3` 
+*e.g. to run 3 jobs (commands) simultaneously use the following option:*
+```bash
+make -j 3
+```
 
 The **firmware image files** will be stored in the `bin`-folder. These images can now directly be used to update your router. Please note, that two differnt image types (per router) will be provided:
 

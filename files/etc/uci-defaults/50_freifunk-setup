@@ -16,7 +16,7 @@ initial_wifi_setup()
 	echo "(I) Setup /etc/config/wireless"
 
 	#AP default SSID
-	local ap_ssid="$(uci get freifunk.@settings[0].community).freifunk.net"
+	local ap_ssid="Freifunk"
 
 	#802.11s default mesh id
 	local mesh_id="$(uci get freifunk.@settings[0].default_mesh_id)"
@@ -28,8 +28,8 @@ initial_wifi_setup()
 	config_wifi() {
 		local ds="$1" #device section
 		local ah_ok=0 ap_ok=0 #interface status
-		local wifi_device=`uci get -q wireless.$ds.device`
-		local wifi_path=`uci get -q wireless.$ds.path`
+		local wifi_device=`uci -q get wireless.$ds.device`
+		local wifi_path=`uci -q get wireless.$ds.path`
 		local h n p
 
 		[ -z "$wifi_device" ] && wifi_device="$ds"
@@ -100,12 +100,12 @@ initial_lan_setup()
 
 	local lan_interfaces="$1"
 
-	uci delete -q network.lan
+	uci -q delete network.lan
 	uci set network.lan="interface"
 	uci set network.lan.type="bridge"
 	uci set network.lan.ifname="$lan_interfaces"
-	uci delete -q network.lan.ip6addr
-	uci delete -q network.lan.ipaddr
+	uci -q delete network.lan.ip6addr
+	uci -q delete network.lan.ipaddr
 	uci add_list network.lan.ipaddr="192.168.133.1"
 	uci set network.lan.proto=static
 	uci set network.lan.netmask="255.255.255.0"
@@ -121,13 +121,13 @@ initial_freifunk_setup()
 	local freifunk_interfaces="$1"
 	local freifunk_mac="$2"
 
-	uci delete -q network.freifunk
+	uci -q delete network.freifunk
 	uci set network.freifunk="interface"
 	uci set network.freifunk.type="bridge"
 	uci set network.freifunk.ifname="$freifunk_interfaces"
 	uci set network.freifunk.macaddr="$freifunk_mac"
-	uci delete -q network.freifunk.ip6addr
-	uci delete -q network.freifunk.ipaddr
+	uci -q delete network.freifunk.ip6addr
+	uci -q delete network.freifunk.ipaddr
 	uci set network.freifunk.proto=static
 	uci set network.freifunk.netmask="255.255.240.0"
 	uci set network.freifunk.igmp_snooping="0"
@@ -210,13 +210,13 @@ initial_setup()
 {
 	local prefix="fdef:1701:b5ee:42::/64"
 
-	local wan_interface=$(uci get -q network.wan.ifname)
+	local wan_interface=$(uci -q get network.wan.ifname)
 	echo "(I) WAN interface: '$wan_interface'"
 
-	local lan_interface=$(uci get -q network.lan.ifname)
+	local lan_interface=$(uci -q get network.lan.ifname)
 	echo "(I) LAN interface: '$lan_interface'"
 
-	local mesh_id=$(uci get -q freifunk.@settings[0].default_mesh_id)
+	local mesh_id=$(uci -q get freifunk.@settings[0].default_mesh_id)
 	echo "(I) Mesh ID: '$mesh_id'"
 
 	echo "(I) Set empty root password."
@@ -243,7 +243,7 @@ initial_setup()
 
 	echo "(I) Set Prefix and populate /etc/hosts."
 
-	uci set -q network.globals="globals"
+	uci -q set network.globals="globals"
 	uci set network.globals.ula_prefix="$prefix"
 	echo "10.11.175.127 node" >> /etc/hosts
 	echo "10.11.175.127 nextnode.ffbsee" >> /etc/hosts
@@ -387,8 +387,8 @@ update_006(){
         cp /rom/etc/config/fastd.either /etc/config/fastd
         cp /rom/etc/config/fastd.domestic /etc/config/fastd
 
-	local geo="$(uci get -q freifunk.@settings[0].geo)"
-	local publish_map="$(uci get -q freifunk.@settings[0].publish_map)"
+	local geo="$(uci -q get freifunk.@settings[0].geo)"
+	local publish_map="$(uci -q get freifunk.@settings[0].publish_map)"
 
 	# replace geo by latitude / longitude
 	[  -n "$geo" ] && {
@@ -426,7 +426,7 @@ update_006(){
 		local cfg="$1" network
 
 		config_get network $cfg "network"
-		if [ -n "$network" -a "$(uci get -q network.$network.proto)" = "batadv" ]; then
+		if [ -n "$network" -a "$(uci -q get network.$network.proto)" = "batadv" ]; then
 			uci set network.$network.mtu=1532
 		fi
 	}
@@ -463,23 +463,122 @@ update_064(){
 	sed -E -i "s/Xperimental/Xperimental\n\tlist pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3/" /etc/config/autoupdater
 }
 
+update_070(){
+    #find out old ssid and store it
+	oldssid0=$(uci get wireless.radio0_ap.ssid)
+    oldmac0=$(uci get wireless.radio0_ap.macaddr)
+	# set new Freifunk ssid
+	uci set wireless.radio0_ap.ssid='Freifunk'
+	#set old SSID as extra SSID
+	uci set wireless.radio0_extrassid=wifi-iface
+    uci set wireless.radio0_extrassid.network='freifunk'
+    uci set wireless.radio0_extrassid.encryption='none'
+    uci set wireless.radio0_extrassid.macaddr=$oldmac0
+    uci set wireless.radio0_extrassid.device='radio0'
+    uci set wireless.radio0_extrassid.mode='ap'
+    uci set wireless.radio0_extrassid.ssid=$oldssid0
+    if [[ $(uci get wireless.radio1) = "wifi-device" ]]; then
+        oldssid1=$(uci get wireless.radio1_ap.ssid)
+        oldmac1=$(uci get wireless.radio1_ap.macaddr)
+        uci set wireless.radio1_ap.ssid='Freifunk'
+        uci set wireless.radio1_extrassid=wifi-iface
+        uci set wireless.radio1_extrassid.network='freifunk'
+        uci set wireless.radio1_extrassid.option encryption 'none'
+        uci set wireless.radio1_extrassid.macaddr=$oldmac1
+        uci set wireless.radio1_extrassid.device='radio1'
+        uci set wireless.radio1_extrassid.mode='ap'
+        uci set wireless.radio1_extrassid.ssid=$oldssid1
+    fi
+    uci commit wireless
+    
+    # update fastd configuration
+    	cp /rom/etc/config/fastd /etc/config/
+	cp /rom/etc/config/fastd.foreign /etc/config/
+        cp /rom/etc/config/fastd.either /etc/config/
+        cp /rom/etc/config/fastd.domestic /etc/config/
+	
+	# Preserve self signed certificates
+	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	cp /rom/etc/sysupgrade.conf /etc/sysupgrade.conf
+	cp /rom/etc/iproute2/rt_tables /etc/iproute2/rt_tables
+
+	# Create fresh /etc/sysctl.conf
+	cp /rom/etc/sysctl.conf /etc/sysctl.conf
+	cat >> /etc/sysctl.conf <<-  EOF
+	
+	# increase neighbor table timings by a factor of 10
+	net.ipv6.neigh.default.gc_interval=300
+	net.ipv6.neigh.default.gc_stale_time=600
+	net.ipv6.neigh.default.base_reachable_time_ms=300
+	
+	# by default, either accept_ra or forwarding is enabled
+	# disable both here, since LEDE handles both apart from the Linux kernel
+	net.ipv6.conf.all.accept_ra=0
+	net.ipv6.conf.default.accept_ra=0
+	net.ipv6.conf.br-freifunk.forwarding=0
+	net.ipv6.conf.br-lan.forwarding=0
+	
+	#reboot on out of memory
+	vm.panic_on_oom=1
+	
+	EOF
+
+	# Create fresh /etc/firewall.user and local node section
+	uci -q delete network.freifunk.ip6addr
+	uci -q delete network.freifunk.ipaddr6
+	uci -q delete network.freifunk.ipaddr
+	uci -q delete network.fastd_mesh.mesh_no_rebroadcast
+	cp /rom/etc/firewall.user /etc/firewall.user
+	initial_local_node_setup
+	uci commit network
+
+	cp /rom/etc/hosts /etc/hosts
+	echo "10.11.175.127 node" >> /etc/hosts
+
+	cp /rom/etc/profile /etc/profile
+	cp /rom/etc/config/batman-adv /etc/config/batman-adv
+	cp /rom/etc/protocols /etc/protocols
+	cp /rom/etc/inittab /etc/inittab
+	cp /rom/etc/modules.d/73-sched /etc/modules.d/73-sched
+
+	# Fix /etc/config/system
+	if [ "$(uci get system.@system[0].hostname)" = "OpenWrt" ]; then
+		uci set system.@system[0].hostname='LEDE'
+	fi
+
+	uci set system.@system[0].ttylogin='0'
+	uci set system.@system[0].log_size='64'
+	uci set system.@system[0].urandom_seed='0'
+	uci delete system.ntp.server
+	uci add_list system.ntp.server='0.lede.pool.ntp.org'
+	uci add_list system.ntp.server='1.lede.pool.ntp.org'
+	uci add_list system.ntp.server='2.lede.pool.ntp.org'
+	uci add_list system.ntp.server='3.lede.pool.ntp.org'
+	uci commit system
+
+	# Fix /etc/config/uhttpd
+	uci set uhttpd.px5g.commonname='LEDE'
+	uci commit uhttpd
+}
 
 start()
 {
 	echo "(I) Start freifunk_setup"
 
-	local from_version="$(uci get -q freifunk.@settings[0].version)"
-	local to_version="$(uci get -c /rom/etc/config -q freifunk.@settings[0].version)"
+	local from_version="$(uci -q get freifunk.@settings[0].version)"
+	local to_version="$(uci -q -c /rom/etc/config get freifunk.@settings[0].version)"
 
 	#marker to check if the setup has already been run before
-	if [ -n "$(uci get -q freifunk.@settings[0].first_boot)" ]; then
-		uci delete -q freifunk.@settings[0].first_boot
+	if [ -n "$(uci -q get freifunk.@settings[0].first_boot)" ]; then
+		uci -q delete freifunk.@settings[0].first_boot
 		from_version=""
 	fi
 
 	update_version() {
-		uci set -q freifunk.@settings[0].version="$to_version"
-		uci commit -q freifunk
+		uci -q set freifunk.@settings[0].version="$to_version"
+		uci -q commit freifunk
 	}
 
 	echo "(I) Update from '$from_version' to '$to_version'"
@@ -491,6 +590,7 @@ start()
 			update_005
 			update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.3*)
@@ -500,6 +600,7 @@ start()
 			update_005
                         update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.4*)
@@ -508,6 +609,7 @@ start()
 			update_005
                         update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.5*)
@@ -515,43 +617,56 @@ start()
 			update_005
 			update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.0.6*)
 			echo "(I) Apply 0.0.6 update."
 			update_006
 			update_064
+			update_070
 			update_version
 			;;
 		0.1.0*)
                         echo "(I) Apply 0.1.0-testing update."
                         update_006
 			update_064
+			update_070
                         update_version
                         ;;
                 0.6.0*)
                 	echo "(I) Apply 0.6.0-dev update."
                         update_064
+			update_070
                         update_version
                         ;;
                 0.6.1*)
                 	echo "(I) Apply 0.6.1 update."
                         update_064
+			update_070
                         update_version
                         ;;
 		0.6.2*)
 			echo "(I) Apply 0.6.2 update."
 			update_064
+			update_070
 			update_version
 			;;
 		0.6.3*)
 			echo "(I) Apply 0.6.3-development update."
 			update_064
+			update_070
 			update_version
 			;;
 		0.6.4*)
 			echo "(I) Apply 0.6.4-development update."
 			update_064
+			update_070
+			update_version
+			;;
+		0.7.0*)
+			echo "(I) Apply 0.7.0 update."
+			update_070
 			update_version
 			;;
 		"")
@@ -565,7 +680,6 @@ start()
 	esac
 
 	/etc/init.d/fastd disable
-	/etc/init.d/telnet disable
 	/etc/init.d/alfred enable
 	/etc/init.d/simple-radvd enable
 	/etc/init.d/freifunk_init enable

@@ -6,7 +6,7 @@ START=19
 #allow/block access via ssh/https from lan/wan/freifunk
 set_access() {
 	local src port default_target target
-	local from=`uci get -q freifunk.@settings[0].allow_access_from`
+	local from=`uci -q get freifunk.@settings[0].allow_access_from`
 
 	echo "(I) Freifunk: allow_access_from: '$from'"
 
@@ -14,7 +14,7 @@ set_access() {
 	for src in wan lan freifunk; do
 		for port in 22 443; do
 			local s="firewall.${src}${port}"
-			uci delete -q $s
+			uci -q delete $s
 		done
 	done
 
@@ -92,12 +92,12 @@ set_hostname()
 }
 
 set_exittunnel(){                                                                                     
-        local exittunnel="$(uci get -q freifunk.@settings[0].exittunnel 2> /dev/null)"
+        local exittunnel="$(uci -q get freifunk.@settings[0].exittunnel 2> /dev/null)"
 	cp /etc/config/fastd.$exittunnel /etc/config/fastd                                                                                
 }
 
 set_ipv6_only(){
-	local ipv6_only="$(uci get -q freifunk.@settings[0].ipv6_only 2> /dev/null)"
+	local ipv6_only="$(uci -q get freifunk.@settings[0].ipv6_only 2> /dev/null)"
 	
 	if [ "$ipv6_only" = "ipv6" ]; then
                 if !(grep "#list remote 'ipv4" /etc/config/fastd); then sed -i "s/list remote 'ipv4/#list remote 'ipv4/g" /etc/config/fastd; fi

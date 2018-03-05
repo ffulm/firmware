@@ -2,145 +2,42 @@
 
 <html>
 <head>
-<title id="title">Freifunk</title>
-<meta charset="utf-8"/>
-<link rel="stylesheet" type="text/css" href="style.css" />
-<script src="shared.js"></script>
-
-<script type="text/javascript">
-var html_cache = {};
-var js_cache = {};
-var adv_mode = false;
-
-function adv_apply()
-{
-	var inputs = document.getElementsByClassName('adv_disable');
-	var elems = document.getElementsByClassName('adv_hide');
-
-	for(var i=0;  i < inputs.length; i++)
-		inputs[i].disabled = adv_mode ? "": "disabled";
-	for(var i=0;  i < elems.length; i++)
-		elems[i].style.display = adv_mode ? "block" : "none";
-}
-
-function adv_toggle(e)
-{
-	adv_mode = !adv_mode;
-	e.innerHTML = adv_mode ? "Erweiterte Ansicht: AN" : "Erweiterte Ansicht: AUS";
-	adv_apply();
-}
-
-// Funtion will alternate between showing or hiding footer SVG
-function removeFooterSVG()
-{
-	var footersvg = document.getElementById("footer-svg");
-	footersvg.style.display = footersvg.style.display === 'none' ? '' : 'none';
-}
-
-
-function nav_onclick()
-{
-	setText('msg', "");
-	var url = this.getAttribute("href");
-	if(url == '#') return false;
-
-	var id = url.substring(0, url.lastIndexOf('.'));
-
-	var process_html = function(data) {
-		var b = $("body");
-		removeChilds(b);
-		var pattern = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
-		b.innerHTML = pattern.exec(data)[1];
-		html_cache[id] = data;
-	};
-
-	var process_js = function(data) {
-		(window.execScript || function(data) {
-			window["eval"].call(window, data);
-			window["eval"].call(window, "init();");
-		})(data);
-		js_cache[id] = data;
-	};
-
-	//load html file
-	if(id in html_cache)
-		process_html(html_cache[id]);
-	else
-		jx.load(url, process_html, 'text');
-
-	//load javascript file
-	if(id in js_cache)
-		process_js(js_cache[id]);
-	else
-		jx.load(url.replace(".html", ".js"), process_js, 'text');
-
-	onDesc($("globalnav"), 'UL', function(n) { hide(n); });
-	onParents(this, 'UL', function(n) { show(n); });
-	onChilds(this.parentNode, 'UL', function(n) { show(n); });
-
-	onDesc($("globalnav"), 'A', function(n) { removeClass(n, "here"); });
-	onParents(this, 'LI', function(n) { addClass(n.firstChild, "here"); });
-
-	return false;
-}
-
-function preselect() {
-	onDesc($("globalnav"), 'UL', function(n) { hide(n); });
-	onDesc($("globalnav"), 'A', function(n) {
-		if(n.getAttribute("href") != '#')
-			n.onclick = nav_onclick;
-	});
-	$("first").onclick();
-}
-
-function reboot() {
-	if(!confirm("Neustart durchf\xFChren?")) return;
-	send("/cgi-bin/misc", { func : "reboot" }, function(data) {
-		setText('msg', data);
-	});
-}
-  
-function setTitle() {
-	send("/cgi-bin/misc", { func : "name" }, function(name) {
-		if(name.length) {
-			$("title").textContent += " - " + name;
-		}
-	});
-}
-
-function logout() {
-	window.location="https://none@" + window.location.host;
-}
-
-</script>
-
+ <title id="title">Freifunk</title>
+ <meta charset="utf-8"/>
+ <link rel="stylesheet" type="text/css" href="style.css" />
+ <script src="shared.js"></script>
+ <script type="text/javascript" src="index.js"></script>
 </head>
 <body onload="preselect(); setTitle();">
-<div id="menu">
-	<ul id="globalnav">
-		<li><a href="home.html" id="first">Home</a></li>
-		<li><a href="settings.html">Einstellungen</a></li>
-		<li><a href="network.html">Netzwerk</a></li>
-		<li><a href="wifiscan.html">WLAN-Scan</a></li>
-		<li><a href="update.html">Update</a></li>
-		<li><a href="password.html">Passwort</a></li>
-		<li><a href="#" onclick="reboot()">Neustart</a></li>
-		<li><a href="#" onclick="logout()">Logout</a></li>
-	</ul>
-	<a href="#" id="extendedview" onclick="adv_toggle(this)">Erweiterte Ansicht: AUS</a>
-</div>
-<div id="main">
+<noscript>
+  <strong>Zum &auml;ndern der Einstellungen wird JavaScript ben&ouml;tigt.</strong>
+</noscript>
+
+<ul id="globalnav">
+	<li><a href="home.html" id="first">Home</a></li>
+	<li><a href="settings.html">Einstellungen</a></li>
+	<li><a href="network.html">Netzwerk</a></li>
+	<li><a href="wifiscan.html">WLAN-Scan</a></li>
+	<li><a href="upgrade.html">Upgrade</a></li>
+	<li><a href="password.html">Passwort</a></li>
+	<li><a href="#" onclick="reboot()">Neustart</a></li>
+	<li><a href="#" onclick="logout()">Logout</a></li>
+	<li><a href="#" onclick="adv_toggle(this)">Erweitert: Aus</a></li>
+	<li class="icon">
+		<a href="#" style="font-size:15px;" onclick="$('globalnav').classList.toggle('responsive')">☰</a>
+	</li>
+</ul>
 <br>
-<pre id="msg" tabindex="-1"></pre>
+<pre id="msg" tabindex="-1">Um diese Seite anzuzeigen, muss JavaScript aktiviert sein.</pre>
 
 <div id="help"></div>
 
 <div id="body"></div>
 
-<div id="footer"><a href="#" id="hidesvg" onclick="removeFooterSVG()">.</a></div>
-
+<div id="footer">
+	<img src="footer.ffbsee.animated.svg" alt="Animated Footer"></img>
 </div>
-<noscript><h1>JavaScript ist deaktiviert</h1><br/><a>Hallo Freifunker, die Administration &#xFC;ber das Webinterface ben&#xF6;tigt <b>JavaScript!</b><br/><br/>Um diese Seite sinvoll Nutzen zu k&#xF6;nnen <b>aktivieren</b> Sie bitte entweder JavaScript oder Nutzen Sie den Zugang &#xFC;ber SSH. in diesem fall müssen Sie sich aber schon etwas mit der Konfiguration unter OpenWRT auskennen.<br/><br/><br/><br/></noscript>
-<img id="footer-svg" src="footer.ffbsee.animated.svg"/>
+
 </body>
 </html>
+
