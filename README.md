@@ -6,11 +6,13 @@ It connects to similar routers in the area and builds a Wifi-mesh network
 but also opens an access point for computers to connect over Wifi.
 Included is Internet connectivity and a web interface.
 
-Please talk to us on IRC if anything does not work!
+Please talk to us on [IRC](https://webirc.hackint.org/#irc://irc.hackint.org/#ffbsee) if anything does not work!
 
-[Precompiled firmware images](https://vpn1.ffbsee.de/freifunk/firmware/ "Precompiled firmware images") are available on our server. All other released versions here on github are out-of-date.
+[Precompiled firmware images](https://firmware.ffbsee.de//firmware/ "Precompiled firmware images") are available on our server. You can search them via [Fir,ware-Wizard](https://firmware.ffbsee.de/firmware-wizard/). All other released versions here on github are **out-of-date**.
 
 To build the firmware yourself you need a Unix console to enter commands into.
+Please have a look at the different Branches if you want to build the newest Beta-Firmware Version.
+
 Install dependencies for the build environment (Debian/Ubuntu):
 
 ```bash
@@ -28,7 +30,7 @@ Build commands for the console:
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffbsee/firmware.git -b dev-new
+    git clone https://github.com/ffbsee/firmware.git -b master
     cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/lede/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
@@ -51,13 +53,18 @@ For other models you can lookup the "Target System" in the OpenWrt
 [hardware table](http://wiki.openwrt.org/toh/start). Your AP model
 should now be visible in the "Target Profile" list.
 
+Please notice, that some Routers need different drivers for 5GHz. Sometimes you need to select them manually.
+
 Now start the build process. This takes some time:
 
 ```bash
     make
 ```
 *You have the opportunity to compile the firmware at more CPU threats to speed up the process.*
-*e.g. to run 3 jobs (commands) simultaneously use the following option:* `make -j 3` 
+*e.g. to run 3 jobs (commands) simultaneously use the following option:*
+```bash
+make -j 3
+```
 
 The **firmware image files** will be stored in the `bin`-folder. These images can now directly be used to update your router. Please note, that two differnt image types (per router) will be provided:
 
