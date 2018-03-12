@@ -25,12 +25,12 @@ Build commands for the console:
 ```bash
     git clone git://git.lede-project.org/source.git
     cd source
-    git reset --hard 6b6578feec74dfe1f5767c573d75ba08cc57c885
+    git reset --hard 01d7a5d7dee247c40a7ecfbd7ba221640752e76f
     
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffbsee/firmware.git -b master
+    git clone https://github.com/ffbsee/firmware.git -b dev-1.0.4
     cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/lede/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
