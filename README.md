@@ -31,7 +31,7 @@ Build commands for the console:
     
     git clone https://github.com/ffbsee/firmware.git -b next
     cp -rf firmware/files firmware/package .
-    git am --whitespace=nowarn firmware/patches/lede/*.patch
+    git am --whitespace=nowarn firmware/patches/openwrt/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
     rm -rf firmware tmp
     
