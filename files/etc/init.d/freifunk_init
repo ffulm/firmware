@@ -91,11 +91,6 @@ set_hostname()
 	fi
 }
 
-set_exittunnel(){                                                                                     
-        local exittunnel="$(uci -q get freifunk.@settings[0].exittunnel 2> /dev/null)"
-	cp /etc/config/fastd.$exittunnel /etc/config/fastd                                                                                
-}
-
 set_ipv6_only(){
 	local ipv6_only="$(uci -q get freifunk.@settings[0].ipv6_only 2> /dev/null)"
 	
@@ -123,7 +118,6 @@ start()
 	set_macs
 	set_access
 	set_hostname
-	set_exittunnel
 	set_ipv6_only
 
 	echo "(I) Freifunk: done freifunk_init"
