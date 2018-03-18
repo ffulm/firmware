@@ -560,6 +560,22 @@ update_070(){
 	uci commit uhttpd
 }
 
+update_103(){
+	# update fastd configuration
+        cp /rom/etc/config/fastd /etc/config/
+
+        # Preserve self signed certificates
+        cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+        cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+        cp /rom/etc/sysupgrade.conf /etc/sysupgrade.conf
+        cp /rom/etc/iproute2/rt_tables /etc/iproute2/rt_tables
+
+        # Create fresh /etc/sysctl.conf
+        cp /rom/etc/sysctl.conf /etc/sysctl.conf
+        cat >> /etc/sysctl.conf <<-  EOF
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -588,6 +604,7 @@ start()
 			update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.3*)
@@ -598,6 +615,7 @@ start()
                         update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.4*)
@@ -607,6 +625,7 @@ start()
                         update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.5*)
@@ -615,6 +634,7 @@ start()
 			update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.6*)
@@ -622,6 +642,7 @@ start()
 			update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.1.0*)
@@ -629,36 +650,42 @@ start()
                         update_006
 			update_064
 			update_070
+			update_103
                         update_version
                         ;;
                 0.6.0*)
                 	echo "(I) Apply 0.6.0-dev update."
                         update_064
 			update_070
+			update_103
                         update_version
                         ;;
                 0.6.1*)
                 	echo "(I) Apply 0.6.1 update."
                         update_064
 			update_070
+			update_103
                         update_version
                         ;;
 		0.6.2*)
 			echo "(I) Apply 0.6.2 update."
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.6.3*)
 			echo "(I) Apply 0.6.3-development update."
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.6.4*)
 			echo "(I) Apply 0.6.4-development update."
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.7.0*)
@@ -666,6 +693,12 @@ start()
 			update_070
 			update_version
 			;;
+		1.0.3*)
+                        echo "(I) Apply 1.0.3 update."
+                        update_070
+			update_103
+                        update_version
+                        ;;
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
