@@ -397,9 +397,6 @@ update_006(){
 		uci delete freifunk.@settings[0].geo
 	}
 
-	# add setting for chosen exit tunnel scheme and make foreign standard
-        uci set freifunk.@settings[0].exittunnel="foreign"
-
         # add setting for explicitly using ipv6 fast connection
         uci set freifunk.@settings[0].ipv6_only="both"
 
