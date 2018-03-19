@@ -23,7 +23,8 @@ Install dependencies for the build environment (Debian/Ubuntu):
 Build commands for the console:
 
 ```bash
-    git clone git://git.openwrt.org/source.git
+    git clone git://git.openwrt.org/source.git 
+    git reset --hard 9fc916a40cadf1a00e2d231426bdaa9f8f63ecf6
     cd source
     
     ./scripts/feeds update -a
@@ -32,7 +33,8 @@ Build commands for the console:
     git clone https://github.com/ffbsee/firmware.git -b next
     cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch
-    cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
+    # no routing patches right now, so next line is commented out
+    # cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
     rm -rf firmware tmp
     
     make defconfig
