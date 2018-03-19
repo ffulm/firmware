@@ -24,9 +24,9 @@ Build commands for the console:
 
 ```bash
     git clone git://git.openwrt.org/source.git 
-    git reset --hard 9fc916a40cadf1a00e2d231426bdaa9f8f63ecf6
     cd source
-    
+    git reset --hard 9fc916a40cadf1a00e2d231426bdaa9f8f63ecf6
+        
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
