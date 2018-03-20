@@ -57,7 +57,7 @@ config peer 'vpn4'
 	option float 0
 
 config peer 'vpn5'
-	option enabled 1
+	option enabled 0
 	option net 'default'
 	option group 'backbone'
 	option key '6c86de370e59200eb45ba23ea850f0d6c9711b3c8099cff2c7c61e031f56ca5b'
