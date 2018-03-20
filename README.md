@@ -28,10 +28,11 @@ Build commands for the console:
     git clone https://github.com/ffulm/firmware.git
     cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/lede/*.patch
-    cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
+    cd feeds/routing
+    git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
+    cd -
     rm -rf firmware tmp
     
-    make defconfig
     make menuconfig
 ```
 Now select the right "Target System" and "Target Profile" for your AP model:
@@ -56,12 +57,10 @@ Now start the build process. This takes some time:
 *You have the opportunity to compile the firmware on more CPU Threads. 
 E.g. for 4 threads type* `make -j4` .
 
-The **firmware images** are now in the `bin`-folder. Use the firmware update
-functionality of your router and upload the factory image to flash it with the freifunk firmware. The sysupgrade
-images are for further updates.
+The **firmware image** files can now be found under the `bin/targets` folder. Use the firmware update functionality of your router and upload the factory image file to flash it with the Freifunk firmware. The sysupgrade images are for updates.
 
-* Use `openwrt-[chip]-[model]-squashfs-factory.bin` for the initial flash.
-* Use `openwrt-[chip]-[model]-squashfs-sysupgrade.bin` for futher updates.
+* Use `openwrt-[chip]-[model]-squashfs-factory.bin` for use with the vendor firmware.
+* Use `openwrt-[chip]-[model]-squashfs-sysupgrade.bin` for use with OpenWrt based firmware.
 
 **Many routers have not been tested yet, but may work.**
 ***Give it a try! :-)***
