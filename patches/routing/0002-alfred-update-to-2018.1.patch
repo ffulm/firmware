@@ -1,18 +1,19 @@
-From 42fb8286b8a33512d205552e6428be0fae22d9f5 Mon Sep 17 00:00:00 2001
+From eedf24940955f992e3420de6ae3b82895a609dd5 Mon Sep 17 00:00:00 2001
 From: Moritz Warning <moritzwarning@web.de>
-Date: Sun, 28 Jan 2018 21:44:53 +0100
-Subject: [PATCH 2/3] alfred: update to version 2017.4
+Date: Wed, 2 May 2018 23:55:57 +0200
+Subject: [PATCH 2/3] alfred: update to 2018.1
 
 ---
- alfred/Makefile            |  9 +++------
+ alfred/Makefile            |  8 ++------
+ alfred/files/alfred.init   |  4 ++--
  alfred/files/bat-hosts.lua | 29 +++++++++++++++++------------
- 2 files changed, 20 insertions(+), 18 deletions(-)
+ 3 files changed, 21 insertions(+), 20 deletions(-)
 
 diff --git a/alfred/Makefile b/alfred/Makefile
-index 379c0fe..7be04a6 100644
+index 379c0fe..a0d25a5 100644
 --- a/alfred/Makefile
 +++ b/alfred/Makefile
-@@ -7,14 +7,11 @@
+@@ -7,14 +7,10 @@
  
  include $(TOPDIR)/rules.mk
  
@@ -21,15 +22,32 @@ index 379c0fe..7be04a6 100644
 -#
  PKG_NAME:=alfred
 -PKG_VERSION:=2016.5
-+PKG_VERSION:=2017.4
++PKG_VERSION:=2018.1
  PKG_RELEASE:=0
 -PKG_MD5SUM:=e03d422ed3b5a162b90e8af13389523f
 -PKG_HASH:=37b3babf7f37643cf296be11fb82d5730cf441a5a56f72fba96edae9f149c9d2
-+PKG_MD5SUM:=b7bf677b28ad25df2cbc5c0fadaa204c
-+PKG_HASH:=c4ea1afa75628667693d14ee95f08c9943b9f0001b8c442c9a2974f26c75dc88
++PKG_HASH:=808fa6acf65c7a8e26405115176a5587157f746108cbe5dd974788eb05416d76
  
  PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
  PKG_SOURCE_URL:=https://downloads.open-mesh.org/batman/releases/batman-adv-$(PKG_VERSION)
+diff --git a/alfred/files/alfred.init b/alfred/files/alfred.init
+index 4c9a9e1..8293436 100755
+--- a/alfred/files/alfred.init
++++ b/alfred/files/alfred.init
+@@ -46,11 +46,11 @@ wait_for_ll_address()
+ 	for i in $(seq $timeout); do
+ 		# We look for
+ 		# - the link-local address (starts with fe80)
+-		# - without tentative flag (bit 0x40 in the flags field; the first char of the flags field begins 38 columns after the fe80 prefix
++		# - without tentative flag (bit 0x40 in the flags field; the first char of the fifth field is evaluated)
+ 		# - on interface $iface
+ 		if awk '
+ 			BEGIN { RET=1 }
+-			/^fe80.{37} [012389ab]/ { if ($6 == "'"$iface"'") RET=0 }
++			$1 ~ /^fe80/ && $5 ~ /^[012389ab]/ && $6 == "'"$iface"'" { RET=0 }
+ 			END { exit RET }
+ 		' /proc/net/if_inet6; then
+ 			return
 diff --git a/alfred/files/bat-hosts.lua b/alfred/files/bat-hosts.lua
 index 8648caf..f9fe586 100644
 --- a/alfred/files/bat-hosts.lua
@@ -72,5 +90,5 @@ index 8648caf..f9fe586 100644
  end
  
 -- 
-2.16.1
+2.17.0
 
