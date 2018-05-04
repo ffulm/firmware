@@ -9,11 +9,11 @@ li { list-style-type: none; }
 
 html {
 	font: 90%/1.3 arial,sans-serif;
-    background: no-repeat center center,-moz-linear-gradient(top,    rgba(255,255,255,1), rgba(0,158,224,0.3));
-    background: no-repeat center center,-webkit-linear-gradient(top, rgba(255,255,255,1), rgba(0,158,224,0.3));
-    background: no-repeat center center,-o-linear-gradient(top,      rgba(255,255,255,1), rgba(0,158,224,0.3));
-    background: no-repeat center center,-ms-linear-gradient(top,     rgba(255,255,255,1), rgba(0,158,224,0.3));
-    background: no-repeat center center,linear-gradient(top,         rgba(255,255,255,1), rgba(0,158,224,0.3));
+	background: no-repeat center center,-moz-linear-gradient(top,    rgba(255,255,255,1), rgba(0,158,224,0.3));
+	background: no-repeat center center,-webkit-linear-gradient(top, rgba(255,255,255,1), rgba(0,158,224,0.3));
+	background: no-repeat center center,-o-linear-gradient(top,      rgba(255,255,255,1), rgba(0,158,224,0.3));
+	background: no-repeat center center,-ms-linear-gradient(top,     rgba(255,255,255,1), rgba(0,158,224,0.3));
+	background: no-repeat center center,linear-gradient(top,         rgba(255,255,255,1), rgba(0,158,224,0.3));
 }
 
 body {
@@ -86,7 +86,8 @@ fieldset {
 	border: 1px solid #ddd;
 	padding: 0.5em;
 	margin: 0.5em;
-	width: 38em;
+	width: 90%;
+	max-width: 38em;
 }
 
 fieldset fieldset {
@@ -244,6 +245,16 @@ button {
 	#globalnav.responsive li a {
 		display: block;
 		text-align: left;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	fieldset div > label {
+		width: auto;
+		font-style: italic;
+	}
+	fieldset div > span {
+		float: right;
 	}
 }
 
