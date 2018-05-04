@@ -86,7 +86,8 @@ fieldset {
 	border: 1px solid #ddd;
 	padding: 0.5em;
 	margin: 0.5em;
-	width: 38em;
+	width: 90%;
+	max-width: 38em;
 }
 
 fieldset fieldset {
@@ -244,6 +245,16 @@ button {
 	#globalnav.responsive li a {
 		display: block;
 		text-align: left;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	fieldset div > label {
+		width: auto;
+		font-style: italic;
+	}
+	fieldset div > span {
+		float: right;
 	}
 }
 
