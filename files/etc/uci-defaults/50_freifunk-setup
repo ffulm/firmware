@@ -563,6 +563,9 @@ update_070(){
 update_103(){
 	# update fastd configuration
         cp /rom/etc/config/fastd /etc/config/
+	
+	# update firewall rules
+	cp /rom/etc/firewall.user /etc/firewall.user
 
         # Preserve self signed certificates
         cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
