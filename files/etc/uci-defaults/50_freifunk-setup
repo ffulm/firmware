@@ -571,12 +571,8 @@ update_103(){
         cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
         cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
 
-        cp /rom/etc/sysupgrade.conf /etc/sysupgrade.conf
-        cp /rom/etc/iproute2/rt_tables /etc/iproute2/rt_tables
-
-        # Create fresh /etc/sysctl.conf
-        cp /rom/etc/sysctl.conf /etc/sysctl.conf
-        cat >> /etc/sysctl.conf <<-  EOF
+        # delete old settings
+	uci delete freifunk.@settings[0].exittunnel
 }
 
 start()
