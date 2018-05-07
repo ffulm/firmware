@@ -570,6 +570,9 @@ update_103(){
         # Preserve self signed certificates
         cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
         cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+	
+	# delete old settings
+	uci delete freifunk.@settings[0].exittunnel
 }
 
 
