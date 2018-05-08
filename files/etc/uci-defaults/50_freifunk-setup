@@ -574,6 +574,16 @@ update_103(){
         # delete old settings
 	uci delete freifunk.@settings[0].exittunnel
 }
+update_105(){
+	# Preserve self signed certificates
+        cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+        cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+        # delete old files
+	rm /etc/config/fastd.either 2> /dev/null
+	rm /etc/config/fastd.domestic 2> /dev/null
+	rm /etc/config/fastd.foreign 2> /dev/null
+}
 
 start()
 {
@@ -690,12 +700,19 @@ start()
 		0.7.0*)
 			echo "(I) Apply 0.7.0 update."
 			update_070
+			update_103
+			update_105
 			update_version
 			;;
 		1.0.3*)
                         echo "(I) Apply 1.0.3 update."
-                        update_070
-			update_103
+                        update_103
+			update_105
+                        update_version
+                        ;;
+		1.0.5*)
+                        echo "(I) Apply 1.0.5 update."
+                        update_105
                         update_version
                         ;;
 		"")
