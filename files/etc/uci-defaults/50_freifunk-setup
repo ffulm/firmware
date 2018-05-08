@@ -695,8 +695,7 @@ start()
 			update_version
 			;;
 		1.0.3*)
-                        echo "(I) Apply 0.7.0 update."
-                        update_070
+                        echo "(I) Apply 1.0.3 update."
                         update_103
                         update_version
                         ;;
