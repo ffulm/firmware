@@ -18,7 +18,7 @@ case "${GET_func:-$POST_func}" in
 			args="-n"
 		fi
 
-		echo "Starte Update ..."
+		echo "Update started..."
 
 		#apply lede or vendor image
 		sysupgrade $args $path
@@ -30,13 +30,13 @@ case "${GET_func:-$POST_func}" in
 		autoupdater -f 2>&1
 	;;
 	restore_firmware)
-		echo "Alle &#196;nderungen werden zurückgesetzt ..."
+		echo "Alle &#196;Changes are reset ..."
 		echo y | firstboot
-		echo "Router wird neugestartet..."
+		echo "Router is restarted ..."
 		reboot
 	;;
 	*)
-		echo "Fehler: Unbekannter Befehl: '$GET_func'"
+		echo "Error: Unknown command: '$GET_func'"
 	;;
 esac
 %>
