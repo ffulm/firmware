@@ -7,6 +7,11 @@ function removeClass(e, c) { e.classList.remove(c); }
 function setText(id, txt) { $(id).innerHTML = txt; }
 function inArray(item, array) { return array.indexOf(item) != -1; }
 
+//Google Translate API function
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+
 function split(str)
 {
 	if (typeof str != 'string') {
