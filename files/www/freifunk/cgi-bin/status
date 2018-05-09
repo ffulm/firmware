@@ -29,7 +29,7 @@ echo "		<ul>"
 
 contact="$(uci -q get freifunk.@settings[0].contact)"
 if [ -n "$contact" ]; then
-	echo "			<li><a href='#'>Kontakt: $contact</a></li>"
+	echo "			<li><a href='#'>Contact: $contact</a></li>"
 fi
 
 lat="$(uci -q get freifunk.@settings[0].latitude)"
