@@ -45,6 +45,17 @@ fi
 	<h1><% uci -q get freifunk.@settings[0].name | tr -d '\n' %></h1>
 	<h2>Firmware Version <% uci -q get freifunk.@settings[0].version | tr -d '\n' %></h2>
 </div>
+
+<div align='right' id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <div class="content">
 	<div class="pure-g">
 		<div class="pure-u-md-1-3">
