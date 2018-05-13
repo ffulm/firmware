@@ -98,11 +98,6 @@ function appendSetting(p, path, value, mode)
             addClass(b, "adv_hide");
         }
         break;
-    case "exittunnel":                                                                                                                                        
-        b = append_radio(p, "Exit-Tunnel", id, value, [["Ausland", "foreign"], ["Deutschland", "domestic"], ["Egal", "either"]]);   
-        addHelpText(b, "Welchen Gateway soll dieser Freifunk bevorzugen? [Diese Option wird demnächst weg-optimiert] Ausland: Gateways auserhalb von Deutschland bevorzugen. Deutschland: Gateways innerhalb deutschlands bevorzugen. Egal: Schnelle Gateways bevorzugen");          
-        addClass(b, "adv_hide");                                                                                                 
-        break; 
     case "ipv6_only":
         b = append_radio(p, "IP Protokoll VPN", id, value, [["Dual Stack", "both"], ["IPv6", "ipv6"], ["IPv4 (legacy)", "legacy"]]);
         addHelpText(b, "Welche Version des IP-Protokolls soll f\xfcr den Verbindungsaufbau zum Gateway verwendet werden? (Dual Stack (empfohlen): Alle verfügbaren, IPv6: Nur IPv6 verwenden, IPv4: Nur IPv4 verwenden!)");
@@ -185,7 +180,6 @@ function rebuild_general()
         appendSetting(rfs, ['freifunk', i, "community_url"], f[i]["community_url"]);
         appendSetting(rfs, ['freifunk', i, "community"], f[i]["community"]);
         appendSetting(gfs, ['freifunk', i, "ipv6_only"], f[i]["ipv6_only"]);
-        appendSetting(gfs, ['freifunk', i, "exittunnel"], f[i]["exittunnel"]);
         appendSetting(gfs, ['freifunk', i, "publish_map"], f[i]["publish_map"]);
         appendSetting(gfs, ['freifunk', i, "allow_access_from"], f[i]["allow_access_from"]);
         appendSetting(rfs, ['freifunk', i, "service_label"], f[i]["service_label"]);

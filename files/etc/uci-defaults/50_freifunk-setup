@@ -397,9 +397,6 @@ update_006(){
 		uci delete freifunk.@settings[0].geo
 	}
 
-	# add setting for chosen exit tunnel scheme and make foreign standard
-        uci set freifunk.@settings[0].exittunnel="foreign"
-
         # add setting for explicitly using ipv6 fast connection
         uci set freifunk.@settings[0].ipv6_only="both"
 
@@ -563,6 +560,22 @@ update_070(){
 	uci commit uhttpd
 }
 
+update_103(){
+	# update fastd configuration
+        cp /rom/etc/config/fastd /etc/config/
+	
+	# update firewall rules
+	cp /rom/etc/firewall.user /etc/firewall.user
+
+        # Preserve self signed certificates
+        cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+        cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+	
+	# delete old settings
+	uci delete freifunk.@settings[0].exittunnel
+}
+
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -591,6 +604,7 @@ start()
 			update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.3*)
@@ -601,6 +615,7 @@ start()
                         update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.4*)
@@ -610,6 +625,7 @@ start()
                         update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.5*)
@@ -618,6 +634,7 @@ start()
 			update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.0.6*)
@@ -625,6 +642,7 @@ start()
 			update_006
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.1.0*)
@@ -632,43 +650,56 @@ start()
                         update_006
 			update_064
 			update_070
+			update_103
                         update_version
                         ;;
                 0.6.0*)
                 	echo "(I) Apply 0.6.0-dev update."
                         update_064
 			update_070
+			update_103
                         update_version
                         ;;
                 0.6.1*)
                 	echo "(I) Apply 0.6.1 update."
                         update_064
 			update_070
+			update_103
                         update_version
                         ;;
 		0.6.2*)
 			echo "(I) Apply 0.6.2 update."
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.6.3*)
 			echo "(I) Apply 0.6.3-development update."
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.6.4*)
 			echo "(I) Apply 0.6.4-development update."
 			update_064
 			update_070
+			update_103
 			update_version
 			;;
 		0.7.0*)
 			echo "(I) Apply 0.7.0 update."
 			update_070
+			update_103
 			update_version
 			;;
+		1.0.3*)
+                        echo "(I) Apply 1.0.3 update."
+                        update_103
+                        update_version
+                        ;;
+		
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
