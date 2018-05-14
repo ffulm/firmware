@@ -30,7 +30,7 @@ Build commands for the console:
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffbsee/firmware.git -b 1.0.5
+    git clone https://github.com/ffbsee/firmware.git -b master
     cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/lede/*.patch
     cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
