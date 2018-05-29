@@ -14,7 +14,7 @@ memory_usage()
 
 rootfs_usage()
 {
-	df / | awk '/^overlayfs/{print($5/100); exit;}'
+	df / | awk 'FNR == 2 {print($5/100); exit;}'
 }
 
 print_basic() {
@@ -35,7 +35,7 @@ print_basic() {
 		echo -n "\"latitude\" : $latitude, "
 	fi
 
-	echo -n "\"model\" : \"$(cat /tmp/sysinfo/model)\", "
+	echo -n "\"model\" : \"$(cat /tmp/sysinfo/model | sed -e 's/[[:space:]]*$//')\", "
 	echo -n "\"links\" : ["
 
 	printLink() { echo -n "{ \"smac\" : \"$(cat /sys/class/net/$3/address)\", \"dmac\" : \"$1\", \"qual\" : $2 }"; }
