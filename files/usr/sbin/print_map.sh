@@ -35,7 +35,7 @@ print_basic() {
 		echo -n "\"latitude\" : $latitude, "
 	fi
 
-	echo -n "\"model\" : \"$(cat /tmp/sysinfo/model | sed -e 's/[[:space:]]*$//')\", "
+	echo -n "\"model\" : \"$(cat /tmp/sysinfo/model | sed -e 's/  */ /g')\", "
 	echo -n "\"links\" : ["
 
 	printLink() { echo -n "{ \"smac\" : \"$(cat /sys/class/net/$3/address)\", \"dmac\" : \"$1\", \"qual\" : $2 }"; }
