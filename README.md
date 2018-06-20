@@ -18,19 +18,22 @@ Install dependencies for the build environment (Debian/Ubuntu):
 Build commands for the console:
 
 ```bash
-    git clone git://git.lede-project.org/source.git
-    cd source
-    git reset --hard 01d7a5d7dee247c40a7ecfbd7ba221640752e76f
+    git clone https://git.openwrt.org/openwrt/openwrt.git
+    cd openwrt
+    git reset --hard eed9d40133fe6468cc253d0345c7d7332d2aaa7c
+    
+    git clone https://github.com/ffulm/firmware.git
+    cp -rf firmware/files firmware/package firmware/feeds.conf .
     
     ./scripts/feeds update -a
     ./scripts/feeds install -a
     
-    git clone https://github.com/ffulm/firmware.git
-    cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/lede/*.patch
+    
     cd feeds/routing
     git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
     cd -
+    
     rm -rf firmware tmp
     
     make menuconfig
