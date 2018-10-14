@@ -30,10 +30,8 @@ Build commands for the console:
     
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch
     
-    cd feeds/routing
-    git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
-    cd ../../
-    
+    git am --whitespace=nowarn firmware/patches/routing/*.patch
+
     rm -rf firmware tmp
     
     make menuconfig
