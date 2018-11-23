@@ -20,65 +20,11 @@ config peer_group 'backbone'
 	option net 'default'
 	option peer_limit '1'
 
-config peer 'vpn1'
-	option enabled 1
-	option net 'default'
-	option group 'backbone'
-	option key '2ee6de7bf5705cc944dc03d0e3d9175f51a568b6222c400de82c3721384b54f6'
-	list remote 'ipv6 "vpn1.freifunk-ulm.de" port 1244'
-	list remote 'ipv4 "vpn1.freifunk-ulm.de" port 1244'
-	option float 0
-
-config peer 'vpn2'
-	option enabled 1
-	option net 'default'
-	option group 'backbone'
-	option key 'dfb46c9b5237199b3256508b7a21d4055152d53df5adef0314a962b0ce297640'
-	list remote 'ipv6 "vpn2.freifunk-ulm.de" port 1244'
-	list remote 'ipv4 "vpn2.freifunk-ulm.de" port 1244'
-	option float 0
-
-config peer 'vpn3'
-	option enabled 0
-	option net 'default'
-	option group 'backbone'
-	option key '7a6a679880776608b23b037c5efe209433f6c0f1a2e160cf83759334c3367dee'
-	list remote 'ipv6 "vpn3.freifunk-ulm.de" port 1244'
-	list remote 'ipv4 "vpn3.freifunk-ulm.de" port 1244'
-	option float 0
-
-config peer 'vpn4'
-	option enabled 1
-	option net 'default'
-	option group 'backbone'
-	option key 'bf2ad179bce3daed29ddaabb7643f7937829de015263480a12c0a77e68b12924'
-	list remote 'ipv6 "vpn4.freifunk-ulm.de" port 1244'
-	list remote 'ipv4 "vpn4.freifunk-ulm.de" port 1244'
-	option float 0
-
-config peer 'vpn5'
-	option enabled 0
-	option net 'default'
-	option group 'backbone'
-	option key '6c86de370e59200eb45ba23ea850f0d6c9711b3c8099cff2c7c61e031f56ca5b'
-	list remote 'ipv6 "vpn5.freifunk-ulm.de" port 1244'
-	list remote 'ipv4 "vpn5.freifunk-ulm.de" port 1244'
-	option float 0
-
-config peer 'vpn6'
-	option enabled 0
-	option net 'default'
-	option group 'backbone'
-	option key '8bc0158ce98dad2c7e1f122a36657208a3b8cc18f68cfb3c32862ed398786fb8'
-	list remote 'ipv6 "vpn6.freifunk-ulm.de" port 1244'
-	list remote 'ipv4 "vpn6.freifunk-ulm.de" port 1244'
-	option float 0
-
 config peer 'vpn10'
 	option enabled 1
 	option net 'default'
 	option group 'backbone'
-	option key '6ea14d1eb697400130c7cffaa5cb9d0f0010b6c5f36d1cd73cf87ab274841e71'
+	option key 'ecd1a0709beee71f796ca0d5a9de1e6e098de9a88c1fc230d48991114f8bb8d2'
 	list remote 'ipv6 "vpn10.freifunk-ulm.de" port 1244'
 	list remote 'ipv4 "vpn10.freifunk-ulm.de" port 1244'
 	option float 0
@@ -87,7 +33,7 @@ config peer 'vpn11'
 	option enabled 1
 	option net 'default'
 	option group 'backbone'
-	option key '3810c213541cd9e24ce5f789f9fdb4badd4e36b9a0815e351f5621e5c851cfcf'
+	option key 'd70fc192561ae5acac3b6db8edca32abff0d27300f65bd9e7501148888a943bc'
 	list remote 'ipv6 "vpn11.freifunk-ulm.de" port 1244'
 	list remote 'ipv4 "vpn11.freifunk-ulm.de" port 1244'
 	option float 0
@@ -96,7 +42,7 @@ config peer 'vpn12'
 	option enabled 1
 	option net 'default'
 	option group 'backbone'
-	option key 'b86bd1157b32618a221f9fe4a72032b3fb769013fbef6b84ef12630d5eec6df3'
+	option key '211e6902eeb97bde95ba9ec3bd520afb43879f0197782cafa8bf07639a8b78d5'
 	list remote 'ipv6 "vpn12.freifunk-ulm.de" port 1244'
 	list remote 'ipv4 "vpn12.freifunk-ulm.de" port 1244'
 	option float 0
@@ -105,7 +51,7 @@ config peer 'vpn13'
 	option enabled 1
 	option net 'default'
 	option group 'backbone'
-	option key 'e9abba0362ad5030fb07a19fef3c0d39bf28d06e3164f00fbfaff59e927cfe00'
+	option key 'b85904d97f0e049249b5467257bc9293e7a0cf59de4fdbf811e0d4c6c7561368'
 	list remote 'ipv6 "vpn13.freifunk-ulm.de" port 1244'
 	list remote 'ipv4 "vpn13.freifunk-ulm.de" port 1244'
 	option float 0
@@ -114,7 +60,7 @@ config peer 'vpn14'
 	option enabled 1
 	option net 'default'
 	option group 'backbone'
-	option key 'e804dcc6df5419ac13ff9251d3ee50d4b7f65bc238e47e088cff605839d235a0'
+	option key 'fd5dd4744bf5828d5112a1698175743d82214f5b798663b3fcb7c4ff337c6ac4'
 	list remote 'ipv6 "vpn14.freifunk-ulm.de" port 1244'
 	list remote 'ipv4 "vpn14.freifunk-ulm.de" port 1244'
 	option float 0
@@ -123,7 +69,7 @@ config peer 'vpn15'
 	option enabled 1
 	option net 'default'
 	option group 'backbone'
-	option key '80850461ee1a75c7c6cd02c96ee9b7160eb60b83c74dc9a675a6bb7d0c4c3928'
+	option key '0e2cde8a1af07a1c897665ec232f5a151f463cdbc2a08fa5a08791c8d69417f9'
 	list remote 'ipv6 "vpn15.freifunk-ulm.de" port 1244'
 	list remote 'ipv4 "vpn15.freifunk-ulm.de" port 1244'
 	option float 0
