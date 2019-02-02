@@ -585,6 +585,13 @@ update_105(){
 	rm /etc/config/fastd.foreign 2> /dev/null
 }
 
+
+update_111(){
+	# Preserve self signed certificates
+        cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+        cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -715,6 +722,11 @@ start()
                         update_105
                         update_version
                         ;;
+		1.1.1*)
+		        echo "(I) Apply 1.1.1 update."
+                        update_111
+                        update_version
+                        ;;	
 		"")
 			echo "(I) Start initial setup."
 			initial_setup
