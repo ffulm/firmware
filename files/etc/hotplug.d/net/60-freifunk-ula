@@ -3,11 +3,15 @@
 # Make sure that the ULA address is based on the
 # MAC address of the primary batman-adv interface.
 
+# This makes the node reachable by the MAC address
+# used by batman-adv and therefore the map.
+
 if [ "$INTERFACE" = "bat0" ]; then
 	. /lib/ff_shared.sh
 
-	macaddr="$(cat /sys/kernel/debug/batman_adv/bat0/originators | awk -F'[/ ]' '{print $7; exit;}')"
+	macaddr="$(cat /sys/kernel/debug/batman_adv/bat0/neighbors | awk -F'[/ ]' '{print $7; exit;}')"
 	prefix="$(uci get network.globals.ula_prefix)"
 	ipaddr="$(ula_addr $prefix $macaddr)"
 	ip a a "$ipaddr/64" dev br-freifunk
 fi
+
