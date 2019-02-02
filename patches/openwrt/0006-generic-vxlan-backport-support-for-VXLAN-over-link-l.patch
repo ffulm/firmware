@@ -1,12 +1,24 @@
+From a12fddcbf066e3f360b50ff78f64a75cc26ef093 Mon Sep 17 00:00:00 2001
 From: Matthias Schiffer <mschiffer@universe-factory.net>
 Date: Tue, 9 Jan 2018 22:38:19 +0100
-Subject: generic: vxlan: backport support for VXLAN over link-local IPv6 to 4.9
+Subject: [PATCH 06/13] generic: vxlan: backport support for VXLAN over
+ link-local IPv6 to 4.9
 
 Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+---
+ ...ve-validation-of-address-family-configura.patch |  73 +++++++++
+ ...heck-valid-combinations-of-address-scopes.patch |  91 +++++++++++
+ ...ix-snooping-for-link-local-IPv6-addresses.patch |  93 +++++++++++
+ ...-multiple-VXLANs-with-same-VNI-for-IPv6-l.patch | 182 +++++++++++++++++++++
+ 4 files changed, 439 insertions(+)
+ create mode 100644 target/linux/generic/backport-4.9/095-0001-vxlan-improve-validation-of-address-family-configura.patch
+ create mode 100644 target/linux/generic/backport-4.9/095-0002-vxlan-check-valid-combinations-of-address-scopes.patch
+ create mode 100644 target/linux/generic/backport-4.9/095-0003-vxlan-fix-snooping-for-link-local-IPv6-addresses.patch
+ create mode 100644 target/linux/generic/backport-4.9/095-0004-vxlan-allow-multiple-VXLANs-with-same-VNI-for-IPv6-l.patch
 
 diff --git a/target/linux/generic/backport-4.9/095-0001-vxlan-improve-validation-of-address-family-configura.patch b/target/linux/generic/backport-4.9/095-0001-vxlan-improve-validation-of-address-family-configura.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..2114562536675cd59450928f591e70d66f8fc7b9
+index 0000000000..2114562536
 --- /dev/null
 +++ b/target/linux/generic/backport-4.9/095-0001-vxlan-improve-validation-of-address-family-configura.patch
 @@ -0,0 +1,73 @@
@@ -85,7 +97,7 @@ index 0000000000000000000000000000000000000000..2114562536675cd59450928f591e70d6
 +
 diff --git a/target/linux/generic/backport-4.9/095-0002-vxlan-check-valid-combinations-of-address-scopes.patch b/target/linux/generic/backport-4.9/095-0002-vxlan-check-valid-combinations-of-address-scopes.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..b38b9977bca192eafe9a0d9b8c36a120b3a2c590
+index 0000000000..b38b9977bc
 --- /dev/null
 +++ b/target/linux/generic/backport-4.9/095-0002-vxlan-check-valid-combinations-of-address-scopes.patch
 @@ -0,0 +1,91 @@
@@ -182,7 +194,7 @@ index 0000000000000000000000000000000000000000..b38b9977bca192eafe9a0d9b8c36a120
 +
 diff --git a/target/linux/generic/backport-4.9/095-0003-vxlan-fix-snooping-for-link-local-IPv6-addresses.patch b/target/linux/generic/backport-4.9/095-0003-vxlan-fix-snooping-for-link-local-IPv6-addresses.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..dcfd1ce7c2f015354d21a65f12f6ebd00331b629
+index 0000000000..dcfd1ce7c2
 --- /dev/null
 +++ b/target/linux/generic/backport-4.9/095-0003-vxlan-fix-snooping-for-link-local-IPv6-addresses.patch
 @@ -0,0 +1,93 @@
@@ -281,7 +293,7 @@ index 0000000000000000000000000000000000000000..dcfd1ce7c2f015354d21a65f12f6ebd0
 +
 diff --git a/target/linux/generic/backport-4.9/095-0004-vxlan-allow-multiple-VXLANs-with-same-VNI-for-IPv6-l.patch b/target/linux/generic/backport-4.9/095-0004-vxlan-allow-multiple-VXLANs-with-same-VNI-for-IPv6-l.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..18ae230a3b04d2b57184109fa14f9533f0fb7192
+index 0000000000..18ae230a3b
 --- /dev/null
 +++ b/target/linux/generic/backport-4.9/095-0004-vxlan-allow-multiple-VXLANs-with-same-VNI-for-IPv6-l.patch
 @@ -0,0 +1,182 @@
@@ -467,3 +479,6 @@ index 0000000000000000000000000000000000000000..18ae230a3b04d2b57184109fa14f9533
 +-- 
 +2.15.1
 +
+-- 
+2.11.0
+

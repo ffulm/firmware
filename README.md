@@ -25,19 +25,21 @@ Build commands for the console:
 ```bash
     git clone git://git.openwrt.org/source.git 
     cd source
-    git reset --hard aadca035bc77e6d1201c38601091b8daf6385300
+    git reset --hard a02d9a7d9fc8d005b27351509f02d3970e21972e
         
+    git clone https://github.com/ffbsee/firmware.git -b next
+    cp -rf firmware/files firmware/package firmware/feeds.conf .
+    
     ./scripts/feeds update -a
     ./scripts/feeds install -a
-    
-    git clone https://github.com/ffbsee/firmware.git -b next
-    cp -rf firmware/files firmware/package .
     git am --whitespace=nowarn firmware/patches/openwrt/*.patch
-    # no routing patches right now, so next line is commented out
-    # cd feeds/routing && git am --whitespace=nowarn ../../firmware/patches/routing/*.patch && cd -
+
+    cd feeds/routing
+    git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
+    cd ../../
+    
     rm -rf firmware tmp
     
-    make defconfig
     make menuconfig
 ```
 Now select the right "Target System" and "Target Profile" for your AP model:
