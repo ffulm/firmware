@@ -621,6 +621,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+                        update_111
 			update_version
 			;;
 		0.0.3*)
@@ -632,6 +634,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+                        update_111
 			update_version
 			;;
 		0.0.4*)
@@ -642,6 +646,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+                        update_111
 			update_version
 			;;
 		0.0.5*)
@@ -651,6 +657,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+                        update_111
 			update_version
 			;;
 		0.0.6*)
@@ -659,6 +667,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+                        update_111
 			update_version
 			;;
 		0.1.0*)
@@ -667,6 +677,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+                        update_111
                         update_version
                         ;;
                 0.6.0*)
@@ -674,6 +686,8 @@ start()
                         update_064
 			update_070
 			update_103
+			update_105
+                        update_111
                         update_version
                         ;;
                 0.6.1*)
@@ -681,6 +695,8 @@ start()
                         update_064
 			update_070
 			update_103
+			update_105
+                        update_111
                         update_version
                         ;;
 		0.6.2*)
@@ -688,6 +704,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+			update_111
 			update_version
 			;;
 		0.6.3*)
@@ -695,6 +713,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+			update_111
 			update_version
 			;;
 		0.6.4*)
@@ -702,6 +722,8 @@ start()
 			update_064
 			update_070
 			update_103
+			update_105
+			update_111
 			update_version
 			;;
 		0.7.0*)
@@ -709,17 +731,20 @@ start()
 			update_070
 			update_103
 			update_105
+			update_111
 			update_version
 			;;
 		1.0.3*)
                         echo "(I) Apply 1.0.3 update."
                         update_103
 			update_105
+			update_111
                         update_version
                         ;;
 		1.0.5*)
                         echo "(I) Apply 1.0.5 update."
                         update_105
+			update_111
                         update_version
                         ;;
 		1.1.1*)
