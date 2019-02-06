@@ -34,7 +34,7 @@ h3 {
 	font-size: 3em;
 	font-weight: 300;
 	overflow: auto;
-        padding: 0.5em 0 0.5em;  
+	padding: 0.5em 0 0.5em;  
 }
 
 .header h2 {
@@ -59,7 +59,7 @@ h3 {
 }
 
 .menu {
-        padding: 0.5em 0.5em 0.5em;
+	padding: 0.5em 0.5em 0.5em;
 	display: inline-block;
 	border: 0;
 	border-bottom: 1px solid #b7b7b7;
