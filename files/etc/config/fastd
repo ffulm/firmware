@@ -10,7 +10,7 @@ config fastd 'default'
 	option status_socket '/var/run/fastd.status'
 	option mode 'tap'
 	option interface 'fastd_mesh'
-	option mtu 1406
+	option mtu 1280
 	option forward 0
 	option secret 'generate'
 	option packet_mark 1
@@ -24,45 +24,7 @@ config peer 'gw01'
     option enabled 1
     option net 'default'
     option group 'backbone'
-    option key 'b8661d203e35247b7991e3700f9c7c952517a6e37bb1c1cc671c4c723d6df32c'
-    list remote 'ipv6 "speedtest.gw01.ffbsee.net" port 1244'
-    list remote 'ipv4 "speedtest.gw01.ffbsee.net" port 1244'
+    option key '7fa0b1bc37f77607ad273dbdcfd6a7a6f0c62139c969c68b1b0ce50ebaf86ce5'
+    list remote 'ipv6 "preview.gw01.ffbsee.net" port 1250'
+    list remote 'ipv4 "preview.gw01.ffbsee.net" port 1250'
     option float 0
-
-config peer 'gw02'
-    option enabled 1
-    option net 'default'
-    option group 'backbone'
-    option key '47304aac66113490f790cad11ab74ac2260f2797b2ab6ea19d70f30dcb86a813'
-    list remote 'ipv6 "speedtest.gw02.ffbsee.net" port 1244'
-    list remote 'ipv4 "speedtest.gw02.ffbsee.net" port 1244'
-    option float 0
-
-config peer 'gw03'
-    option enabled 1
-    option net 'default'
-    option group 'backbone'
-    option key '961b675cf8844e756dee9bd9f138a380f717d67e8bdef930435ba31890c179ac'
-    list remote 'ipv6 "speedtest.gw03.ffbsee.net" port 1244'
-    list remote 'ipv4 "speedtest.gw03.ffbsee.net" port 1244'
-    option float 0
-
-config peer 'gw04'
-    option enabled 1
-    option net 'default'
-    option group 'backbone'
-    option key '696b6fbfa5f1cc1a8a85c78276b55448d0cb89ed9d52f30234f02a811f7132d0'
-    list remote 'ipv6 "speedtest.gw04.ffbsee.net" port 1244'
-    list remote 'ipv4 "speedtest.gw04.ffbsee.net" port 1244'
-    option float 0
-
-config peer 'gw05'
-    option enabled 1
-    option net 'default'
-    option group 'backbone'
-    option key '78bcd22af09a7d88de16416cc83d7ee85f352bdbe8cb5372b3b475f555df8fd8'
-    list remote 'ipv6 "speedtest.gw05.ffbsee.net" port 1244'
-    list remote 'ipv4 "speedtest.gw05.ffbsee.net" port 1244'
-    option float 0
-
-
