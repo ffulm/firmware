@@ -27,7 +27,7 @@ Build commands for the console:
     cd source
     git reset --hard a02d9a7d9fc8d005b27351509f02d3970e21972e
         
-    git clone https://github.com/ffbsee/firmware.git -b next
+    git clone https://github.com/ffbsee/firmware.git -b next5
     cp -rf firmware/files firmware/package firmware/feeds.conf .
     
     ./scripts/feeds update -a
