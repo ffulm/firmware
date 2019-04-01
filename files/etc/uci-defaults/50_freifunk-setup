@@ -592,6 +592,23 @@ update_111(){
         cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
 }
 
+update_114(){
+        # Preserve self signed certificates
+        cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+        cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	# change everything to BATMAN_V style
+	uci set batman-adv.bat0.routing_algo='BATMAN_V'
+	uci commit batman-adv
+	
+	cp /rom/etc/config/fastd /etc/config/fastd
+	cp /rom/etc/firewall.user /etc/firewall.user
+	initial_local_node_setup
+
+	# change IP addresses to new scheme
+
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -623,6 +640,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
 			update_version
 			;;
 		0.0.3*)
@@ -636,6 +654,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
 			update_version
 			;;
 		0.0.4*)
@@ -648,6 +667,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
 			update_version
 			;;
 		0.0.5*)
@@ -659,6 +679,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
 			update_version
 			;;
 		0.0.6*)
@@ -669,6 +690,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
 			update_version
 			;;
 		0.1.0*)
@@ -679,6 +701,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
                         update_version
                         ;;
                 0.6.0*)
@@ -688,6 +711,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
                         update_version
                         ;;
                 0.6.1*)
@@ -697,6 +721,7 @@ start()
 			update_103
 			update_105
                         update_111
+			update_114
                         update_version
                         ;;
 		0.6.2*)
@@ -706,6 +731,7 @@ start()
 			update_103
 			update_105
 			update_111
+			update_114
 			update_version
 			;;
 		0.6.3*)
@@ -715,6 +741,7 @@ start()
 			update_103
 			update_105
 			update_111
+			update_114
 			update_version
 			;;
 		0.6.4*)
@@ -724,6 +751,7 @@ start()
 			update_103
 			update_105
 			update_111
+			update_114
 			update_version
 			;;
 		0.7.0*)
@@ -732,6 +760,7 @@ start()
 			update_103
 			update_105
 			update_111
+			update_114
 			update_version
 			;;
 		1.0.3*)
@@ -739,17 +768,25 @@ start()
                         update_103
 			update_105
 			update_111
+			update_114
                         update_version
                         ;;
 		1.0.5*)
                         echo "(I) Apply 1.0.5 update."
                         update_105
 			update_111
+			update_114
                         update_version
                         ;;
 		1.1.1*)
 		        echo "(I) Apply 1.1.1 update."
                         update_111
+			update_114
+                        update_version
+                        ;;
+		1.1.4*)
+                        echo "(I) Apply 1.1.4 update."
+                        update_114
                         update_version
                         ;;	
 		"")
