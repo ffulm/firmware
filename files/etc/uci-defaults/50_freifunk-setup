@@ -597,15 +597,26 @@ update_114(){
         cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
         cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
 
-	# change everything to BATMAN_V style
+	# change everything to BATMAN_V and our new subnet style
 	uci set batman-adv.bat0.routing_algo='BATMAN_V'
 	uci commit batman-adv
 	
 	cp /rom/etc/config/fastd /etc/config/fastd
 	cp /rom/etc/firewall.user /etc/firewall.user
-	initial_local_node_setup
-
+ 	
 	# change IP addresses to new scheme
+
+	uci -q delete network.freifunk.ip6addr
+        uci -q delete network.freifunk.ipaddr
+	uci -q commit network
+	initial_local_node_setup
+        sed -i 's/10\.11\.175\.127/10.15.239.127/' /etc/hosts
+	sed -i "s/fdef:1701:b5ee:42/fdef:1701:b5ee:23/g" /etc/config/*
+
+	# change mesh_id
+	sed -i "s/mesh_id 'ffbsee_mesh'/mesh_id 'ffbsee_mesh5'/g" /etc/config/wireless
+	uci -q set freifunk.@settings[0].default_mesh_id="ffbsee_mesh5"
+	uci -q commit freifunk
 
 }
 
