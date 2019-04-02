@@ -90,6 +90,7 @@ print 'neigh_count' "$(tail -n +3 /sys/kernel/debug/batman_adv/bat0/neighbors 2>
 print 'firmware_version' "$(uci -q get freifunk.@settings[0].version)"
 print 'fastd_version' "$(fastd --version 2> /dev/null | cut -d' ' -f 2)"
 print 'batman_version' "$(cat /sys/module/batman_adv/version 2> /dev/null)"
+print 'routing-algo' "$(cat /sys/module/batman_adv/parameters/routing_algo 2> /dev/null)"
 print 'openwrt_version' "$DISTRIB_RELEASE"
 name="$(uci -q get freifunk.@settings[0].name)"
 print 'name' "${name:--}"
