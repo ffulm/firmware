@@ -603,11 +603,12 @@ update_114(){
 	cp /rom/etc/config/fastd /etc/config/fastd
 	cp /rom/etc/firewall.user /etc/firewall.user
  	
-	# change IP addresses to new scheme
+	# change IP addresses to new scheme and change mtu
 
 	uci -q delete network.freifunk.ip6addr
 	uci -q delete network.freifunk.ipaddr6
         uci -q delete network.freifunk.ipaddr
+	uci -q set network.fastd_mesh.mtu=1280
 	uci -q commit network
         
 	sed -i 's/10\.11\.175\.127/10.15.239.127/' /etc/hosts
