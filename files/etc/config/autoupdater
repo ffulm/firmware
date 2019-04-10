@@ -1,12 +1,12 @@
 config autoupdater settings
 	option enabled 1
-	option branch "stable"
+	option branch "batman5_stable"
 
-config branch stable
+config branch batman5_stable 
 	# The branch name given in the manifest
-	option name 'stable'
+	option name 'batman5_stable'
 
-	list mirror 'http://[fdef:1701:b5ee:23::42]/freifunk/firmware/autoupdater'
+	list mirror 'http://[fdef:1701:b5ee:23::42]/freifunk/firmware/autoupdater/batman5'
 	
 	#Delay excution of the autoupdater for at most fetch_delay seconds.
 	#This spreads the load of the server when all nodes start
