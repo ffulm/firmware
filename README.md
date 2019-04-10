@@ -1,4 +1,4 @@
-Firmware for Freifunk Bodensee
+Firmware for Freifunk Bodensee BATMAN_V network
 =========================
 
 The firmware turns a common wireless router into a mesh networking device.
@@ -25,7 +25,7 @@ Build commands for the console:
 ```bash
     git clone git://git.openwrt.org/source.git 
     cd source
-    git reset --hard a02d9a7d9fc8d005b27351509f02d3970e21972e
+    git reset --hard eef6bd3393f406f73187a670fa34d5e6a228f9e8
         
     git clone https://github.com/ffbsee/firmware.git -b next5
     cp -rf firmware/files firmware/package firmware/feeds.conf .
