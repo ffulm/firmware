@@ -607,9 +607,11 @@ update_114(){
 	uci set batman-adv.bat0.routing_algo='BATMAN_V'
 	uci commit batman-adv
 	
+	# copy new version of some files
 	cp /rom/etc/config/fastd /etc/config/fastd
 	cp /rom/etc/firewall.user /etc/firewall.user
- 	
+ 	cp /rom/etc/config/autoupdater /etc/config/autoupdater
+	
 	# change IP addresses to new scheme and change mtu
 
 	uci -q delete network.freifunk.ip6addr
