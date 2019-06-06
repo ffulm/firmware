@@ -14,7 +14,7 @@ define Package/freifunk-basic
 	DEFAULT:=y
 	TITLE:= Freifunk-Ulm Basic
 	URL:=http://freifunk-ulm.de
-	DEPENDS:=+kmod-batman-adv +alfred +sockread \
+	DEPENDS:=+kmod-batman-adv +batctl +alfred +sockread \
 		+uhttpd +haserl +px5g +libustream-mbedtls \
 		+fastd +ip +simple-radvd +@SMALL_FLASH \
 		+ebtables +kmod-ebtables-ipv4 +kmod-ebtables-ipv6 \
