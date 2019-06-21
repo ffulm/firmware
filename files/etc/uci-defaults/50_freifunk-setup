@@ -643,6 +643,25 @@ update_114(){
 
 }
 
+update_122() {
+	uci delete system.ntp.server
+	uci add_list system.ntp.server='ntp.ffbsee'
+	uci add_list system.ntp.server='fdef:1701:b5ee:42:1337::13d'
+	uci add_list system.ntp.server='0.lede.pool.ntp.org'
+	uci add_list system.ntp.server='1.lede.pool.ntp.org'
+	uci add_list system.ntp.server='2.lede.pool.ntp.org'
+	uci add_list system.ntp.server='3.lede.pool.ntp.org'
+	uci commit system
+	# Fix /etc/config/uhttpd
+        uci set uhttpd.px5g.commonname='OpenWrt'
+        uci commit uhttpd
+	# Fix /etc/config/system
+	if [ "$(uci get system.@system[0].hostname)" = "LEDE" ]; then
+		uci set system.@system[0].hostname='OpenWrt'
+	fi
+	
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
