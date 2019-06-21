@@ -90,7 +90,7 @@ print 'neigh_count' "$(batctl neighbors 2> /dev/null | tail -n +3 | grep  -v '^N
 print 'firmware_version' "$(uci -q get freifunk.@settings[0].version)"
 print 'fastd_version' "$(fastd --version 2> /dev/null | cut -d' ' -f 2)"
 print 'batman_version' "$(batctl -v 2> /dev/null | awk -F '[][ \t]+' '{print($4); exit;}')"
-print 'routing-algo' "$(cat /sys/module/batman_adv/parameters/routing_algo 2> /dev/null)"
+print 'routing-algo' "$(batctl ra | grep bat0 | awk -F " " '{print $NF}')"
 print 'openwrt_version' "$DISTRIB_RELEASE"
 name="$(uci -q get freifunk.@settings[0].name)"
 print 'name' "${name:--}"
