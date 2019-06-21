@@ -29,7 +29,7 @@ print_basic() {
 
 	[ -n "$contact" ] && echo -n "\"contact\" : \"$contact\", "
 	[ -n "$name" ] && echo -n "\"name\" : \"$name\", "
-	[ -n "$version" ] && echo -n "\"firmware\" : \"ffulm-$version\", "
+	[ -n "$version" ] && echo -n "\"firmware\" : \"ffbsee-$version\", "
 	[ -n "$community" ] && echo -n "\"community\" : \"$community\", "
 
 	if [ "$autoupdater_enabled" = "1" ]; then
