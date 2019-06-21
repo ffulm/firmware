@@ -45,7 +45,7 @@ print_basic() {
 	echo -n "\"links\" : ["
 
 	# Calculate bandwidth as percent value
-	calcQual() { echo "$1" "40" | awk '{ printf("%.1f", ($1 > $2) ? 100 : (100 * $1 / $2)) }'; }
+	calcQual() { echo "$1" "40" | awk '{ printf("%.1f", ($1 > $2) ? 100 : (4 * 100 * $1 / $2)) }'; }
 	printLink() { echo -n "{ \"smac\" : \"$(cat /sys/class/net/$3/address)\", \"dmac\" : \"$1\", \"qual\" : $(calcQual $2) }"; }
 	IFS="
 "
