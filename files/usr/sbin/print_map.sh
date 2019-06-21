@@ -14,7 +14,7 @@ memory_usage()
 
 rootfs_usage()
 {
-	df / | awk 'NR>1 {print($5/100); exit;}'
+	df / | awk 'BEGIN {val=100} NR==2 {val=$5} END { printf("%.2f", val/100) }'
 }
 
 print_basic() {
@@ -24,18 +24,24 @@ print_basic() {
 	local longitude="$(uci -q get freifunk.@settings[0].longitude 2> /dev/null)"
 	local latitude="$(uci -q get freifunk.@settings[0].latitude 2> /dev/null)"
 	local contact="$(uci -q get freifunk.@settings[0].contact 2> /dev/null)"
+	local autoupdater_enabled="$(uci -q get autoupdater.settings.enabled 2> /dev/null)"
+	local autoupdater_branch="$(uci -q get autoupdater.settings.branch 2> /dev/null)"
 
 	[ -n "$contact" ] && echo -n "\"contact\" : \"$contact\", "
 	[ -n "$name" ] && echo -n "\"name\" : \"$name\", "
-	[ -n "$version" ] && echo -n "\"firmware\" : \"ffbsee-$version\", "
+	[ -n "$version" ] && echo -n "\"firmware\" : \"ffulm-$version\", "
 	[ -n "$community" ] && echo -n "\"community\" : \"$community\", "
+
+	if [ "$autoupdater_enabled" = "1" ]; then
+		echo -n "\"autoupdater\" : \"$autoupdater_branch\", "
+	fi
 
 	if [ -n "$longitude" -a -n "$latitude" ]; then
 		echo -n "\"longitude\" : $longitude, "
 		echo -n "\"latitude\" : $latitude, "
 	fi
 
-	echo -n "\"model\" : \"$(cat /tmp/sysinfo/model | sed -e 's/  */ /g')\", "
+	echo -n "\"model\" : \"$(cat /tmp/sysinfo/model)\", "
 	echo -n "\"links\" : ["
 
 	# Calculate bandwidth as percent value
@@ -44,8 +50,8 @@ print_basic() {
 	IFS="
 "
 	nd=0
-	for entry in $(awk -F '[][)( \t]+' '/^[a-f0-9]/{ print($1, $3, $4) }' /sys/kernel/debug/batman_adv/bat0/neighbors 2> /dev/null); do
-		[ $nd -eq 0 ] && nd=1 || echo -n ", " 
+	for entry in $(batctl neighbors 2> /dev/null | awk -F '[][)( \t]+' '/^[a-f0-9]/{ print($1, $3, $4) }'); do
+		[ $nd -eq 0 ] && nd=1 || echo -n ", "
 		IFS=" "
 		printLink $entry
 	done
@@ -53,12 +59,13 @@ print_basic() {
 	echo -n '], '
 
 	mac=$(uci -q get network.freifunk.macaddr)
-	cat /sys/kernel/debug/batman_adv/bat0/transtable_local 2> /dev/null | tr '\t/[]()' ' ' | awk -v mac=$mac 'BEGIN{ c=0; } { if($1 == "*" && $2 != mac && $4 ~ /^[.NW]+$/ && $5 < 300) c++;} END{ printf("\"clientcount\" : %d", c);}'
+	batctl translocal 2> /dev/null | tr '\t/[]()' ' ' | awk -v mac=$mac 'BEGIN{ c=0; } { if($1 == "*" && $2 != mac && $4 ~ /^[.NW]+$/ && $5 < 300) c++;} END{ printf("\"clientcount\" : %d", c);}'
 }
 
 print_more() {
 	echo -n "\"loadavg\" : $(uptime | awk '{print($NF)}'), "
 	echo -n "\"uptime\" : $(awk '{print(int($1))}' /proc/uptime), "
+
 	print_basic
 }
 
