@@ -23,24 +23,24 @@ Install dependencies for the build environment (Debian/Ubuntu):
 Build commands for the console:
 
 ```bash
-    git clone git://git.openwrt.org/source.git 
-    cd source
-    git reset --hard eef6bd3393f406f73187a670fa34d5e6a228f9e8
-        
-    git clone https://github.com/ffbsee/firmware.git -b next5
-    cp -rf firmware/files firmware/package firmware/feeds.conf .
-    
-    ./scripts/feeds update -a
-    ./scripts/feeds install -a
-    git am --whitespace=nowarn firmware/patches/openwrt/*.patch
+git clone git://git.openwrt.org/source.git 
+cd source
+git reset --hard fc1dae5be797f54d45f5a61ae17fe548e108dd0d 
+      
+git clone https://github.com/ffbsee/firmware.git -b next5
+cp -rf firmware/files firmware/package firmware/feeds.conf .
+ 
+./scripts/feeds update -a
+./scripts/feeds install -a
+git am --whitespace=nowarn firmware/patches/openwrt/*.patch
 
-    cd feeds/routing
-    git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
-    cd ../../
-    
-    rm -rf firmware tmp
-    
-    make menuconfig
+cd feeds/routing
+git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
+cd ../../
+
+rm -rf firmware tmp
+
+make menuconfig
 ```
 Now select the right "Target System" and "Target Profile" for your AP model:
 
