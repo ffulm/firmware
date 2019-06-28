@@ -27,18 +27,18 @@ git clone git://git.openwrt.org/source.git
 cd source
 git reset --hard fc1dae5be797f54d45f5a61ae17fe548e108dd0d 
       
-git clone https://github.com/ffbsee/firmware.git -b next5
-cp -rf firmware/files firmware/package firmware/feeds.conf .
+git clone https://github.com/ffbsee/ffbsee-firmware.git
+cp -rf ffbsee-firmware/files ffbsee-firmware/package ffbsee-firmware/feeds.conf .
  
 ./scripts/feeds update -a
 ./scripts/feeds install -a
-git am --whitespace=nowarn firmware/patches/openwrt/*.patch
+git am --whitespace=nowarn ffbsee-firmware/patches/openwrt/*.patch
 
 cd feeds/routing
-git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
+git am --whitespace=nowarn ../../ffbsee-firmware/patches/routing/*.patch
 cd ../../
 
-rm -rf firmware tmp
+rm -rf ffbsee-firmware tmp
 
 make menuconfig
 ```
