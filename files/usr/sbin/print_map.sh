@@ -60,7 +60,7 @@ print_basic() {
 	echo -n '], '
 
 	mac=$(uci -q get network.freifunk.macaddr)
-	echo -n "\"clientcount\" : $(batctl translocal 2> /dev/null | grep -c 'W')"
+	echo -n "$(batctl translocal 2> /dev/null | tr '\t/[]()' ' ' | awk -v mac=$mac 'BEGIN{ c=0; } { if($1 != mac && $3 ~ /^[.NW]+$/ && $4 < 300) c++;} END{ printf("\"clientcount\" : %d", c);}')"
 }
 
 print_more() {
