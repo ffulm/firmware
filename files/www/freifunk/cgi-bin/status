@@ -94,6 +94,7 @@ if [ -n "$max" -a "$max" != "0" ]; then
 	link_list=$(
 		printf "$(alfred -r 91 | head -$max)" | awk -F'["\\]+' -v addr_prefix="$addr_prefix" '{ if($5 == "link" && match($7, "^[][ #[:alnum:]_\/.:]{1,128}$") && $9 == "label" && match($11, "^[][ [:alnum:]_\/.:]{1,32}$") && match($7, addr_prefix "|\.ff[a-z]{0,3}")) printf("			<li><h3><a href=\"%s\">%s</a></h3></li>\n", $7, $11) }'
 	)
+	link_list=$(echo "$link_list"| sed -e 's/\(http\|https\)\(:\/\/\)\[\([0-9\.]\+\)\]/\1\2\3/g')
 	[ -n "$link_list" ] && echo "$link_list" || echo '		<li><h3>Keine Angebote gefunden.</h3></li>'
 	echo '	</ul>'
 	echo '</div>'
