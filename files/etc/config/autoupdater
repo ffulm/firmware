@@ -26,3 +26,4 @@ config branch batman5_stable
 	list pubkey '6e3d9c98e4f7f9139c01f99b539dce45a9339f10774d2a57095822dbc7e68d4a' #l3d
 	list pubkey '4bc8902befbf3f3d4c308caad02cc1efd32e0309837c9fae9f1a264e47f7faee' #Xperimental
 	list pubkey 'eb00dd3606a4b7d724d308763a175ec755a73025874d90b373e598f427e7f998' #Byt3
+	list pubkey 'fc9ae74bdb538f39d6dd246ea901f6224daff90c2afb6b73e25d49ddb2a433b7' #DEvil0000
