@@ -61,8 +61,8 @@ initial_wifi_setup()
 		n="network.${wifi_device}_mesh"
 		uci set $n="interface"
 		uci set $n.mtu=1532
-		uci set $n.proto="batadv"
-		uci set $n.mesh="bat0"
+		uci set $n.proto="batadv_hardif"
+		uci set $n.master="bat0"
 
 		#ap interface
 		p="wireless.${wifi_device}_ap"
@@ -175,6 +175,8 @@ initial_local_node_setup()
 	EOF
 }
 
+
+
 initial_wan_setup()
 {
 	echo "(I) Setup WAN network."
@@ -211,6 +213,39 @@ initial_wan_setup()
 	uci set network.wan6_unreachable.gateway="::"
 	uci set network.wan6_unreachable.interface="loopback"
 }
+
+initial_batman_setup()
+{
+	local n
+
+	echo "(I) Add network sections to add fastd to batman-adv and set MTU."
+
+	n=network.fastd_mesh
+	uci set $n=interface
+	uci set $n.ifname='fastd_mesh'
+	uci set $n.mtu=1406
+	uci set $n.proto='batadv_hardif'
+	uci set $n.master='bat0'
+
+	n=network.bat0
+	uci set $n=interface
+	uci set $n.proto='batadv'
+	uci set $n.routing_algo='BATMAN_V'
+	uci set $n.orig_interval=30000
+	uci set $n.gw_mode='off'
+	uci set $n.multicast_mode=1
+
+#config mesh 'bat0'
+#	option orig_interval 30000
+#	option multicast_mode 1
+#	option distributed_arp_table 1
+#	option bridge_loop_avoidance 1
+#	option aggregated_ogms 1
+#	option gw_mode 'client'
+#	option routing_algo 'BATMAN_V'
+}
+
+
 
 initial_setup()
 {
@@ -282,16 +317,9 @@ initial_setup()
 	# B A T M A N  S E T U P #
 	# ------------------------------------- #
 
-	echo "(I) Add network sections to add fastd to batman-adv and set MTU."
-	local n=network.fastd_mesh
-	uci set $n=interface
-	uci set $n.ifname=fastd_mesh
-	uci set $n.mtu=1406
-	uci set $n.proto="batadv"
-	uci set $n.mesh="bat0"
-	uci set $n.mesh_no_rebroadcast="1"
-
-	# ------------------------------------- #
+	initial_batman_setup
+	
+	# ------------------------------------ #
 	# M I S C  S E T U P #
 	# ------------------------------------- #
 
@@ -662,6 +690,61 @@ update_122() {
 	
 }
 
+update_200() {
+
+	# Preserve self signed certificates
+	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	cp /rom/etc/profile /rom/etc/profile
+	cp /rom/etc/group /rom/etc/group
+
+	# Preserve self signed certificates
+	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	cp /rom/etc/profile /rom/etc/profile
+	cp /rom/etc/group /rom/etc/group
+
+	# Preserve self signed certificates
+	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
+	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
+
+	cp /rom/etc/profile /rom/etc/profile
+	cp /rom/etc/group /rom/etc/group
+
+
+	# Rebuild /etc/config/system
+	local hostname="$(uci get system.@system[0].hostname)"
+	rm /etc/config/system
+	/bin/config_generate
+	uci set system.@system[0].hostname="$hostname"
+	uci commit system
+
+	# Not needed anymore
+	rm -f /etc/config/batman-adv
+
+	# batman-adv config migration
+	network_bat0_migration() {
+		local cfg="$1" proto
+
+		config_get proto $cfg "proto"
+		if [ "$proto" = "batadv" -a $cfg != "bat0" ]; then
+			uci set network.$cfg.proto='batadv_hardif'
+			uci delete network.$cfg.mesh
+			uci set network.$cfg.master='bat0'
+		fi
+	}
+
+	config_load network
+	config_foreach network_bat0_migration interface
+
+	uci -q delete network.fastd_mesh
+	initial_batman_setup
+
+	uci commit network
+}
+
 start()
 {
 	echo "(I) Start freifunk_setup"
@@ -695,6 +778,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.0.3*)
@@ -710,6 +794,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.0.4*)
@@ -724,6 +809,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.0.5*)
@@ -737,6 +823,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.0.6*)
@@ -749,6 +836,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.1.0*)
@@ -761,6 +849,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
                         update_version
                         ;;
                 0.6.0*)
@@ -772,6 +861,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
                         update_version
                         ;;
                 0.6.1*)
@@ -783,6 +873,7 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
                         update_version
                         ;;
 		0.6.2*)
@@ -794,6 +885,7 @@ start()
 			update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.6.3*)
@@ -805,6 +897,7 @@ start()
 			update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.6.4*)
@@ -816,6 +909,7 @@ start()
 			update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		0.7.0*)
@@ -826,6 +920,7 @@ start()
 			update_111
 			update_114
 			update_122
+			update_200
 			update_version
 			;;
 		1.0.3*)
@@ -835,6 +930,7 @@ start()
 			update_111
 			update_114
 			update_122
+			update_200
                         update_version
                         ;;
 		1.0.5*)
@@ -843,6 +939,7 @@ start()
 			update_111
 			update_114
 			update_122
+			update_200
                         update_version
                         ;;
 		1.1.1*)
@@ -850,19 +947,28 @@ start()
                         update_111
 			update_114
 			update_122
+			update_200
                         update_version
                         ;;
 		1.1.4*)
                         echo "(I) Apply 1.1.4 update."
                         update_114
 			update_122
+			update_200
                         update_version
                         ;;
 		1.2.2*)
                         echo "(I) Apply 1.2.2 update."
                         update_122
+                        update_200
                         update_version
                         ;;
+		2.0.0*)
+                        echo "(I) Apply 2.0.0 update."
+                        update_200
+                        update_version
+                        ;;
+
 		"")
 			echo "(I) Start initial setup."
 			initial_setup

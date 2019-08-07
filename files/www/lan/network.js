@@ -156,7 +156,7 @@ function appendSetting(p, path, value, mode)
 				var val = (src.data || src.value);
 				if (val != value) {
 					if (val == "1") {
-						uci.network['wan_mesh'] = {"stype":"interface", "ifname" : "@wan", "proto" : "batadv", "mesh" : "bat0", "mesh_no_rebroadcast" : "1"};
+					        uci.network['wan_mesh'] = {stype:'interface', ifname : '@wan', proto : 'batadv_hardif', master : 'bat0'};
 					} else {
 						delete uci.network['wan_mesh'];
 					}
@@ -194,7 +194,7 @@ function getInterfaceMode(ifname)
 	if (inArray(ifname, split(n.wan.ifname)))
 		return "wan";
 
-	if (config_find(n, {"ifname" : ifname, "proto" : "batadv"}))
+	if (config_find(n, {'ifname' : ifname, 'proto' : 'batadv_hardif'}))
 		return "mesh";
 
 	return "none";
@@ -323,7 +323,7 @@ function addNetSection(ifname, mode)
 		break;
 	case "mesh":
 		var net = ifname.replace(".", "_");
-		n[net] = {"stype":"interface","ifname":ifname,"mtu":"1406","proto":"batadv","mesh":"bat0","mesh_no_rebroadcast":"1"};
+		n[net] = {stype: 'interface',ifname: ifname,mtu: '1406',proto: 'batadv_hardif',master: 'bat0'};
 		break;
 	case "none":
 		var net = ifname.replace(".", "_");
@@ -381,7 +381,7 @@ function addWifiSection(device, mode)
 		// 802.11s
 		w[ifname] = {"device":device,"stype":"wifi-iface","mode":"mesh","mesh_id":s.default_mesh_id,"mesh_fwding":0,"network":net};
 		// Connected via option network
-		n[net] = {"stype":"interface","mtu":"1532","proto":"batadv","mesh":"bat0"};
+		n[net] = {stype: 'interface',mtu: '1532',proto: 'batadv_hardif',master: 'bat0'};
 		n.pchanged = true;
 		break;
 	case "freifunk":
