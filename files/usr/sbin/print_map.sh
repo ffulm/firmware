@@ -51,7 +51,7 @@ print_basic() {
 	IFS="
 "
 	nd=0
-	for entry in $(batctl neighbors 2> /dev/null | awk -F '[][)( \t]+' '/^[a-f0-9]/{ print($1, $3, $4) }'); do
+	for entry in $(batctl neighbors -H 2> /dev/null | awk -F '[][)( \t]+' '/^[a-f0-9]/{ print($1, $3, $4) }'); do
 		[ $nd -eq 0 ] && nd=1 || echo -n ", "
 		IFS=" "
 		printLink $entry
@@ -60,7 +60,7 @@ print_basic() {
 	echo -n '], '
 
 	mac=$(uci -q get network.freifunk.macaddr)
-	echo -n "$(batctl translocal 2> /dev/null | tr '\t/[]()' ' ' | awk -v mac=$mac 'BEGIN{ c=0; } { if($1 != mac && $3 ~ /^[.NW]+$/ && $4 < 300) c++;} END{ printf("\"clientcount\" : %d", c);}')"
+	echo -n "$(batctl translocal -H 2> /dev/null | awk -v macs="$(cat /sys/class/net/*/address)" 'BEGIN{c=0} {if (index(macs, $1) == 0){ c+=1 }} END {printf("\"clientcount\" : %d", c)}')"
 }
 
 print_more() {
