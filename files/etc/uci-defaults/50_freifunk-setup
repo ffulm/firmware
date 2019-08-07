@@ -699,20 +699,7 @@ update_200() {
 	cp /rom/etc/profile /rom/etc/profile
 	cp /rom/etc/group /rom/etc/group
 
-	# Preserve self signed certificates
-	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
-	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
-
-	cp /rom/etc/profile /rom/etc/profile
-	cp /rom/etc/group /rom/etc/group
-
-	# Preserve self signed certificates
-	cp /rom/etc/uhttpd.crt /etc/ 2> /dev/null
-	cp /rom/etc/uhttpd.key /etc/ 2> /dev/null
-
-	cp /rom/etc/profile /rom/etc/profile
-	cp /rom/etc/group /rom/etc/group
-
+	cp /rom/etc/crontabs/root /etc/crontabs 2> /dev/null
 
 	# Rebuild /etc/config/system
 	local hostname="$(uci get system.@system[0].hostname)"
@@ -720,6 +707,8 @@ update_200() {
 	/bin/config_generate
 	uci set system.@system[0].hostname="$hostname"
 	uci commit system
+	
+	
 
 	# Not needed anymore
 	rm -f /etc/config/batman-adv
