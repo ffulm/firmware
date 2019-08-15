@@ -48,7 +48,7 @@ fi
 	<div class="pure-g">
 		<div class="pure-u-md-1-3">
 			<h2>Nachbarknoten</h2>
-			<h3><% (batctl neighbors -H 2> /dev/null | grep  -v '^No' | cut -c -17 | sort | uniq | wc -l) %></h3>
+			<h3><% echo -n $(batctl neighbors -H 2> /dev/null | grep  -v '^No' | cut -c -17 | sort | uniq | wc -l) %></h3>
 		</div>
 		<div class="pure-u-md-1-3">
 			<h2>Alle Knoten</h2>
@@ -56,7 +56,7 @@ fi
 		</div>
 		<div class="pure-u-md-1-3">
 			<h2>Lokale Clients</h2>
-			echo -n $(batctl translocal -H 2> /dev/null | awk -v macs="$(cat /sys/class/net/*/address)" 'BEGIN{c=0} {if (index(macs, $1) == 0){ c+=1; }} END {print(c)}')
+			<h3><% echo -n $(batctl translocal -H 2> /dev/null | awk -v macs="$(cat /sys/class/net/*/address)" 'BEGIN{c=0} {if (index(macs, $1) == 0){ c+=1; }} END {print(c)}') %></h3>
 		</div>
 	</div>
 </div>
@@ -68,7 +68,7 @@ echo '<div class="content">'
 echo '	<h2 class="content-subhead">Nachbarknoten:</h2>'
 echo '	<ul>'
 
-macs="$(batctl neighbors | tail -n +3 | grep  -v '^No' | cut -c -17 | sort | uniq)"
+macs="$(batctl neighbors -H 2> /dev/null | grep  -v '^No' | cut -c -17 | sort | uniq)"
 if [ -n "$macs" ]; then
 	prefix="$(uci get network.globals.ula_prefix)"
 	i=1
