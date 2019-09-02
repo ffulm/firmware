@@ -648,6 +648,9 @@ start()
 			update_063_to_064
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.5.1*)
@@ -659,6 +662,9 @@ start()
 			update_063_to_064
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.6.0*)
@@ -669,6 +675,9 @@ start()
 			update_063_to_064
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.6.1*)
@@ -678,6 +687,9 @@ start()
 			update_063_to_064
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.6.2*)
@@ -686,6 +698,9 @@ start()
 			update_063_to_064
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.6.3*)
@@ -693,27 +708,39 @@ start()
 			update_063_to_064
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.6.4*)
 			echo "(I) Apply update."
 			update_064_to_065
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		0.6.5*)
 			echo "(I) Apply update."
 			update_065_to_100
+			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		1.0.0*)
 			echo "(I) Apply update."
 			update_100_to_200
+			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		2.0.0*)
 			echo "(I) Apply update."
 			update_200_to_210
+			update_210_to_220
 			update_version
 			;;
 		2.1.0*)
