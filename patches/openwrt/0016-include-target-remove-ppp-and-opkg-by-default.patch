@@ -1,14 +1,14 @@
-From ffa7576ace645936bcf7e870ddec7adfaff916da Mon Sep 17 00:00:00 2001
+From 3ce76fe839e63392750b5b70febfff18b98a249c Mon Sep 17 00:00:00 2001
 From: Moritz Warning <moritzwarning@web.de>
 Date: Tue, 20 Aug 2019 23:17:52 +0200
-Subject: [PATCH 3/8] include/target: remove ppp and opkg by default
+Subject: [PATCH 16/16] include/target: remove ppp and opkg by default
 
 ---
  include/target.mk | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/include/target.mk b/include/target.mk
-index a813ba2d2d..60554af433 100644
+index 7b0e92fce8..879954805d 100644
 --- a/include/target.mk
 +++ b/include/target.mk
 @@ -13,11 +13,11 @@ __target_inc=1
@@ -26,5 +26,5 @@ index a813ba2d2d..60554af433 100644
  
  ifneq ($(DUMP),)
 -- 
-2.26.2
+2.30.0
 
