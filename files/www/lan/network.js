@@ -525,6 +525,8 @@ function collect_switch_info(device)
 	{
 		case 'tp-link-tl-wdr3600-v1':
 		case 'tp-link-tl-wdr4300-v1':
+		case 'tp-link-archer-c7-v4':
+		case 'tp-link-archer-c7-v5':
 			obj.map = [['eth0',0],['WAN',1],['LAN1',2],['LAN2',3],['LAN3',4],['LAN4',5]];
 			break;
 		case 'tp-link-tl-wr1043n-nd-v1':
