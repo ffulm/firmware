@@ -33,6 +33,10 @@ Build commands for the console:
     cd feeds/routing
     git am --whitespace=nowarn ../../firmware/patches/routing/*.patch
     cd ../../
+
+    cd feeds/packages
+    git am --whitespace=nowarn ../../firmware/patches/packages/*.patch
+    cd ../../
     
     rm -rf firmware tmp
     
