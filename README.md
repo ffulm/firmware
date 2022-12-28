@@ -42,7 +42,7 @@ You need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
 
 ```bash
-    sudo apt install subversion g++ zlib1g-dev build-essential git python time
+    sudo apt install g++ zlib1g-dev build-essential git python time
     sudo apt install libncurses5-dev gawk gettext unzip file libssl-dev wget
 ```
 Build commands for the console:
