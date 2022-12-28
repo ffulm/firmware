@@ -8,7 +8,37 @@ Included is Internet connectivity and a web interface.
 
 [Precompiled firmware images](https://firmware.freifunk-ulm.de/ "Precompiled firmware images") are available on our server. All other released versions here on github are out-of-date.
 
-To build the firmware yourself you need a Unix console to enter commands into.
+# Build instructions
+
+To build the firmware yourself there are two possibilities: Use a Dockerfile to create the build environment or do it by hand.
+
+## Use Dockerfile
+First of all, we need Docker: 
+```bash
+  sudo apt install docker.io
+```
+To use the Dockerfile, get it from github by cloning this repository or just download it.
+In the folder which contains the Dockerfile do the following:
+```bash
+  # 1) Create image from Dockerfile. This contains all the tools and sources we need
+  docker build -t ffulm .
+
+  # 2) Run image
+  mkdir /tmp/ffulm-build
+  docker run --rm -it -v /tmp/ffulm-build:/openwrt/bin/targets ffulm
+
+  # 3) Start build process
+  cd /openwrt
+  make menuconfig
+  ## do the changes necessary
+  make
+  exit
+```
+After exit, the docker container started in 2 will be deleted. 
+Steps 2 and 3 can be done multiple times to create more than 1 firmware image.
+
+## Do it by hand
+You need a Unix console to enter commands into.
 Install dependencies for the build environment (Debian/Ubuntu):
 
 ```bash
