@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:11
 RUN apt-get update; \
   apt-get install --no-install-recommends -y subversion g++ zlib1g-dev build-essential git python time libncurses5-dev gawk gettext unzip file libssl-dev wget; \
   apt-get install --no-install-recommends -y ca-certificates; \
